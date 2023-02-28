@@ -1,0 +1,451 @@
+﻿@model MatrizTributaria.Models.Usuario
+@{
+    Layout = null;
+}
+
+
+<html id="htmlLogin" lang="pt-br">
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Login">
+    <meta name="author" content="Paulo Roberto Nogueira">
+    <link rel="icon" type="image/png" href="~/Content/img/preciso.ico" />
+    @Styles.Render("~/Content/cssLogin")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+</head>
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center" width="300px;" height="45px;">
+                                        <img class="mb-4" src="~/Content/img/preciso_mtx_sem_fundo.png" alt="Logo" style="width:100%;">
+                                    </div>
+                                    @if (ViewBag.Message == "Problemas ao salvar a senha, tente novamente.")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @if (ViewBag.Message == "Usuário não permitido para essa Empresa")
+                                    {
+
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                    }
+
+
+
+                                    @if (ViewBag.Message == "Senha alterada com sucesso. Efetue o login.")
+                                    {
+                                        <div id="alerta-modal" class="alert alert-success alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @if (ViewBag.Message == "Usuário não encontrato!")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+                                    <!--Vitor: 08112022-->
+                                    @if (ViewBag.Message == "Não foi possível conectar, motivo: Debitos em atraso!")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+
+                                    @if (ViewBag.Message == "O e-mail informado é inválido")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span>O e-mail informado para alteração de senha está inválido. Verifique espaços em branco ou o formato do e-mail</span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @if (ViewBag.Message == "E-mail não encontrado na base de dados.")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span>O e-mail informado para alteração de senha não foi encontrado na base de dados.</span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+                                   
+                                    @if (ViewBag.Message == "Problemas no envio da senha provisória")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span>Problemas no envio da senha provisória, entre em contato com o suporte.</span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+                                    @if (ViewBag.Message == "Uma senha provisória foi encaminhada para seu e-mail.")
+                                    {
+                                <div id="alerta" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    @ViewBag.Message
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                    }
+
+                                    @if (ViewBag.Message == "Senha incorreta!")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            @ViewBag.Message
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @if (ViewBag.Message == "Por favor digite sua senha")
+                                    {
+                                        <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span>@ViewBag.Message</span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+
+
+
+                                    @if (ViewBag.Message == "As senhas digitadas não são iguais!")
+                                    {
+                                        @*<div id="alerta" class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>*@
+
+                                        <script>
+                                            function abreModal() {
+                                                $("#modalPrimeiroAcesso").modal({
+                                                    show: true
+                                                });
+                                            }
+
+                                            setTimeout(abreModal, 1000);
+                                        </script>
+
+                                    }
+                                    @if (ViewBag.Message == "Senha provisória incorreta")
+                                    {
+                                        @*<div id="alerta" class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>*@
+
+                                        <script>
+                                            function abreModal() {
+                                                $("#modalPrimeiroAcesso").modal({
+                                                    show: true
+                                                });
+                                            }
+
+                                            setTimeout(abreModal, 1000);
+                                        </script>
+
+                                    }
+
+
+
+                                    @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "user" }))
+                                    {
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.email, new { @class = "form-control form-control-user", placeholder = "Digite seu email(login)", id = "exampleInputEmail" })
+
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.PasswordFor(m => m.senha, new { @class = "form-control form-control-user", id = "exampleInputPassword", placeholder = "Digite sua senha" })
+
+                                        </div>
+                                        @*<div class="form-group">
+                @Html.DropDownListFor(m => m.idEmpresa, new SelectList(ViewBag.Empresas, "id", "razacaosocial"), "Escolha a Empresa", new { @class = "form-control prn-select", @style = "border-radius: 10rem !important; padding: 0.5rem 0.5rem;  height:3.0rem;" })
+
+            </div>*@
+
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block pr-btn-login"><span style="font-weight:500;">Login</span></button>
+                                    }
+
+                                    <form class="user">
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a style="color:#a7291d;" class="small" href="forgot-password.html" disabled="false" data-toggle="modal" data-target="#modalTrocarSenha">Esqueceu a Senha?</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <footer>
+                <span style="color:#fff; font-size:0.5rem;">Copyright © - Preciso TAX - Matriz Tributária - Versão: @ViewBag.Versao</span>
+                <span style="color:#fff; font-size:0.5rem;"><a style="color:#fff" href="#" data-toggle="modal" data-target="#modalVersao">Notas da Versão</a></span>
+            </footer>
+
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalVersao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:#a7291d; font-weight:900;">Notas sobre a versão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><h3 class="pr-fonte-label" style="color:#a7291d; font-weight:600;">Versão: @ViewBag.Versao</h3></p>
+                    <ul>
+                        <li style="color:#a7291d"><h5 class="pr-fonte-label" style="color:#a7291d">@ViewBag.Nota</h5></li>
+                    </ul>
+                    <p></p>
+                    <p></p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    @*<div class="modal fade" id="modalTrocarSenha" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:#a7291d; font-weight:900;">Alteração de senha</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><h3 class="pr-fonte-label" style="color:#a7291d; font-weight:600;">Favor entrar em contato com o email:desenvolvimentomtx@precisomtx.com.br</h3></p>
+                        <p><h3 class="pr-fonte-label" style="color:#a7291d; font-weight:600;">para realizar o procedimento de troca de senha</h3></p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <div class="modal fade" id="modalTrocarSenha" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:#a7291d; font-weight:900;">Alteração de senha</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("SenhaAlterar", "Home", FormMethod.Post, new { @class = "user" }))
+                {
+                    <div class="modal-body">
+
+                        <!--Pedir pra digitar o email-->
+                        <div class="container-fluid">
+
+
+                            <div class="row">
+                                <div class="form-group col-lg-12 p-1">
+                                    <label class="pr-fontalternativa">E-Mail do Usuário</label>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-sm" type="text" placeholder="Digite seu e-mail" id="emailUsu" name="emailUsu" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p><h3 class="pr-fonte-label" style="color:#a7291d; font-weight:600;">Informe o e-mail usado para cadastro de usuário.</h3></p>
+                        <p><h3 class="pr-fonte-label" style="color:#a7291d; font-weight:600;">Uma senha provisória sera encaminhada e deverá ser alterada no primeiro acesso.</h3></p>
+                    </div>
+
+                <div class="modal-footer">
+                    <button type="submit" style="border-radius: 10rem;" class="btn btn-primary pr-login-salvar"><span style="font-weight:500;">Enviar</span></button>
+
+                    <button type="button" style="border-radius: 10rem;" class="btn btn-secondary pr-btn-login-close" data-dismiss="modal">Fechar</button>
+
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @if (ViewBag.Message == "PRIMEIRO ACESSO")
+    {
+        <script>
+            function abreModal() {
+                $("#modalPrimeiroAcesso").modal({
+                    show: true
+                });
+            }
+
+            setTimeout(abreModal, 1000);
+        </script>
+    }
+
+    <!--Modal Primeiro acesso-->
+    <div class="modal fade" id="modalPrimeiroAcesso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width:300px !important;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" id="exampleModalLabel" style="color:#a7291d; font-weight:900;">Alteração de senha</span><br />
+
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("LoginAlterar", "Home", FormMethod.Post, new { @class = "user" }))
+                {
+                    <div class="modal-body">
+                        @if (ViewBag.Message == "As senhas digitadas não são iguais!")
+                        {
+                            <div id="alerta-modal" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @ViewBag.Message
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                        @if (ViewBag.Message == "Senha provisória incorreta")
+                        {
+                            <div id="alerta-modal" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @ViewBag.Message
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+
+                        <input type="hidden" name="identif" value="@ViewBag.Identificador" id="identif" />
+                        <div class="container-fluid">
+
+
+                            <div class="row">
+                                <div class="form-group col-lg-12 p-1">
+                                    <label class="pr-fontalternativa">Senha Provisória</label>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-sm" type="password" placeholder="Digite a sua senha provisória" id="senhaProv" name="senhaProv" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12 p-1">
+                                    <label class="pr-fontalternativa">Nova Senha</label>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-sm" type="password" placeholder="Digite sua nova senha" id="novaSenha" name="novaSenha" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12 p-1">
+                                    <label class="pr-fontalternativa">Repita a Nova Senha</label>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-sm" type="password" placeholder="Repita sua nova senha" id="senhaRep" name="senhaRep" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" style="border-radius: 10rem;" class="btn btn-primary pr-login-salvar"><span style="font-weight:500;">Salvar</span></button>
+
+                        <button type="button" style="border-radius: 10rem;" class="btn btn-secondary pr-btn-login-close" data-dismiss="modal">Fechar</button>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/login")
+    <script>
+        function tiraMsg() {
+
+            document.getElementById("alerta").style.display = 'none';
+
+        }
+        function colocaMsg() {
+
+            document.getElementById("alerta").style.display = 'block';
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".alert").fadeOut("slow", function () {
+
+                    $(this).alert('close');
+                });
+
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

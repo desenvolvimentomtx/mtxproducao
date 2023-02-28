@@ -1,0 +1,792 @@
+﻿@model MatrizTributaria.Models.ViewModels.TributacaoViewModel
+@{
+    ViewBag.Title = "Tributacao";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Tributação - NOVA
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container-fluid" id="prn-container">
+                           
+                                @if (@*@Session["OBRIGATORIO"]*@ @ViewBag.Obrigatorio != null)
+                                {
+                            <script>
+
+                                 alert("@ViewBag.Obrigatorio");
+
+                            </script>
+
+                                   
+
+                                }
+                                                                
+                                @if (@ViewBag.ErrSalvar != null)
+                                {
+                                   
+                                    @*<script>
+                                        alert("@ViewBag.ErrSalvar")
+                                    </script>*@
+
+                                    <div class="row" style="padding:0px; margin-top:2px;">
+                                        <div class="col-md-6">
+                                            <div id="alerta" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>@ViewBag.ErrSalvar</strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                }
+
+                           
+                            
+
+
+                            @using (Html.BeginForm("Create", "Tributacao", FormMethod.Post, new { @class = "needs-validation", @novalidate = true, @id="formSalvar" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group row">
+                                    <div class="col-md-offset-2 col-md-12">
+
+                                        <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                            <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                                <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-save"></i>Salvar</button>
+                                                <a class="btn btn-secondary pr-botoes-fundo border-0 " href="@Url.Action("Index", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-ban"></i>Cancelar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--Produto-->
+                        <div class="form-row" style="margin-top:-15px;">
+
+                            <div class="col-lg-2">
+                                <label class="pr-fonte-label" for="estado">UF Origem*</label>
+                                @*@Html.TextBoxFor(m => m.estado, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", name = "estado", id = "estado", placeholder = "Digite o Estado", @required = true })*@
+                                @Html.DropDownListFor(m => m.UF_Origem, new SelectList(ViewBag.EstadosOrigem, "uf", "descricao"), "Estado", new { @class = "form-control form-control-sm dropdown", @id = "UF_Origem" })
+
+                            </div>
+                            <div class="col-lg-2">
+                                <label class="pr-fonte-label" for="estado">UF Destino*</label>
+                                @*@Html.TextBoxFor(m => m.estado, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", name = "estado", id = "estado", placeholder = "Digite o Estado", @required = true })*@
+                                @Html.DropDownListFor(m => m.UF_Destino, new SelectList(ViewBag.EstadosOrigem, "uf", "descricao"), "Estado", new { @class = "form-control form-control-sm dropdown", @id = "UF_Destino" })
+
+                            </div>
+
+
+
+
+                            <div class="col-lg-6">
+                                <label class="pr-fonte-label" for="idProduto">Produto*</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" , name="descProduto" id="descproduto" placeholder="@ViewBag.ProdDesc" required readonly />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <a href="#" data-toggle="modal" data-target="#modalProd"><i style="font-size:1.1em;" class="fas fa-search"></i></a>
+                                        </span>
+                                    </div>
+
+                                    <input hidden id="idProd" name="idProduto" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label class="pr-fonte-label" for="idSetor">Setor*</label>
+                                @Html.DropDownListFor(m => m.idSetor, new SelectList(ViewBag.Setor, "id", "descricao"), "Escolha o Setor", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;", @id = "setor" })
+
+
+                            </div>
+
+                        </div>
+                                <div class="form-row mb-3">
+
+                                    <div class="col-lg-6">
+                                        <label class="pr-fonte-label" for="natReceita">Natureza Receita</label>
+                                        @Html.DropDownListFor(m => m.codNatReceita, new SelectList(ViewBag.NatReceita, "id", "descricao"), "Escolha a Natureza da Receita", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+
+                                    </div>
+
+                                    <div class="col-lg-2">
+                                        <label class="pr-fonte-label" for="fecp">Aliq FECP</label>
+                                        @Html.TextBoxFor(m => m.fecp, new { @class = "form-control form-control-sm decimal", name = "fecp", id = "fecp", placeholder = "Digite a aliquota" })
+
+                                    </div>
+                                </div>
+                                <!--Tabls-->
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="piscofins-tab" data-toggle="tab" href="#piscofins" role="tab" aria-controls="piscofins" aria-selected="true">Pis/Cofins</a>
+                                    </li>
+
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#vendaAtCont" role="tab" aria-controls="vendaAtCont" aria-selected="false">Venda Ata p/ Contr.</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#vendaAtaSN" role="tab" aria-controls="vendaAtaSN" aria-selected="false">Venda Ata. S. Nacional</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#vendaVarCont" role="tab" aria-controls="vendaVarCont" aria-selected="false">Venda Varejo p/ Contr.</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#vendVarCF" role="tab" aria-controls="vendVarCF" aria-selected="false">Venda Varejo p/ Cons. Final</a>
+
+                                    </li>
+
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#compDeInd" role="tab" aria-controls="compDeInd" aria-selected="false">Compra de Indústria</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#compDeAta" role="tab" aria-controls="compDeAta" aria-selected="false">Compra de Atacado</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#compSN" role="tab" aria-controls="compSN" aria-selected="false">Compra de Simples Nacional</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#mva" role="tab" aria-controls="mva" aria-selected="false">MVA</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#legislacao" role="tab" aria-controls="legislacao" aria-selected="false">Legislação</a>
+
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content p-1" id="myTabContent" style="border-right: 0.08px solid #ccc; border-left: 0.08px solid #ccc; border-bottom: 0.08px solid #ccc;">
+                                    <div class="tab-pane fade show active" id="piscofins" role="tabpanel" aria-labelledby="home-tab">
+                                        <!--Tab Pis Cofins-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Entrada</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstEntPC">Cst Pis/Cofins E</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstEntradaPisCofins, new SelectList(ViewBag.CstEntradaPisCofins, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstEntPC" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label class="pr-fonte-label" for="idCstEntPC">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstEntradaPisCofins" id="cstESPC" style="min-width:100%;" readonly />
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alpE">Aliq Pis E</label>
+                                                    @Html.TextBoxFor(m => m.aliqEntPis, new { @class = "form-control form-control-sm decimal", name = "alpE", id = "alpE", placeholder = "Aliquota PIS Entrada" })
+
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alcE">Aliq Cofins E</label>
+                                                    @Html.TextBoxFor(m => m.aliqEntCofins, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alcE", id = "alcE", placeholder = "Aliquota Cofins Entrada" })
+
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Saída</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstSaiPC">Cst Pis/Cofins S</label>
+                                                    <div class="input-group mb-3">
+                                                        @Html.DropDownListFor(m => m.cstSaidaPisCofins, new SelectList(ViewBag.CstSaidaPisCofins, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstSaiPC" })
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label class="pr-fonte-label" for="idCstSaiPC">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstSaidaPisCofins" id="cstSPC" style="min-width:100%;" readonly />
+
+                                                </div>
+
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alcS">Aliq Pis S</label>
+                                                    @Html.TextBoxFor(m => m.aliqSaidaCofins, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alcS", id = "alcS", placeholder = "Aliquota Cofins Saída" })
+                                                    @Html.ValidationMessageFor(m => m.aliqSaidaCofins, "", new { @class = "text-danger", role = "alert" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alpS">Aliq Pis S</label>
+                                                    @Html.TextBoxFor(m => m.aliqSaidaPis, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alpS", id = "alpS", placeholder = "Aliquota PIS Saída" })
+                                                    @Html.ValidationMessageFor(m => m.aliqSaidaPis, "", new { @class = "text-danger", role = "alert" })
+                                                </div>
+
+                                            </div>
+
+                                        </fieldset>
+
+
+
+                                    </div>
+                                    <div class="tab-pane fade" id="vendaAtCont" role="tabpanel" aria-labelledby="profile-tab">
+                                        <!--Tab Venda Ata Contribuinte-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstVeAtaCont">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstVendaAtaCont, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeAtaCont" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="idCstVeAtaCont">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstVendaAtaCont" id="desVenAtaCont" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVaC">Aliq ICMS Venda</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsVendaAtaCont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alVaC", id = "alVaC", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVaCSt">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTVendaAtaCont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alVaCSt", id = "alVaCSt", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcVaC">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaAtaCont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcVaC", id = "rBcVaC", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcSTVaC">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaAtaCont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcSTVaC", id = "rBcSTVaC", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="vendaAtaSN" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Venda Ata Simples Nacional-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstVeAtaSN">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstVendaAtaSimpNacional, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeAtaSN" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="idCstVSN">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstVendaAtaSimpNacional" id="desVenSN" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVSN">Aliq ICMS Venda</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsVendaAtaSimpNacional, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alVSN", id = "alVSN", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVSNSt">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTVendaAtaSimpNacional, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "alVSNSt", id = "alVSNSt", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcVSN">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaAtaSimpNacional, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcVSN", id = "rBcVSN", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcSTVSN">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaAtaSimpNacional, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcSTVSN", id = "rBcSTVSN", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="vendaVarCont" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Venda Varejo Contribuinte-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstVeVarCont">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstVendaVarejoCont, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeVarCont" })
+                                                        @Html.ValidationMessageFor(m => m.cstVendaVarejoCont, "", new { @class = "text-danger", role = "alert" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="idCstVarCont">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstVendaVarejoCont" id="desVenVarCont" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVeVarCont">Aliq ICMS Venda</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsVendaVarejoCont, new { @class = "form-control form-control-sm decimal", name = "alVeVarCont", id = "alVeVarCont", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVeVarContSt">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTVendaVarejo_Cont, new { @class = "form-control form-control-sm decimal", name = "alVeVarContSt", id = "alVeVarContSt", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcVeVarCont">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcVendaVarejoCont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcVeVarCont", id = "rBcVeVarCont", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcSTVeVarCont">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.RedBaseCalcSTVendaVarejo_Cont, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcSTVeVarCont", id = "rBcSTVeVarCont", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="vendVarCF" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Venda Varejo Consumidor Final-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstVeVarCF">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstVendaVarejoConsFinal, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeVarCF" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="idCstVarCF">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstVendaVarejoConsFinal" id="desVenVarCF" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVeVarCF">Aliq ICMS Venda</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsVendaVarejoConsFinal, new { @class = "form-control form-control-sm decimal", name = "alVeVarCF", id = "alVeVarCF", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="alVeVarCFSt">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTVendaVarejoConsFinal, new { @class = "form-control form-control-sm decimal", name = "alVeVarCFSt", id = "alVeVarCFSt", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcVeVarCF">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaVarejoConsFinal, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcVeVarCF", id = "rBcVeVarCF", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcSTVeVarCF">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaVarejoConsFinal, new { @class = "form-control form-control-sm decimal", onkeyup = "maiuscula(this);", name = "rBcSTVeVarCF", id = "rBcSTVeVarCF", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="compDeInd" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Compra de industria-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstCompInd">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstCompraDeInd, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstCompInd" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="cstCompraDeInd">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstCompraDeInd" id="desCompInd" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqCompInd">Aliq ICMS Compra</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsCompDeInd, new { @class = "form-control form-control-sm decimal", name = "aliqCompInd", id = "aliqCompInd", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqSTCompInd">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTCompDeInd, new { @class = "form-control form-control-sm decimal", name = "aliqSTCompInd", id = "aliqSTCompInd", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalCompInd">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsCompraDeInd, new { @class = "form-control form-control-sm decimal", name = "rBcalCompInd", id = "rBcalCompInd", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalSTCompInd">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompraDeInd, new { @class = "form-control form-control-sm decimal", name = "rBcalSTCompInd", id = "rBcalSTCompInd", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">NFE</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstNfeInd">Código CST NFE</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstdaNfedaIndFORN, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstNfeInd" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="cstdaNfedaIndFORN">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstdaNfedaIndFORN" id="desCstNfeInd" style="min-width:100%;" readonly />
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqNfeInd">Aliq NFE</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsNFE, new { @class = "form-control form-control-sm decimal", name = "aliqNfeInd", id = "aliqNfeInd", placeholder = "Digite a aliquota (%)" })
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="compDeAta" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Compra de Atacado-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstCompAta">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstCompradeAta, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstCompAta" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="cstCompradeAta">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstCompradeAta" id="desCompAta" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqCompAta">Aliq ICMS Compra</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsCompradeAta, new { @class = "form-control form-control-sm decimal", name = "aliqCompAta", id = "aliqCompAta", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqSTCompAta">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTCompraDeAta, new { @class = "form-control form-control-sm decimal", name = "aliqSTCompAta", id = "aliqSTCompAta", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalCompAta">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsCompraDeAta, new { @class = "form-control form-control-sm decimal", name = "rBcalCompAta", id = "rBcalCompAta", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalSTCompAta">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompraDeAta, new { @class = "form-control form-control-sm decimal", name = "rBcalSTCompAta", id = "rBcalSTCompAta", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">NFE</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstNfeAta">Código CST NFE</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstdaNfedeAtaFORn, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstNfeAta" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="cstdaNfedeAtaFORn">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstdaNfedeAtaFORn" id="desCstNfeAta" style="min-width:100%;" readonly />
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqNfeAta">Aliq NFE</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsNfeAta, new { @class = "form-control form-control-sm decimal", name = "aliqNfeAta", id = "aliqNfeAta", placeholder = "Digite a aliquota (%)" })
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="compSN" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Compra de Simples Nacional-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Cst</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstCompSN">Código Cst</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.cstCompradeSimpNacional, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstCompSN" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <label class="pr-fonte-label" for="cstCompradeSimpNacional">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="cstCompradeSimpNacional" id="desCompSN" style="min-width:100%;" readonly />
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                            <div class="form-row">
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqCompSN">Aliq ICMS Compra</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsCompradeSimpNacional, new { @class = "form-control form-control-sm decimal", name = "aliqCompSN", id = "aliqCompSN", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqSTCompSN">Aliq ICMS ST </label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsSTCompradeSimpNacional, new { @class = "form-control form-control-sm decimal", name = "aliqSTCompSN", id = "aliqSTCompSN", placeholder = "Digite Aliquota (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalCompSN">Red.Base Calc ICMS </label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsCompradeSimpNacional, new { @class = "form-control form-control-sm decimal", name = "rBcalCompSN", id = "rBcalCompSN", placeholder = "Digite Redução (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="rBcalSTCompSN">Red.Base Calc ICMS ST</label>
+                                                    @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompradeSimpNacional, new { @class = "form-control form-control-sm decimal", name = "rBcalSTCompSN", id = "rBcalSTCompSN", placeholder = "Digite Redução ST (%)" })
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">NFE</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idCstNfeSN">Código CSOSN NFE</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.CsosntdaNfedoSnFOR, new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstNfeSN" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="CsosntdaNfedoSnFOR">Descrição</label>
+                                                    <input type="text" class="form-control form-control-sm" name="CsosntdaNfedoSnFOR" id="desCstNfeSN" style="min-width:100%;" readonly />
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="aliqNfeSN">Aliq NFE</label>
+                                                    @Html.TextBoxFor(m => m.aliqIcmsNfeSN, new { @class = "form-control form-control-sm decimal", name = "aliqNfeSN", id = "aliqNfeSN", placeholder = "Digite a aliquota (%)" })
+                                                </div>
+
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane fade" id="mva" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab MVA-->
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">MVA</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="idTipoMva">Tipo MVA</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(m => m.tipoMVA, new SelectList(Enum.GetValues(typeof(MatrizTributaria.Models.TipoMVAEnum))), "Tipo", htmlAttributes: new { @class = "form-control form-control-sm", id = "idTipoMva", name = "tipoMva", @style = "min-width:100%;" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="valorMvaInd">Valor MVA Industria</label>
+                                                    @Html.TextBoxFor(m => m.valorMVAInd, new { @class = "form-control form-control-sm decimal", name = "valorMvaInd", id = "valorMvaInd", placeholder = "Digite o valor (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="valorMvaAta">Valor MVA Atacado (Dist)</label>
+                                                    @Html.TextBoxFor(m => m.valorMVAAtacado, new { @class = "form-control form-control-sm decimal", name = "valorMvaAta", id = "valorMvaAta", placeholder = "Digite o valor (%)" })
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="iniVig">Inicio Vigencia MVA</label>
+                                                    @Html.TextBoxFor(m => m.inicioVigenciaMVA, new { @class = "form-control form-control-sm date", name = "iniVig", id = "iniVig", placeholder = "    /    /    " })
+
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label class="pr-fonte-label" for="fimVig">Fim da Vigencia MVA</label>
+                                                    @Html.TextBoxFor(m => m.fimVigenciaMVA, new { @class = "form-control form-control-sm date", name = "fimVig", id = "fimVig", placeholder = "    /    /    " })
+                                                </div>
+
+                                            </div>
+
+                                        </fieldset>
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Outros</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="pr-fonte-label" for="cotorgado">Credito Outorgado</label><br />
+
+                                                    <span class="pr-fonte-label"> Sim: @Html.RadioButtonFor(m => m.creditoOutorgado, 1, new { @id = "crdOutorgado" })</span>
+                                                    <span class="pr-fonte-label"> Não: @Html.RadioButtonFor(m => m.creditoOutorgado, 0)</span>
+
+                                                </div>
+                                                <div class="col-lg-3 mb-3">
+                                                    <label class="pr-fonte-label" for="regime2560">Regime 2560</label><br />
+
+                                                    <span class="pr-fonte-label"> Sim: @Html.RadioButtonFor(m => m.regime2560, 1, new { @id = "reg2560" })</span>
+                                                    <span class="pr-fonte-label"> Não: @Html.RadioButtonFor(m => m.regime2560, 0)</span>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="legislacao" role="tabpanel" aria-labelledby="contact-tab">
+                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                            <legend class="pr-fontalternativa">Legislação</legend>
+                                            <div class="form-row">
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="legisPC">Legislação para Pis/Cofins</label>
+                                                    <div class="input-group mb-3">
+                                                        @Html.DropDownListFor(m => m.idFundamentoLegal, new SelectList(ViewBag.FundLegalPC, "id", "fundLegal"), "Fundamento Legal", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+                                                        @Html.ValidationMessageFor(m => m.idFundamentoLegal, "", new { @class = "text-danger", role = "alert" })
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="legisEIcms">Legislação Entrada ICMS</label>
+                                                    <div class="input-group mb-3">
+                                                        @Html.DropDownListFor(m => m.idFundLelgalEntradaICMS, new SelectList(ViewBag.FundLegalPC, "id", "fundLegal"), "Fundamento Legal Entrada ICMS", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+                                                        @Html.ValidationMessageFor(m => m.idFundamentoLegal, "", new { @class = "text-danger", role = "alert" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-lg-8">
+                                                    <label class="pr-fonte-label" for="legisSIcms">Legislação Saída ICMS</label>
+                                                    <div class="input-group mb-3">
+                                                        @Html.DropDownListFor(m => m.idFundLegalSaidaICMS, new SelectList(ViewBag.FundLegalPC, "id", "fundLegal"), "Fundamento Legal Saída ICMS", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+                                                        @Html.ValidationMessageFor(m => m.idFundamentoLegal, "", new { @class = "text-danger", role = "alert" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                </div> <!--fim container das tabs-->
+
+                            }
+
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+
+</div><!--Fim do container-->
+
+<!-- Modal -->
+
+<div class="modal fade" id="modalProd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:#cd3301; font-weight:900;">Cadastro de Produtos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <!--Botoes-->
+                <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                    <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+
+                        <button type="submit" onclick="enviarProd()" data-dismiss="modal" class="btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="top" title="Enviar item selecionado"> <i style="font-size:1.5em;" class="fas fa-check-double"></i>Enviar</button>
+
+                    </div>
+
+                </div>
+                <table style="border-bottom: 1px solid #111;" class="table table-striped table-hover" id="tablepr">
+                    <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Descriçao
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <!--Corpo da Tabela-->
+                    <tbody>
+                        @foreach (var it in ViewBag.ProdList)
+                        {
+                            <tr class="pr-td">
+                                <td style="width:5%">
+                                    @it.Id
+                                </td>
+                                <td>
+                                    @it.descricao
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+ 

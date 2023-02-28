@@ -1,0 +1,236 @@
+﻿<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            BUSCA
+            @RenderPage("~/Areas/Cliente/Views/Acoes/BotaoHome.cshtml") <!--Renderiza o botao home-->
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @if (@ViewBag.MensagemGravar != "")
+                            {
+                                if (ViewBag.MensagemGravar == "Registro Salvo com Sucesso!!")
+                                {
+                                    
+
+                            <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                @if (@ViewBag.RegSalvos != "0")
+                                {
+                                    if (@ViewBag.RegNSalvos != "0")
+                                    {
+                                        <span>@ViewBag.MensagemGravar Qtd de Registros ATUALIZADOS: @ViewBag.RegSalvos -  Não Atualizados:@ViewBag.RegNSalvos </span>
+
+                                    }
+                                    else
+                                    {
+                                        <span>@ViewBag.MensagemGravar Qtd de Registros ATUALIZADOS: @ViewBag.RegSalvos</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>@ViewBag.MensagemGravar Não Atualizados:@ViewBag.RegNSalvos </span>
+
+                                }
+
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible fade show form-group col-lg-5 mt-1" role="alert">
+                                        <span>@ViewBag.MensagemGravar</span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+
+
+                            }
+
+                            @using (Html.BeginForm((string)@ViewBag.Title, "TributacaoEmpresa", FormMethod.Get, new { @class = "form-row" }))
+                            {
+                                <div class="form-group col-lg-5">
+                                    <label class="pr-fontalternativa">Produto</label>
+                                    <div class="input-group input-group-sm">
+                                        @if (ViewBag.FiltroCorrente == null)
+                                        {
+                                            @Html.TextBox("ProcuraPor", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras" })
+                                            @*<input class="form-control form-control-sm" id="ProcuraPor" name="ProcuraPor" onkeyup="maiuscula(this);" placeholder="Digite o nome do produto ou cód de barras" type="text" value="">*@
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("ProcuraPor", (string)ViewBag.FiltroCorrente, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras", value = @ViewBag.FiltroCorrente })
+                                            @*<input class="form-control form-control-sm" id="ProcuraPor" name="ProcuraPor" onkeyup="maiuscula(this);" placeholder="Digite o nome do produto ou cód de barras" type="text" value="@ViewBag.FiltroCorrente">*@
+                                        }
+
+                                        <div class="input-group-append">
+                                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <label class="pr-fontalternativa">NCM</label>
+                                    <div class="input-group input-group-sm">
+                                        @if (ViewBag.FiltroCorrenteCest == null)
+                                        {
+                                            @Html.TextBox("ProcuraNCM", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM", id = "ncm" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("ProcuraNCM", (string)ViewBag.FiltroCorrenteNCM, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM", id = "ncm" })
+
+                                        }
+
+                                        <div class="input-group-append">
+                                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label class="pr-fontalternativa">Filtro</label>
+                                    <div class="input-group input-group-sm">
+                                        <select style="max-width: 100% !important;" class="pr-fontalternativa form-control form-control-sm" id="filtroNulo" name="filtroNulo">
+                                            @if (ViewBag.Filtro == "1")
+                                            {
+
+                                                <option value="1" selected>Alíquotas Maiores</option>
+                                                <option value="2">Alíquotas Menores</option>
+                                                <option value="3">Alíquotas Iguais</option>
+                                                <option value="4">Alíquotas Nulas no Cliente</option>
+                                                <option value="5">Alíquotas Nulas no MTX</option>
+                                                <option value="6">Alíquotas Nulas em Ambos</option>
+                                              
+                                            }
+                                            @if (ViewBag.Filtro == "2")
+                                            {
+
+                                                <option value="1">Alíquotas Maiores</option>
+                                                <option value="2" selected>Alíquotas Menores</option>
+                                                <option value="3">Alíquotas Iguais</option>
+                                                <option value="4">Alíquotas Nulas no Cliente</option>
+                                                <option value="5">Alíquotas Nulas no MTX</option>
+                                                 <option value="6">Alíquotas Nulas em Ambos</option>
+                                                
+                                            }
+                                            @if (ViewBag.Filtro == "3")
+                                            {
+
+                                                <option value="1">Alíquotas Maiores</option>
+                                                <option value="2">Alíquotas Menores</option>
+                                                <option value="3" selected>Alíquotas Iguais</option>
+                                                <option value="4">Alíquotas Nulas no Cliente</option>
+                                                <option value="5">Alíquotas Nulas no MTX</option>
+                                                 <option value="6">Alíquotas Nulas em Ambos</option>
+                                               
+                                            }
+
+
+                                            @if (ViewBag.Filtro == "4")
+                                            {
+
+                                                <option value="1">Alíquotas Maiores</option>
+                                                <option value="2">Alíquotas Menores</option>
+                                                <option value="3">Alíquotas Iguais</option>
+                                                <option value="4" selected>Alíquotas Nulas no Cliente</option>
+                                                <option value="5">Alíquotas Nulas no MTX</option>
+                                                 <option value="6">Alíquotas Nulas em Ambos</option>
+                                                 
+                                            }
+                                            @if (ViewBag.Filtro == "5")
+                                            {
+
+                                                <option value="1">Alíquotas Maiores</option>
+                                                <option value="2">Alíquotas Menores</option>
+                                                <option value="3">Alíquotas Iguais</option>
+                                                <option value="4">Alíquotas Nulas no Cliente</option>
+                                                <option value="5" selected>Alíquotas Nulas no MTX</option>
+                                                 <option value="6">Alíquotas Nulas em Ambos</option>
+                                                
+                                            }
+                                              @if (ViewBag.Filtro == "6")
+                                            {
+
+                                                <option value="1">Alíquotas Maiores</option>
+                                                <option value="2">Alíquotas Menores</option>
+                                                <option value="3">Alíquotas Iguais</option>
+                                                <option value="4">Alíquotas Nulas no Cliente</option>
+                                                <option value="5">Alíquotas Nulas no MTX</option>
+                                                 <option value="6" selected>Alíquotas Nulas em Ambos</option>
+                                                
+                                            }
+                                           
+
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo">
+                                                <i style="font-size:1.3em;" class="fas fa-filter"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-lg-2">
+                                    <label class="pr-fontalternativa">Linhas</label>
+                                    <div class="input-group input-group-sm">
+                                        <select class="pr-fontalternativa form-control form-control-sm" id="numeroLinhas" name="numeroLinhas">
+                                            @if (ViewBag.NumeroLinhas == 10)
+                                            {
+
+                                                <option selected>10</option>
+                                                <option>20</option>
+                                                <option>30</option>
+                                            }
+                                            else
+                                            {
+                                                if (ViewBag.NumeroLinhas == 20)
+                                                {
+
+                                                    <option>10</option>
+                                                    <option selected>20</option>
+                                                    <option>30</option>
+                                                }
+                                                else
+                                                {
+                                                    <option>10</option>
+                                                    <option>20</option>
+                                                    <option selected>30</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo">
+                                                <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

@@ -1,0 +1,272 @@
+﻿@using PagedList.Mvc
+@using MatrizTributaria.Models
+@model PagedList.IPagedList<MatrizTributaria.Models.TributacaoGeralView>
+@{
+    ViewBag.Title = "EditMassa";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Alterar NCM de Produtos
+            @RenderPage("~/Views/Acoes/BotaoHome.cshtml") <!--Renderiza os botões de ação-->
+            <a data-toggle="tooltip" data-placement="right" title="Ir para gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("GraficoAnaliseProdutos","Produto")"><i style="font-size:1.5em;" class="fas fa-chart-pie"></i>  </a>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionados" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i></button>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar por NCM" type="button" id="editarPorNcm" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-box"></i></button>
+            <button data-toggle="tooltip" data-placement="right" title="Tributação por NCM" type="button" id="tributacaoPorNcm" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-percentage"></i></button>
+
+            @*<a data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" href="@Url.Action("Index", "Home")" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-edit"></i></a>*@
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("EditMassa", "Produto", FormMethod.Get))
+                            {
+                                @RenderPage("~/Views/Acoes/CamposComunsNCM.cshtml") <!--Renderiza os botões de ação-->}
+
+                            <div style="overflow-x:auto !important;">
+                                <table style="border-bottom: 1px solid #111;  overflow-x: auto; white-space: nowrap;" class="table table-striped table-hover" id="table-graficos2">
+                                    <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="7" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">PRODUTO</th>
+                                            @*<th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no varejo para Consumidor Final</th>
+                                            <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no varejo para Contribuinte</th>
+                                            <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no atacado para Contribuinte</th>
+                                            <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no atacado para Simples Nacional</th>*@
+
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="pr-actionlink">
+                                                ID-Produto
+                                            </th>
+                                            <th scope="col">
+                                                Código de Barras
+                                            </th>
+                                            <th scope="col" class="pr-actionlink">
+
+                                                @if (ViewBag.ParametroProduto == "Produto_asc")
+                                                {
+                                                    <i style="font-size:1.1em;" class="fas fa-sort-up pr-actionlink"></i>
+                                                    @Html.ActionLink("Produtos", "EditMassa", new { filtroCorrente = ViewBag.FiltroCorrente, numeroLinhas = ViewBag.NumeroLinhas, ordenacao = "Produto_desc", opcao = TempData["opcao"].ToString() })
+
+                                                }
+                                                else
+                                                {
+                                                    <i style="font-size:1.1em;" class="fas fa-sort-down pr-actionlink"></i>
+                                                    @Html.ActionLink("Produtos", "EditMassa", new { filtroCorrente = ViewBag.FiltroCorrente, numeroLinhas = ViewBag.NumeroLinhas, ordenacao = "Produto_asc", opcao = TempData["opcao"].ToString() })
+
+                                                }
+
+                                            </th>
+                                            @if (ViewBag.FiltrarPor == "Setor")
+                                            {
+                                                <th scope="col">Setor</th>
+                                            }
+                                            else
+                                            {
+                                                <th scope="col">Categoria</th>
+                                            }
+                                          
+                                            <th scope="col">Cest</th>
+                                            <th scope="col">NCM</th>
+                                            <th scope="col" class="text-center prn-borderEspecial3">Auditado</th>
+                                            @*<th scope="col" class="text-center">CST</th>
+                                            <th scope="col" class="text-center">Aliq(%)</th>
+                                            <th scope="col" class="text-center">Aliq ST(%)</th>
+                                            <th scope="col" class="text-center">Red.(%)</th>
+                                            <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+                                            <th scope="col" class="text-center">CST</th>
+                                            <th scope="col" class="text-center">Aliq(%)</th>
+                                            <th scope="col" class="text-center">Aliq ST(%)</th>
+                                            <th scope="col" class="text-center">Red.(%)</th>
+                                            <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+                                            <th scope="col" class="text-center">CST</th>
+                                            <th scope="col" class="text-center">Aliq(%)</th>
+                                            <th scope="col" class="text-center">Aliq ST(%)</th>
+                                            <th scope="col" class="text-center">Red.(%)</th>
+                                            <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+                                            <th scope="col" class="text-center">CST</th>
+                                            <th scope="col" class="text-center">Aliq(%)</th>
+                                            <th scope="col" class="text-center">Aliq ST(%)</th>
+                                            <th scope="col" class="text-center">Red.(%)</th>
+                                            <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>*@
+
+                                        </tr>
+                                    </thead>
+                                    <!--Corpo da Tabela-->
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr class="pr-td">
+                                            <td style="width:5%" class="text-center prn-borderEspecial2">
+                                                @Html.DisplayFor(modelItem => item.ID_PRODUTO)
+                                            </td>
+                                            <td style="width:8%" class="text-left prn-borderEspecial2">
+                                                @Html.DisplayFor(modelItem => item.COD_BARRAS_PRODUTO)
+                                            </td>
+                                            <td style="width:30%" class="text-left prn-borderEspecial2">
+                                                @Html.DisplayFor(modelItem => item.DESCRICAO_PRODUTO)
+                                            </td>
+                                            @if (ViewBag.FiltrarPor == "Setor")
+                                            {
+                                                <td style="width:20%" class="text-left prn-borderEspecial2">
+                                                    @Html.DisplayFor(modelItem => item.DESCRICAO_SETOR_PRODUTO)
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:20%" class="text-left prn-borderEspecial2">
+                                                    @Html.DisplayFor(modelItem => item.CATEGORIA_DESCRICAO)
+                                                </td>
+                                            }
+
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.CEST_PRODUTO
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.NCM_PRODUTO
+                                            </td>
+                                            <td style="width:4%;" class="text-center">
+                                                @if (@item.AUDITADO_POR_NCM == 1)
+                                                {
+                                                    <span>SIM</span> }
+                                                else
+                                                {
+                                                    <span>NÃO</span>}
+                                            </td>
+                                            @*<td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.CST_VENDA_VAREJO_CONS_FINAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_VENDA_VAREJO_CONS_FINAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_VENDA_VAREJO_CONS_FINAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_ST_VENDA_VAREJO_CONS_FINAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.CST_VENDA_VAREJO_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_VENDA_VAREJO_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_ST_VENDA_VAREJO_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_VENDA_VAREJO_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ST_VENDA_VAREJO_CONT
+                                            </td>
+
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.CST_VENDA_ATA_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_VENDA_ATA_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_ST_VENDA_ATA_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_VENDA_ATA_CONT
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT
+                                            </td>
+
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.CST_VENDA_ATA_SIMP_NACIONAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_VENDA_ATA_SIMP_NACIONAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.ALIQ_ICMS_ST_VENDA_ATA_SIMP_NACIONAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_VENDA_ATA_SIMP_NACIONAL
+                                            </td>
+                                            <td style="width:5%;" class="text-center prn-borderEspecial2">
+                                                @item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_SIMP_NACIONAL
+                                            </td>*@
+
+
+                                        </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!--Tabela-->
+                       
+                            <!--Rodape-->
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <p class="pr-fontanternativa">
+                                        <span class="pr-fontalternativa"> Página @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: @Model.TotalItemCount</span>
+                                    </p>
+                                </div>
+
+                                <div style="float:right;" class="p-2 pr-fontalternativa">
+                                    @Html.PagedListPager(
+                         Model, page => Url.Action("EditMassa",
+                         new
+                         {
+                             page,
+                             filtroCorrente = ViewBag.FiltroCorrente,
+                             numeroLinhas = ViewBag.NumeroLinhas,
+                             auditadosNCM = ViewBag.FiltroCorrenteAuditado,
+                             filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                             filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                             filtroSetor = ViewBag.FiltroCorrenteSetor,
+                             //filtroCorrenteAudNCM = ViewBag.FiltroCorrenteAuditado,
+                             ordenacao = ViewBag.ParametroProduto,
+                             filtroCate = ViewBag.FiltroCorrenteCate,
+                             filtraPor = ViewBag.FiltroFiltraPor,
+
+
+                             opcao = TempData["opcao"].ToString()
+                         }),
+                         new PagedListRenderOptions()
+                         {
+                             LiElementClasses = new List<string>
+                             {
+                                            "page-item"
+}
+                         }
+
+                         )
+
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--fim da coluna de 10-->
+                </div><!--fim da linha-->
+
+
+
+
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+        <div class="card-footer">
+            Linha(s) selecionada(s) + :&nbsp; <i style="font-size:1.3em;" class="fas fa-edit"></i> = Edição em massa informando Dados MANUALMENTE <br />
+        </div>
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

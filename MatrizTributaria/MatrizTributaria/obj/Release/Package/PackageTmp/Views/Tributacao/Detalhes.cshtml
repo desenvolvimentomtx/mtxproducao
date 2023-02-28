@@ -1,0 +1,783 @@
+﻿@model MatrizTributaria.Models.Tributacao
+@{
+    ViewBag.Title = "Tributacao";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Tributação - DETALHES
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container-fluid">
+                            <div class="form-group row">
+                                <div class="col-md-offset-2 col-md-12">
+                                    <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-0">
+                                        <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                            @*<a href="@Url.Action("Index", "Tributacao")" class="btn btn-secondary pr-botoes-fundo border-0 "><i style="font-size:1.5em;" class="fas fa-directions"></i>Voltar</a>*@
+                                            <a href='javascript:history.go(-1)' class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-directions"></i>Voltar</a>
+                                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary pr-botoes-fundo border-0 "><i style="font-size:1.5em;" class="fas fa-home"></i>Inicio</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+
+                            <div class="form-group row col-lg-12">
+                                <!--CardTributação-->
+                                <div class="card col-lg-12 ml-2">
+                                    <div class="card-header">
+                                        Origem:<span class="pr-fonte" style="font-size:0.9rem !important;">@ViewBag.UfOrigem</span>  - Destino: <span style="font-size:0.9rem !important;" class="pr-fonte">@ViewBag.UfDestino - Data Última Alteração: </span> 
+
+                                    </div><!--fim do cabeçalho-->
+                                    <div class="card-body">
+                                        <!--Tres primeiros cards-->
+                                        <div class="row">
+                                            <!--Card Produto-->
+                                            <div class="col-lg-7 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Dados do Produto
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-2 pl-3  pr-fontalternativa" for="reg">Registro:</label>
+                                                            <div class="col-lg-2">
+                                                                @Html.TextBoxFor(m => m.id, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+                                                            <label class="col-form-label col-lg-2 pl-3  pr-fontalternativa" for="reg">Nat Receita:</label>
+                                                            <div class="col-lg-6">
+                                                                @Html.TextBoxFor(m => m.naturezaReceita.descricao, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-2 pl-3  pr-fontalternativa" for="reg">Produto:</label>
+                                                            <div class="col-lg-10">
+                                                                @Html.TextBoxFor(m => m.produtos.descricao, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-2 pl-3  pr-fontalternativa" for="reg">Categoria:</label>
+                                                            <div class="col-lg-10">
+                                                                @Html.TextBoxFor(m => m.produtos.categoriaProduto.descricao, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-2 pl-3  pr-fontalternativa" for="reg">Setor:</label>
+                                                            <div class="col-lg-10">
+                                                                @Html.TextBoxFor(m => m.setorProdutos.descricao, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <!--Cad Pis-->
+                                            <div class="col-lg-2 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        PIS
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST Entrada:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstEntradaPisCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Entrada:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqEntPis, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST saída:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstSaidaPisCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. saída:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqSaidaPis, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <!--Card Cofins-->
+                                            <div class="col-lg-2 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        COFINS
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST Entrada:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstEntradaPisCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Entrada:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqEntCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST saída:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstSaidaPisCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. saída:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqSaidaCofins, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <!--Segundo dois cards-->
+                                        <div class="row">
+                                            <!--ICMS Venda Consumidor final-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Venda Varejo Para Consumidor Final
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstVendaVarejoConsFinal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsVendaVarejoConsFinal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTVendaVarejoConsFinal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaVarejoConsFinal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaVarejoConsFinal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--ICMS Venda Varejo contribuinte final-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Venda Varejo Para Contribuinte
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstVendaVarejoCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsVendaVarejoCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTVendaVarejo_Cont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcVendaVarejoCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.RedBaseCalcSTVendaVarejo_Cont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--ICMS  Venta Atacado para Contribuinte-->
+                                            <div class="col-lg-3 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Venda Atacado Para Contribuinte
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.cstVendaAtaCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsVendaAtaCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTVendaAtaCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaAtaCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaAtaCont, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!--terceiro dois cards-->
+                                        <div class="row">
+                                            <!--ICMS Venda Atacado para Simples Nacional-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Venda Atacado para Simples Nacional
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstVendaAtaSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsVendaAtaSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTVendaAtaSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsVendaAtaSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTVendaAtaSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--ICMS Venda Varejo contribuinte final-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS Compra de Industria
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstCompraDeInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsCompDeInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTCompDeInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsCompraDeInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompraDeInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--ICMS  Compra de Atacado-->
+                                            <div class="col-lg-3 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Compra de Atacado
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.cstCompradeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsCompradeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTCompraDeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsCompraDeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-5">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompraDeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <!--ICMS Compra de Simples Nacional-->
+                                            <div class="col-lg-3 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        ICMS de Compra de Simples Nacional
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">CST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Alíq. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsSTCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-7 pl-3  pr-fontalternativa" for="reg">Red. Base de Calc. Icms ST:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.redBaseCalcIcmsSTCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--MVA-->
+                                            <div class="col-lg-3 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Margem de Valor Agregado - MVA
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Tipo MVA:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.tipoMVA, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Valor MVA Ind:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.valorMVAInd, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Valor MVA Ata:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.valorMVAAtacado, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Inicio Vigencia MVA:</label>
+                                                            <div class="col-lg-4">
+                                                                <input class="form-control pr-fonte" disabled="disabled" id="dataInicioVigencia" name="dataInicioVigencia" type="text" value="@Convert.ToDateTime(@ViewBag.DataInicio ).ToShortDateString()" />
+                                                                @*@Html.TextBoxFor(m => m.redBaseCalcIcmsCompradeSimpNacional, new { @class = "form-control pr-fonte", @disabled = "disabled" })*@
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Fim Vigencia MVA:</label>
+                                                            <div class="col-lg-4">
+                                                                <input class="form-control pr-fonte" disabled="disabled" id="dataFimVigencia" name="dataFimVigencia" type="text" value="@Convert.ToDateTime(@ViewBag.DataFim ).ToShortDateString()" />
+
+                                                            </div>
+
+                                                        </div>
+                                                         <div class="form-group row col-lg-12 pl-4 mt-1">
+
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--Legislação-->
+                                            <div class="col-lg-5 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Fundamento Legal
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-3 pl-3  pr-fontalternativa" for="reg">Para Pis/Cofins:</label>
+                                                            <div class="col-lg-9">
+                                                                @Html.TextBoxFor(m => m.fundamentoLegal.fundLegal, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-3 pl-3  pr-fontalternativa" for="reg">Para Icms Saída:</label>
+                                                            <div class="col-lg-9">
+                                                                <input class="form-control pr-fonte" disabled="disabled" id="fundSaida" name="fundSaida" type="text" value="@ViewBag.FundLegalSaida" />
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-3 pl-3  pr-fontalternativa" for="reg">Para Icms Entrada:</label>
+                                                            <div class="col-lg-9">
+                                                                <input class="form-control pr-fonte" disabled="disabled" id="fundEntrada" name="fundEntrada" type="text" value="@ViewBag.FundLegalEndrada" />
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Outros
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-3 pl-3  pr-fontalternativa" for="reg">Cédito Outorgado:</label>
+                                                            <div class="col-lg-9">
+
+                                                                @if (ViewBag.CreditoOutorgado == 0 || ViewBag.CreditoOutorgado == null)
+                                                                {
+
+
+                                                                    <input class="form-control pr-fonte" disabled="disabled" id="credOt" name="credOt" type="text" value="NÃO" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="form-control pr-fonte" disabled="disabled" id="credOt" name="credOt" type="text" value="SIM" />
+
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-3 pl-3  pr-fontalternativa" for="reg">Regime 2560:</label>
+                                                            <div class="col-lg-9">
+                                                                @if (ViewBag.Regime2560 == 0 || ViewBag.Regime2560 == null)
+                                                                {
+
+
+                                                            <input class="form-control pr-fonte" disabled="disabled" id="reg2560" name="reg2560" type="text" value="NÃO" /> }
+                                                                        else
+                                                                        {
+                                                            <input class="form-control pr-fonte" disabled="disabled" id="reg2560" name="reg2560" type="text" value="SIM" />}
+                                                            </div>
+
+                                                        </div>
+                                                       
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="row">
+                                            <!--Fonecedor com NFE-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Fornecedor com NFE - Indústria
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Cst Nfe Ind:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstdaNfedaIndFORN, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Nfe Ind:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsNFE, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--Fonecedor com NFE-->
+                                            <div class="col-lg-4 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Fornecedor com NFE - Simples Nacional
+                                                    </div>
+                                                    <div class="card-body">
+
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Csosn Nfe SN:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.CsosntdaNfedoSnFOR, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Aliq. Nfe SN:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsNfeSN, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--Fonecedor com NFE-->
+                                            <div class="col-lg-3 ml-2">
+                                                <div class="card col-lg-12 ml-4 mt-1">
+                                                    <div class="card-header text-center pr-fonte">
+                                                        Fornecedor com NFE - Atacado
+                                                    </div>
+                                                    <div class="card-body">
+
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Cst Nfe Ata:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.cstdaNfedeAtaFORn, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row col-lg-12 pl-4 mt-1">
+                                                            <label class="col-form-label col-lg-6 pl-3  pr-fontalternativa" for="reg">Alíq. Nfe Ata:</label>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.aliqIcmsNfeAta, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div> <!--fim card tributação-->
+
+
+
+
+                            </div><!--fim do container da tabela-->
+
+
+                        </div><!--Fim da coluna de 10-->
+                    </div><!--fim da linha-->
+                </div><!--Fim do container do body do card-->
+            </div><!--fim do body do card-->
+        </div><!--Fim do card-->
+    </div><!--Fim do container-->
+</div>

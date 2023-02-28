@@ -1,0 +1,354 @@
+﻿@using PagedList.Mvc
+@using MatrizTributaria.Areas.Cliente.Models
+@model PagedList.IPagedList<MatrizTributaria.Areas.Cliente.Models.AnaliseTributaria3>
+@{ ViewBag.Title = "EditClienteProdMassaSN"; }
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            BUSCA
+            @RenderPage("~/Areas/Cliente/Views/Acoes/BotaoHome.cshtml") <!--Renderiza o botao home-->
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @if (@ViewBag.MensagemGravar != "")
+                            {
+                                if (ViewBag.MensagemGravar == "Registro Salvo com Sucesso!!")
+                                {
+
+
+                <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                    @if (@ViewBag.RegSalvos != "0")
+                    {
+                        if (@ViewBag.RegNSalvos != "0")
+                        {
+<span>@ViewBag.MensagemGravar Qtd de Registros ATUALIZADOS: @ViewBag.RegSalvos -  Não Atualizados:@ViewBag.RegNSalvos </span> }
+else
+{
+<span>@ViewBag.MensagemGravar Qtd de Registros ATUALIZADOS: @ViewBag.RegSalvos</span> }
+}
+else
+{
+<span>@ViewBag.MensagemGravar Não Atualizados:@ViewBag.RegNSalvos </span>}
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> }
+            else
+            {
+<div class="alert alert-warning alert-dismissible fade show form-group col-lg-5 mt-1" role="alert">
+    <span>@ViewBag.MensagemGravar</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>}
+
+
+}
+
+                            @using (Html.BeginForm("EditClienteProdMassaSN", "TributacaoEmpresa", FormMethod.Get, new { @class = "form-row" }))
+                            {
+                <div class="form-group col-lg-5">
+                    <label class="pr-fontalternativa">Produto</label>
+                    <div class="input-group input-group-sm">
+                        @if (ViewBag.FiltroCorrente == null)
+                        {
+        @Html.TextBox("ProcuraPor", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras" }) }
+    else
+    {
+@Html.TextBox("ProcuraPor", (string)ViewBag.FiltroCorrente, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras" })}
+                        <div class="input-group-append">
+                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <label class="pr-fontalternativa">NCM</label>
+                                    <div class="input-group input-group-sm">
+
+                                        @if (ViewBag.FiltroCorrenteNCM == null)
+                                        {
+                        @Html.TextBox("ProcuraNCM", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM", id = "ncm" }) }
+                    else
+                    {
+    @Html.TextBox("ProcuraNCM", (string)ViewBag.FiltroCorrenteNCM, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", onkeypress = "return onlynumber();", placeholder = "Digite o NCM", id = "ncm" })}
+
+                                        <div class="input-group-append">
+                                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                                <div class="form-group col-lg-3">
+                                                    <label class="pr-fontalternativa">Filtro</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <select style="max-width: 100% !important;" class="pr-fontalternativa form-control form-control-sm" id="filtroNulo" name="filtroNulo">
+                                                            @if (ViewBag.Filtro == "1")
+                                                            {
+
+                                            <option value="1" selected>Descrições Iguais</option>
+                                                                <option value="2">Descrições diferentes</option>
+                                                                                    <option value="3">Descrições Nulas</option> }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        if (ViewBag.Filtro == "2")
+                                                                                                        {
+
+                                                                                    <option value="1">Descrições Iguais</option>
+                                                                                                            <option value="2" selected>Descrições diferentes</option>
+                                                                                                                                    <option value="3">Descrições Nulas</option> }
+                                                                                                                                                        else
+                                                                                                                                                        {
+                                                                                                                                    <option value="1">Descrições Iguais</option>
+                                                                                                                                                            <option value="2">Descrições diferentes</option>
+                                                                                                                                                                                    <option value="3" selected>Descrições Nulas</option>}
+                                                                                                                                                                                                    }
+                                                        </select>
+                                                        <div class="input-group-append">
+                                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo">
+                                                                <i style="font-size:1.3em;" class="fas fa-filter"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                                <div class="form-group col-lg-2">
+                                                                    <label class="pr-fontalternativa">Linhas</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select class="pr-fontalternativa form-control form-control-sm" id="numeroLinhas" name="numeroLinhas">
+                                                                            @if (ViewBag.NumeroLinhas == 10)
+                                                                            {
+
+                                                            <option selected>10</option>
+                                                                                <option>20</option>
+                                                                                                    <option>30</option> }
+                                                                                                                    else
+                                                                                                                    {
+                                                                                                                        if (ViewBag.NumeroLinhas == 20)
+                                                                                                                        {
+
+                                                                                                    <option>10</option>
+                                                                                                                            <option selected>20</option>
+                                                                                                                                                    <option>30</option> }
+                                                                                                                                                                        else
+                                                                                                                                                                        {
+                                                                                                                                                    <option>10</option>
+                                                                                                                                                                            <option>20</option>
+                                                                                                                                                                                                    <option selected>30</option>}
+                                                                                                                                                                                                                    }
+                                                                        </select>
+                                                                        <div class="input-group-append">
+                                                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo">
+                                                                                <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>}
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->
+
+
+<div id="card-analise" class="container-fluid pr-container-2 pr-card-cad">
+    <div class="card">
+        <div class="card-header">
+            ANALISE:Produto <strong>"@ViewBag.Mensagem"</strong> <a data-toggle="tooltip" data-placement="right" title="Ir para Gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnaliseProd","TributacaoEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosDescProdCliente" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.3em;" class="fas fa-edit"></i></button>
+            @*<button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s) Manualmente" type="button" id="editarSelecionadosDescProdClienteManual" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.3em;" class="fas fa-user-edit"></i></button>*@
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Todos os Registros" type="button" id="edtAlterarTODOS" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.3em;" class="fas fa-database"></i></button>
+
+
+            <!--Imput Hidden com o valor da opção-->
+            <input type="hidden" id="opcaoFiltro" value="@ViewBag.Opcao" />
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <!--Caixa Geral-->
+                        <div class="scrolling-wrapper">
+                            <div style="min-width:99.5%; height:inherit;" class="box">
+                                <table id="table-editDescProdCliente" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="7" class="pr-fonte2" scope="col">Analise de DESCRIÇÃO DE PRODUTO</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th>
+                                                Registro
+                                            </th>
+                                            <th>
+                                                Cód. de Barras no Cliente
+                                            </th>
+                                            <th>
+                                                NCM  no Cliente
+                                            </th>
+                                            <th>
+                                                Descrição no Cliente
+                                            </th>
+                                            <th>
+                                                NCM  no MTX
+                                            </th>
+
+                                            <th>
+                                                Cód. Barras no MTX
+                                            </th>
+                                            <th>
+                                                Descrição no MTX
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr style="height:12.0px;" class="pr-td">
+                                            <td style="width:4%;">
+                                                @Html.DisplayFor(modelItem => item.TE_ID)
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                            </td>
+                                            @if (item.PRODUTO_NCM == null)
+                                            {
+                                        <td style="width:5%;">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                        </td>
+ }
+                                    else
+                                    {
+                                        if(item.PRODUTO_NCM != item.NCM_INTERNO)
+                                        {
+
+                                        <td style="text-align:left; width:10%;" class="pr-td-maior">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                        </td> }
+                                                            else
+                                                            {
+                                        <td style="text-align:left; width:10%;" class="pr-td-igual">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                        </td>}}
+
+
+                                            @if (item.PRODUTO_DESCRICAO == null)
+                                            {
+                                        <td style="text-align:left; width:30%;">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                        </td>
+ }
+                                    else
+                                    {
+
+
+                                        if (item.PRODUTO_DESCRICAO != item.Descricao_INTERNO)
+                                        {
+                                        <td style="text-align:left; width:30%;" class="pr-td-maior">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                        </td>
+ }
+                                    else
+                                    {
+                                        <td style="text-align:left; width:30%;" class="pr-td-igual">
+                                            @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                        </td>
+}
+
+
+
+                                }
+                                            <td style="text-align:left; width:10%;">
+                                                @Html.DisplayFor(modelItem => item.NCM_INTERNO)
+
+                                            </td>
+                                            <td style="text-align:left; width:8%;">
+                                                @Html.DisplayFor(modelItem => item.Cod_Barras_INTERNO)
+
+                                            </td>
+
+                                            <td style="text-align:left; width:30%;">
+                                                @Html.DisplayFor(modelItem => item.Descricao_INTERNO)
+
+                                            </td>
+
+
+                                        </tr>
+                                  }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+                            </div> <!--Fim primeira Caixa-->
+                        </div>
+                    </div>
+
+                </div><!--fim da linha-->
+                <div class="d-flex" style="height:8vh; vertical-align: middle;">
+                    <div class="mr-auto p-2">
+
+                        <p class="pr-fontanternativa">
+
+                            <span class="pr-fontalternativa">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: <span id="totalReg">@Model.TotalItemCount</span></span>
+                        </p>
+                    </div>
+
+                    <div style="float:right;" class="p-2 pr-fontalternativa">
+                        @Html.PagedListPager(
+                                            Model,
+                                            page => Url.Action("EditClienteProdMassaSN",
+                                            new
+                                            {
+                                                page,
+                                                ordenacao = ViewBag.Ordenacao,
+                                                filtroCorrente = ViewBag.FiltroCorrente,
+                                                filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                                filtroCorrenteCest = ViewBag.FiltroCorrenteCest,
+                                                numeroLinhas = ViewBag.NumeroLinhas,
+                                                filtroNulo = ViewBag.Filtro,
+                                                opcao = TempData["opcao"].ToString()
+                                            }),
+                                            new PagedListRenderOptions()
+                                            {
+                                                LiElementClasses = new List<string> { "page-item" }
+                                            })
+                    </div>
+
+                </div>
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+        <div class="card-footer">
+            Todos os Registros+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <i style="font-size:1.5em;" class="fas fa-edit"></i> = Edição em massa: <b>IGUALANDO</b> ao MTX; <br />
+
+            @*Linha(s) selecionada(s) + :&nbsp; <i style="font-size:1.5em;" class="fas fa-user-edit"></i> = Edição em massa informando CST manualmente <br />*@
+            Linha(s) selecionada(s) + :&nbsp; <i style="font-size:1.5em;" class="fas fa-database"></i> = Edição em massa: <b>ALTERAR TODOS OS REGISTROS</b> <br />
+
+        </div>
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

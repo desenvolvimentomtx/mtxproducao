@@ -1,0 +1,154 @@
+﻿@using MatrizTributaria.Models
+
+@{ ViewBag.Title = "AnaliseCSTEnt"; }
+<div class="container-fluid pr-container  pr-card-cad row">
+
+    <div class="col-lg-12 col-sm-12 pr-1">
+
+        <div class="card">
+            <div class="card-header">
+                Estado de Origem e Destino
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+
+
+                @using (Html.BeginForm("AnaliseCSTEnt", "TributacaoEmpresa", FormMethod.Get))
+                {
+
+                    @RenderPage("~/Areas/Cliente/Views/Acoes/CamposSelecionaUF.cshtml")}
+
+            </div><!--body-->
+        </div><!--card-->
+
+    </div>
+
+
+
+
+</div> <!--container maior-->
+
+<div class="container-fluid pr-container-2  pr-card-cad row">
+    <div class="col-lg-4 col-sm-12 pr-1">
+
+        <div class="card">
+            <div class="card-header">
+                CST Compra de industria
+
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                <div id="cstCompInd" style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+    <div class="col-lg-4 col-sm-12 pr-1">
+        <div class="card">
+            <div class="card-header">
+                CST Compra de Atacado
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                <div id="cstCompAta"  style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+    <div class="col-lg-4 col-sm-12 pr-1">
+        <div class="card">
+            <div class="card-header">
+                CST Compra de Simples nacional
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+
+                                <div id="cstCompSN"  style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+
+
+
+</div> <!--container maior-->
+
+
+
+<div class="container-fluid pr-container-2  pr-card-cad row">
+    <div class="col-lg-4 col-sm-12 pr-1">
+
+        <div class="card">
+            <div class="card-header">
+                CST NFE Industria
+
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                <div id="cstNfeInd"  style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+    <div class="col-lg-4 col-sm-12 pr-1">
+        <div class="card">
+            <div class="card-header">
+                CST NFE Atacado
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                <div id="cstNfeAta"  style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+    <div class="col-lg-4 col-sm-12 pr-1">
+        <div class="card">
+            <div class="card-header">
+                CSosnt NFE For Simples Nacional
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+
+                                <div id="cstNfeSN"  style="width: 500px; height: 300px; margin-left: auto; margin-right: auto;"></div>
+                            </div><!--Container fluid da coluna-->
+                        </div><!--12 colunas a linha-->
+                    </div><!--linha do container do body-->
+                </div> <!--container do body-->
+            </div><!--body-->
+        </div><!--card-->
+    </div>
+
+</div>

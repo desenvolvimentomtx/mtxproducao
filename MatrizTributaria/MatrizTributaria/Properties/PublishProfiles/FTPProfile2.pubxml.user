@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Esse arquivo é usado pelo processo de publicação/pacote do seu projeto Web. É possível personalizar o comportamento deste processo
+ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA2PM/V8SvIUSPsBtIDH7z5wAAAAACAAAAAAAQZgAAAAEAACAAAAARcmPQWdj8/78IMYPtHuUrTgC3KKFftPTmG5U3ehM3xAAAAAAOgAAAAAIAACAAAAAjYP7IE1WM3uJPPNFt6UrSAcfCrMb6IR4DfYv2o8R1ICAAAADFx5fSUkE/0V6RIv7WFJfRyz09TaN5aCQBzzNf/rMHX0AAAACIDQRKuor9VE+jEHtvxmWM6JYCKlDGPN2WYjCXAn7jxU2GnvnPK/HSDDbCe4W4T/IcNyfQo5HLBEH/eMIJSA/3</EncryptedPassword>
+    <_PublishTargetUrl>ftp://ftp.site4now.net/testemtx</_PublishTargetUrl>
+    <History>False|2021-10-19T12:43:48.5855357Z;False|2021-10-19T09:11:00.4527981-03:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="ApplicationInsights.config">
+      <publishTime>04/25/2021 22:30:09</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Charts/bootstrap.min.js">
+      <publishTime>07/07/2021 09:53:41</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Charts/jquery-2.2.4.min.js">
+      <publishTime>07/07/2021 09:53:41</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Charts/jquery.appear.min.js">
+      <publishTime>07/07/2021 09:53:41</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Charts/jquery.easypiechart.min.js">
+      <publishTime>07/07/2021 09:53:41</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Content/all-min.css">
+      <publishTime>07/13/2021 11:15:08</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Content/img/logo_nova_empresas.png">
+      <publishTime>05/10/2021 11:57:11</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Content/jquery-1.10.2.min.js">
+      <publishTime>07/13/2021 11:36:47</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Content/shieldui-lite-all.min.js">
+      <publishTime>07/13/2021 11:26:03</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/adm-edicao-massa.js">
+      <publishTime>10/14/2021 10:10:21</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/bootstrap.bundle.min.js">
+      <publishTime>07/15/2021 10:18:11</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/bootstrap.min.js">
+      <publishTime>08/25/2016 15:00:52</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/bootstrap.min2.css">
+      <publishTime>07/15/2021 10:19:01</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/canvasjs.min.js">
+      <publishTime>07/15/2021 08:51:41</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/jquery-1.12.4.min.js">
+      <publishTime>11/29/2017 05:08:29</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/Graficos/jquery.min.js">
+      <publishTime>07/15/2021 10:18:51</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/loader.js">
+      <publishTime>07/20/2021 17:25:58</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/SelLines/Multiple.js">
+      <publishTime>07/07/2021 09:52:14</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Scripts/SelLines/Single.js">
+      <publishTime>07/07/2021 09:52:25</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/Acoes/BotaoBuscaProd.cshtml">
+      <publishTime>07/28/2021 15:08:22</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/Acoes/BotaoHome.cshtml">
+      <publishTime>09/30/2021 10:05:52</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/HomeCliente/HomeCliente.cshtml">
+      <publishTime>07/07/2021 14:39:55</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/ImportarExportarJson/Index.cshtml">
+      <publishTime>05/11/2021 15:17:34</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/Shared/Antigo_Layout.cshtml">
+      <publishTime>05/10/2021 11:36:29</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/Shared/_Layout.cshtml">
+      <publishTime>10/14/2021 08:12:20</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseCST.cshtml">
+      <publishTime>07/22/2021 08:36:28</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseCSTEnt.cshtml">
+      <publishTime>08/04/2021 17:01:28</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseIcmsEntrada.cshtml">
+      <publishTime>07/21/2021 11:53:08</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnalisePisCofins.cshtml">
+      <publishTime>08/04/2021 09:37:26</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseProd.cshtml">
+      <publishTime>09/29/2021 14:57:16</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseRedBaseCalEnt.cshtml">
+      <publishTime>07/21/2021 15:20:49</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseRedBaseCalSai.cshtml">
+      <publishTime>07/21/2021 15:58:53</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/AnaliseTributaria.cshtml">
+      <publishTime>07/28/2021 09:27:55</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteAliqIcmsCompIndMassa.cshtml">
+      <publishTime>10/18/2021 10:33:11</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteAliqIcmsCompIndMassaManualModal.cshtml">
+      <publishTime>10/07/2021 16:09:28</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteAliqIcmsSTCompIndMassa.cshtml">
+      <publishTime>10/14/2021 17:05:01</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteAliqIcmsSTCompIndMassaManualModal.cshtml">
+      <publishTime>10/11/2021 15:51:54</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteCestMassa.cshtml">
+      <publishTime>10/07/2021 10:40:06</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/EditClienteCestMassaManualModal.cshtml">
+      <publishTime>10/01/2021 08:42:40</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/Index.cshtml">
+      <publishTime>07/07/2021 11:45:28</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaIcmsEntrada.cshtml">
+      <publishTime>10/06/2021 08:41:46</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaIcmsSaida.cshtml">
+      <publishTime>07/28/2021 17:41:14</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaPisCofins.cshtml">
+      <publishTime>07/28/2021 17:27:47</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaProduto.cshtml">
+      <publishTime>07/29/2021 08:32:22</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaRedBasCalEntrada.cshtml">
+      <publishTime>07/29/2021 08:49:18</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/TributacaoEmpresa/TabelaRedBasCalSaida.cshtml">
+      <publishTime>07/28/2021 17:44:37</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/web.config">
+      <publishTime>05/10/2021 11:26:50</publishTime>
+    </File>
+    <File Include="Areas/Cliente/Views/_ViewStart.cshtml">
+      <publishTime>05/10/2021 11:36:28</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>09/10/2013 16:29:20</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>09/10/2013 16:29:20</publishTime>
+    </File>
+    <File Include="bin/BouncyCastle.Crypto.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Google.Protobuf.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Google.Protobuf.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/K4os.Compression.LZ4.dll">
+      <publishTime>07/03/2019 22:59:30</publishTime>
+    </File>
+    <File Include="bin/K4os.Compression.LZ4.Streams.dll">
+      <publishTime>07/03/2019 22:59:32</publishTime>
+    </File>
+    <File Include="bin/K4os.Hash.xxHash.dll">
+      <publishTime>07/03/2019 20:39:02</publishTime>
+    </File>
+    <File Include="bin/MatrizTributaria.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/MatrizTributaria.pdb">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>02/12/2021 18:40:28</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.pdb">
+      <publishTime>02/12/2021 18:40:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>02/12/2021 18:50:04</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.pdb">
+      <publishTime>02/12/2021 18:49:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>02/12/2021 18:37:56</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.pdb">
+      <publishTime>02/12/2021 18:37:24</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>02/12/2021 18:52:44</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.pdb">
+      <publishTime>02/12/2021 18:52:20</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>02/12/2021 18:52:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.pdb">
+      <publishTime>02/12/2021 18:51:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>02/12/2021 18:35:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.pdb">
+      <publishTime>02/12/2021 18:35:02</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.TelemetryCorrelation.dll">
+      <publishTime>07/02/2020 21:36:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Bcl.AsyncInterfaces.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Bcl.HashCode.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>09/05/2018 16:10:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Binder.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.Abstractions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Options.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Primitives.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.EntityFramework.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/Remotion.Linq.dll">
+      <publishTime>06/02/2018 22:25:00</publishTime>
+    </File>
+    <File Include="bin/System.Buffers.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Collections.Immutable.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.ComponentModel.Annotations.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Diagnostics.DiagnosticSource.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Memory.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Numerics.Vectors.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Runtime.CompilerServices.Unsafe.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Threading.Tasks.Extensions.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>11/02/2014 16:26:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>03/23/2021 08:53:08</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>04/25/2021 22:08:12</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/19/2021 08:43:45</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

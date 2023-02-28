@@ -1,0 +1,208 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MatrizTributaria.Models.TributacaoGeralView>
+@{
+    ViewBag.Title = "EditAliqIcmsSTVenVarCFMassa";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Alterar Aliquota Icms <strong>ST</strong> Venda Varejo para Consumidor Final : Registros  "@ViewBag.Opcao"
+            @RenderPage("~/Views/Acoes/BotaoHome.cshtml") <!--Renderiza os botões de ação-->
+            <a data-toggle="tooltip" data-placement="right" title="Ir para gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("GraficoIcmsSaida","Tributacao")"><i style="font-size:1.5em;" class="fas fa-chart-pie"></i>  </a>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosAliqIcmsSTVenVarCF" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i></button>
+
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("EditAliqIcmsSTVenVarCFMassa", "Tributacao", FormMethod.Get))
+                            {
+                                @RenderPage("~/Views/Acoes/CamposComunsIcmsSaida.cshtml") <!--Renderiza os botões de ação-->
+
+
+                            }
+                            <!--Tabela-->
+                            <table style="border-bottom: 1px solid #021e36;" class="table table-striped table-hover table-graficos" id="table-graficosAliqIcmsSTVenVafCF">
+
+                                <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+
+                                    <tr>
+                                        <th class="align-middle">
+                                            Id
+                                        </th>
+                                        
+                                        
+                                        <th class="align-middle">
+                                            Cód. de Barras
+                                        </th>
+
+                                        <th class="align-middle">
+                                            @if (ViewBag.ParametroProduto == "Produto_asc")
+                                            {
+                                    <i style="font-size:1.1em;" class="fas fa-sort-up pr-actionlink"></i>
+                                                    @Html.ActionLink("Produtos", "EditAliqIcmsSTVenVarCFMassa",
+                                                             new
+                                                             {
+                                                                 filtroCorrente = ViewBag.FiltroCorrente,
+                                                                 numeroLinhas = ViewBag.NumeroLinhas,
+                                                                 ordenacao = "Produto_desc",
+                                                                 filtroCorrenteAliq = ViewBag.FiltroCorrenteAliq,
+                                                                 filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                                                 filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                                                                 filtroSetor = ViewBag.FiltroCorrenteSetor,
+                                                                 filtroCate = ViewBag.FiltroCorrenteCate,
+                                                                 filtraPor = ViewBag.FiltroFiltraPor,
+                                                                 filtraCST = ViewBag.FiltroCST,
+                                                                 opcao = TempData["opcao"].ToString()
+                                                             }) }
+                                                else
+                                                {
+                                    <i style="font-size:1.1em;" class="fas fa-sort-down pr-actionlink"></i>
+                                                    @Html.ActionLink("Produtos", "EditAliqIcmsSTVenVarCFMassa",
+                                                             new
+                                                             {
+                                                                 filtroCorrente = ViewBag.FiltroCorrente,
+                                                                 numeroLinhas = ViewBag.NumeroLinhas,
+                                                                 ordenacao = "Produto_asc",
+                                                                 filtroCorrenteAliq = ViewBag.FiltroCorrenteAliq,
+                                                                 filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                                                 filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                                                                 filtroSetor = ViewBag.FiltroCorrenteSetor,
+                                                                 filtroCate = ViewBag.FiltroCorrenteCate,
+                                                                 filtraPor = ViewBag.FiltroFiltraPor,
+                                                                 filtraCST = ViewBag.FiltroCST,
+                                                                 opcao = TempData["opcao"].ToString()
+                                                             })}
+                                        </th>
+                                        @if (ViewBag.FiltrarPor == "Setor")
+                                        {
+                                    <th scope="col">Setor</th>
+ }
+                                else
+                                {
+                                    <th scope="col">Categoria</th>
+}
+                                        <th class="align-middle text-center">
+                                            CEST
+                                        </th>
+
+                                        <th class="align-middle text-center">
+                                            NCM
+                                        </th>
+
+                                        <th class="align-middle text-center">
+                                            CST
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Aliquota
+                                        </th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <!--Corpo da Tabela-->
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+
+                                    <tr class="pr-td">
+                                        <td style="width:3%" class="prn-borderEspecial2 text-center">
+                                            @Html.DisplayFor(modelItem => item.ID)
+                                        </td>
+                                        
+                                        <td style="width:10%" class="prn-borderEspecial2">
+                                            @Html.DisplayFor(modelItem => item.COD_BARRAS_PRODUTO)
+                                        </td>
+                                        <td style="width:25%" class="prn-borderEspecial2">
+                                            @Html.DisplayFor(modelItem => item.DESCRICAO_PRODUTO)
+                                        </td>
+                                        @if (ViewBag.FiltrarPor == "Setor")
+                                        {
+                                    <td style="width:30%" class="text-left prn-borderEspecial2">
+                                        @Html.DisplayFor(modelItem => item.DESCRICAO_SETOR_PRODUTO)
+                                    </td>
+ }
+                                else
+                                {
+                                    <td style="width:30%" class="text-left prn-borderEspecial2">
+                                        @Html.DisplayFor(modelItem => item.CATEGORIA_DESCRICAO)
+                                    </td>
+}
+                                        <td style="width:5%" class="prn-borderEspecial2">
+                                            @Html.DisplayFor(modelItem => item.CEST_PRODUTO)
+                                        </td>
+                                        <td style="width:5%" class="prn-borderEspecial2">
+                                            @Html.DisplayFor(modelItem => item.NCM_PRODUTO)
+                                        </td>
+                                        <td style="width:5%" class="text-center prn-borderEspecial2">
+                                            @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
+                                        </td>
+                                        <td class="text-center prn-borderEspecial2" style="width:5%">
+                                            @Html.DisplayFor(modelItem => item.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL)
+                                        </td>
+
+
+                                    </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                            <!--Rodape-->
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <p class="pr-fontanternativa">
+                                        <span class="pr-fontalternativa"> Página @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: @Model.TotalItemCount</span>
+                                    </p>
+                                </div>
+
+                                <div style="float:right;" class="p-2 pr-fontalternativa">
+                                    @Html.PagedListPager(
+                                    Model, page => Url.Action("EditAliqIcmsSTVenVarCFMassa",
+                                    new
+                                    {
+                                        page,
+                                        filtroCorrente = ViewBag.FiltroCorrente,
+                                        filtroCorrenteAliq = ViewBag.FiltroCorrenteAliq,
+                                        numeroLinhas = ViewBag.NumeroLinhas,
+                                        filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                        filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                                        filtroSetor = ViewBag.FiltroCorrenteSetor,
+                                        ordenacao = ViewBag.ParametroProduto,
+                                        filtroCate = ViewBag.FiltroCorrenteCate,
+                                        filtraPor = ViewBag.FiltroFiltraPor,
+                                        filtraCST = ViewBag.FiltroCST,
+                                        opcao = TempData["opcao"].ToString()
+                                    }),
+                                    new PagedListRenderOptions()
+                                    {
+                                        LiElementClasses = new List<string>
+                                        {
+                                            "page-item"
+                                        }
+                                    }
+
+                                    )
+
+
+                                </div>
+                            </div>
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--fim da coluna de 10-->
+                </div><!--fim da linha-->
+
+
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+        <div class="card-footer">
+            Linha(s) selecionada(s) + :&nbsp; <i style="font-size:1.3em;" class="fas fa-user-edit"></i> = Edição em massa informando Alíquota manualmente <br />
+        </div>
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Retorno";
+}
+
+<h2>Retorno</h2>
+
+<script src="/Scripts/jquery-3.4.1.js"></script>
+<script>
+
+    $(function () {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: "/Nivel/LerGravar",
+            success: function () {
+                alert("Arquivo Gerado com Sucesso");
+                window.location.href = '/Home/index';
+                
+            }
+        });
+    });
+</script>

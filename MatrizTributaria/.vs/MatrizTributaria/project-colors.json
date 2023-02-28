@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "5f4befad-4f0a-4932-ac35-f5ac5ed4e7ca": {
+      "ProjectGuid": "5f4befad-4f0a-4932-ac35-f5ac5ed4e7ca",
+      "DisplayName": "MatrizTributaria",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Arquivos Diversos",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}

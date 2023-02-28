@@ -1,0 +1,244 @@
+﻿
+@model MatrizTributaria.Models.ViewModels.UsuarioViewModelCliente
+@{ ViewBag.Title = "CreateUsuarioCliente"; }
+
+<div class="container-fluid pr-container pr-card-cad">
+    @using (Html.BeginForm("CreateUsuarioCliente", "TributacaoEmpresa", FormMethod.Post, new { @class = "container-fluid pr-container pr-card-cad" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card mt-2">
+            <div class="card-header">
+                Cadastro de Usuários - NOVO
+                <a style="border-radius:0.5em;" data-toggle="tooltip" data-placement="right" title="Cancelar" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("Usuario", "TributacaoEmpresa")"><i style="font-size:1.5em;" class="fas fa-ban"></i> </a>
+                <button style="border-radius:0.5em;" data-toggle="tooltip" data-placement="right" title="Salvar" type="submit" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-save"></i></button>
+
+            </div><!--fim do cabeçalho-->
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+
+                                @if (ViewBag.MensagemErro != "")
+                                {
+                                    if (ViewBag.MensagemErro == "E-mail já utilizado em outro usuário")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+
+
+                                    if (ViewBag.MensagemErro == "Campo nome é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    if (ViewBag.MensagemErro == "Campo e-mail é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    if (ViewBag.MensagemErro == "Campo cidade é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    if (ViewBag.MensagemErro == "Campo estado é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+
+                                    if (ViewBag.MensagemErro == "Campo nível é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    if (ViewBag.MensagemErro == "Campo sexo é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    if (ViewBag.MensagemErro == "Campo senha é obrigatório")
+                                    {
+                                        <div class="form-row">
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <strong><span>@ViewBag.MensagemErro</span></strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+
+                                }
+
+
+                                <div class="form-row">
+                                    <div class="col-lg-6 mb-3">
+                                        <label class="pr-fonte-label" for="nome">Nome*</label>
+
+                                        @Html.TextBoxFor(m => m.nome, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do usuário", name = "desc" })
+                                        @Html.ValidationMessageFor(m => m.nome, "", new { @class = "text-danger", role = "alert" })
+
+
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="email">E-mail*</label>
+
+                                        @Html.TextBoxFor(m => m.email, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", placeholder = "Digite o e-mail do usuário", name = "email" })
+                                        @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger", role = "alert" })
+
+                                    </div>
+
+                                    <div class="col-lg-3 mb-3">
+
+                                        <fieldset>
+                                            <legend class="pr-fonte-label"> Sexo*</legend>
+                                            <span class="pr-fonte-label">@Html.RadioButtonFor(m => m.sexo, "M") Masculino</span><br />
+                                            <span class="pr-fonte-label">@Html.RadioButtonFor(m => m.sexo, "F") Feminino</span>
+                                        </fieldset>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="col-lg-4 mb-3">
+                                        <label class="pr-fonte-label" for="logradouro">Logradouro</label>
+                                        @Html.TextBoxFor(m => m.logradouro, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Rua, Avenida, Viela, Travessa", name = "logradouro" })
+
+
+                                    </div>
+                                    <div class="col-lg-1 mb-3">
+                                        <label class="pr-fonte-label" for="numero">Número</label>
+                                        @Html.TextBoxFor(m => m.numero, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Nº", name = "numero" })
+
+                                    </div>
+
+                                    <div class="col-lg-2 mb-3">
+                                        <label class="pr-fonte-label" for="cep">Cep</label>
+                                        @Html.TextBoxFor(m => m.cep, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cep da Rua", name = "cep", id = "cep" })
+
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="cidade">Cidade*</label>
+                                        @Html.TextBoxFor(m => m.cidade, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cidade de residência", name = "cidade" })
+
+                                    </div>
+
+                                    <div class="col-lg-2 mb-3">
+                                        <label class="pr-fonte-label" for="estado">UF*</label>
+
+                                        @*@Html.DropDownListFor(m => m.estado, new SelectList(Enum.GetValues(typeof(MatrizTributaria.Models.EstadosEnun))), "Selecione uma UF", htmlAttributes: new { @class = "form-control form-control-sm", id = "estado", name = "estado" })*@
+                                        @*@Html.DropDownListFor(m => m.idNivel, new SelectList(ViewBag.Niveis, "id", "descricao"), "Escolha o Acesso", new { @class = "form-control form-control-sm", id = "idNivel", name = "idNivel" })*@
+                                        @Html.DropDownListFor(m => m.estado, new SelectList(ViewBag.Estados, "uf", "descricao"), "Escolha o Estado", new { @class = "form-control form-control-sm", id = "estado", name = "estado" })
+
+
+
+
+
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="col-lg-2 mb-3">
+                                        <label class="pr-fonte-label" for="telefone">Telefone</label>
+                                        @Html.TextBoxFor(m => m.telefone, new { @class = "form-control form-control-sm", name = "telefone", placeholder = "Telefone com DDD", id = "telefone" })
+
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="idNivel">Nivel Acesso*</label>
+                                        @Html.DropDownListFor(m => m.idNivel, new SelectList(ViewBag.Niveis, "id", "descricao"), "Escolha o Acesso", new { @class = "form-control form-control-sm", id = "idNivel", name = "idNivel" })
+
+
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="idEmpresa">Empresa*</label>
+                                        <input type="text" value="@ViewBag.Empresas" class="form-control form-control-sm" readonly />
+
+
+                                    </div>
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="senha">Senha*</label>
+                                        @Html.PasswordFor(m => m.senha, new { @class = "form-control form-control-sm", name = "senha", placeholder = "Senha" })
+
+                                    </div>
+
+
+
+                                </div>
+
+                            </div><!--fim do container da tabela-->
+                        </div><!--Fim da coluna de 10-->
+                    </div><!--fim da linha-->
+                </div><!--Fim do container do body do card-->
+            </div><!--fim do body do card-->
+        </div><!--Fim do card-->
+    }
+    </div><!--Fim do container-->

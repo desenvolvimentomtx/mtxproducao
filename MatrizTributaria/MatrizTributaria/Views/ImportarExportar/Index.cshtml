@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "ImportarExportar";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+
+            Importação / Exportação de Arquivos JSON
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container-fluid">
+                            <!--Receber arquivo pasasndo para action do controller-->
+                            @using (Html.BeginForm("Import", "ImportarExportar", FormMethod.Post, new
+                            { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group row">
+                                    <div class="col-md-offset-2 col-md-12">
+
+                                        <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                            <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                                <a class="btn btn-secondary pr-botoes-fundo border-0 " data-toggle="tooltip" data-placement="right" title="Limpar Formulário" href="@Url.Action("Index", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-broom"></i>Limpar</a>
+                                                <a class="btn btn-secondary pr-botoes-fundo border-0 " data-toggle="tooltip" data-placement="top" title="Excluir dados da tabela" href="@Url.Action("Dados", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-minus-circle"></i>Tabela</a>
+
+                                                <a class="btn btn-secondary pr-botoes-fundo border-0 " data-toggle="tooltip" data-placement="top" title="Voltar para o inicio" href="@Url.Action("Index", "Home")"><i style="font-size:1.5em;" class="fas fa-home"></i>Inicio</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--Tabs-->
+                                <!--Tabls-->
+                                <ul class="nav nav-tabs" id="tabImport" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="import-tab" data-toggle="tab" href="#import" role="tab" aria-controls="import" aria-selected="true">Importar</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="export-tab" data-toggle="tab" href="#export" role="tab" aria-controls="export" aria-selected="false">Exportar</a>
+
+                                    </li>
+                                   
+                                </ul>
+                                <div class="tab-content" id="tabConteudo">
+                                    <div class="tab-pane fade show active" id="import" role="tabpanel" aria-labelledby="import-tab">
+                                       
+                                        <div class="container">
+                                            <div class="form-group row">
+
+
+                                                <label class="col-form-label col-lg-1 pl-1  pr-fontalternativa" for="produtoFor">Arquivo JSON: </label>
+
+                                                <div class="col-lg-6">
+                                                    <div class="col-lg-2 pl-1">
+
+
+                                                        <input type="file" class="btn btn-secondary pr-botoes-fundo border-0" name="jsonFile" accept=".json" /> <br />
+
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-lg-1 pl-1  pr-fontalternativa" for="produtoFor">Importar:</label>
+                                                <div class="col-lg-2">
+
+                                                    <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-cloud-upload-alt"></i></button>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row" style="display:@ViewBag.Display;">
+
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <strong>@ViewBag.Error</strong>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-group row" style="display:@ViewBag.Display2;">
+
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    <strong>@ViewBag.Sucesso</strong>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+
+                                            </div>
+                                            <!--fim do conteudo-->
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="export" role="tabpanel" aria-labelledby="export-tab">
+                                       Exportar
+                                    </div>
+                                    
+                                </div>
+                                <!--Fim TABS-->
+
+                                
+
+                            }
+
+
+
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

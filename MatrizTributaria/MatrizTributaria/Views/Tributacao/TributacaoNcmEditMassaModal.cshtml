@@ -1,0 +1,629 @@
+﻿@{
+    ViewBag.Title = "TributacaoNcmEditMassaModal";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Alterar NCM de Produtos em Massa
+            <a href='javascript:history.go(-1)' data-toggle="tooltip" data-placement="right" title="Voltar à tabela" type="button" id="voltar" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-undo"></i></a>
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-2 p-2 mb-0">
+                        <label class="pr-fontalternativa">Digite o novo NCM</label>
+                        <div class="input-group input-group-sm">
+                            <!--input-->
+
+                            <input type="text" class="form-control form-control-sm" placeholder="NCM aqui" name="ncm" id="ncm" onkeypress="return onlynumber();" size=10 maxlength=10 />
+
+                            <div class="input-group-append">
+                                <!--botao-->
+                                <button id="salvarNCMTribNCM" type="submit" class="btn btn-secondary pr-botoes-fundo" data-toggle="tooltip" data-placement="right" title="Salvar NCM em Massa">
+
+                                    <i style="font-size:1.3em;" class="fas fa-save"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-2 p-2 mb-0">
+                        <label class="pr-fontalternativa">Dados referente ao NCM</label>
+                        <div class="input-group input-group-sm">
+                            <!--input-->
+
+                            <select id="selAlterar" class="pr-fontalternativa form-control form-control-sm" style="max-width:100% !important;">
+
+                                <option value="1">Não Alterar</option>
+                                <option value="2">Alterar</option>
+                                <option value="3">Anular Cest</option>
+
+
+                            </select>
+
+                            <div class="input-group-append">
+                                <!--botao-->
+                                <button id="mesmoNCM" type="submit" class="btn btn-secondary pr-botoes-fundo" data-toggle="tooltip" data-placement="right" title="Salvar NCM em Massa">
+
+                                    <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-2 p-2 mb-0" style="display:none;" id="mudarValoresCest">
+                        <label class="pr-fontalternativa">Cest</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" placeholder="Cest aqui" name="cest" id="cest" onkeypress="return onlynumber();" size=10 maxlength=10 />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-8 p-2 mb-0" style="display:none" id="mudarValoresSetorFecp">
+                        <label class="pr-fontalternativa">Setor</label>
+                        <div class="input-group input-group-sm">
+                            @Html.DropDownList("IdSetor", new SelectList(ViewBag.Setor, "id", "descricao"), "Escolha o setor", new { @class = "form-control form-control-sm dropdown", @style = "max-width:100% !important;" })
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+                <div class="row" style="display:none" id="mudarValoresNatRec">
+
+                    <div class="form-group col-lg-10 p-2 mb-0">
+                        <label class="pr-fontalternativa">Natureza da Receita</label>
+                        <div class="input-group input-group-sm">
+                            @Html.DropDownList("CodReceita", new SelectList(ViewBag.NatReceita, "id", "descricao"), "Escolha a Natureza da Receita", new { @class = "form-control form-control-sm dropdown", @style = "max-width:100% !important;" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-lg-2 p-2 mb-0">
+                        <label class="pr-fontalternativa">FECP</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm decimal" name="fecp" id="fecp" style="min-width:100%;" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <!--Campos para serem alterados-->
+
+
+
+                <div class="row" style="display:none" id="mudarValoresTab">
+                    <div class="form-group col-lg-12 p-2 mb-0">
+                        <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                            <div class="card-body">
+
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#piscofins" role="tab" aria-controls="piscofins" aria-selected="true">Pis/Cofins</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#saida" role="tab" aria-controls="saida" aria-selected="false">ICMS Saída</a>
+
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#entrada" role="tab" aria-controls="entrada" aria-selected="false">ICMS Entrada</a>
+
+                                    </li>
+
+
+                                </ul>
+
+                                <div class="tab-content p-2" id="myTabContent" style="border:none;">
+
+                                    <div class="tab-pane fade active show" id="piscofins" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab PIS COFINS-->
+                                        <div class="row" style="margin-top:-8px;">
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Pis/Cofins
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Entrada</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstEntPC">Cst Pis/Cofins E</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstEntPisCofins", new SelectList(ViewBag.CstEntradaPisCofins, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstEntPC" })
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <label class="pr-fonte-label" for="idCstEntPC">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="cstEntradaPisCofins" id="cstESPC" style="min-width:100%;" readonly />
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alpE">Aliq Pis E</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alpE" id="alpE" style="min-width:100%;" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alcE">Aliq Cofins E</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alcE" id="alcE" style="min-width:100%;" />
+
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                        </fieldset>
+
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Saida</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstEntPC">Cst Pis/Cofins S</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstSaiPisCofins", new SelectList(ViewBag.CstSaidaPisCofins, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstSaiPC" })
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <label class="pr-fonte-label" for="idCstEntPC">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="cstSPC" id="cstSPC" style="min-width:100%;" readonly />
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alpE">Aliq Pis S</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alpS" id="alpS" style="min-width:100%;" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alcE">Aliq Cofins S</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alcS" id="alcS" style="min-width:100%;" />
+
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                        </fieldset>
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa" style="width:150px !important;">Fundamento Legal</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-12">
+                                                                    <label class="pr-fonte-label" for="legisPC">Legislação para Pis/Cofins</label>
+                                                                    <div class="input-group mb-3">
+                                                                        @Html.DropDownList("IdFundamentoLegal", new SelectList(ViewBag.FundLegalPC, "id", "fundLegal"), "Fundamento Legal", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </fieldset>
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="saida" role="tabpanel" aria-labelledby="profile-tab">
+                                        <!--Tab Venda Ata Contribuinte-->
+                                        <div class="row">
+
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Venda varejo para Consumidor Final
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                        <!--Tab Venda Varejo Consumidor Final-->
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Cst</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstVeVarCF">Código Cst</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstVendaVarejoConsFinal", new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeVarCF", @name = "cstVendaVarejoConsFinal" })
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-10">
+                                                                    <label class="pr-fonte-label" for="idCstVarCF">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="desVenVarCF" id="desVenVarCF" style="min-width:100%;" readonly />
+                                                                </div>
+
+
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                                            <div class="form-row">
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVeVarCF">Aliq ICMS Venda</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVeVarCF" id="alVeVarCF" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVeVarCFSt">Aliq ICMS ST </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVeVarCFSt" id="alVeVarCFSt" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcVeVarCF">Red.Base Calc ICMS </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcVeVarCF" id="rBcVeVarCF" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcSTVeVarCF">Red.Base Calc ICMS ST</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcSTVeVarCF" id="rBcSTVeVarCF" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Venda varejo para Contribuinte
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                        <!--Tab Venda Varejo Contribuinte-->
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Cst</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstVeVarCont">Código Cst</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstVendaVarejoCont", new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeVarCont", @name = "cstVendaVarejoCont" })
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-10">
+                                                                    <label class="pr-fonte-label" for="idCstVarCont">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="desVenVarCont" id="desVenVarCont" style="min-width:100%;" readonly />
+                                                                </div>
+
+
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                                            <div class="form-row">
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVeVarCont">Aliq ICMS Venda</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVeVarCont" id="alVeVarCont" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVeVarContSt">Aliq ICMS ST </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVeVarContSt" id="alVeVarContSt" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcVeVarCont">Red.Base Calc ICMS </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcVeVarCont" id="rBcVeVarCont" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcSTVeVarCont">Red.Base Calc ICMS ST</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcSTVeVarCont" id="rBcSTVeVarCont" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Venda atacado para Contribuinte
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                        <!--Tab Venda Ata Contribuinte-->
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Cst</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstVeAtaCont">Código Cst</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstVendaAtaCont", new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeAtaCont", @name = "cstVendaAtaCont" })
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="col-lg-10">
+                                                                    <label class="pr-fonte-label" for="idCstVeAtaCont">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="desVenAtaCont" id="desVenAtaCont" style="min-width:100%;" readonly />
+                                                                </div>
+
+
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                                            <div class="form-row">
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVaC">Aliq ICMS Venda</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="aliqIcmsVendaAtaCont" id="alVaC" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVaCSt">Aliq ICMS ST </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="aliqIcmsSTVendaAtaCont" id="alVaCSt" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcVaC">Red.Base Calc ICMS </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="redBaseCalcIcmsVendaAtaCont" id="rBcVaC" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcSTVaC">Red.Base Calc ICMS ST</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="redBaseCalcIcmsSTVendaAtaCont" id="rBcSTVaC" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Venda atacado para Simples Nacional
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                        <!--Tab Venda Ata Simples Nacional-->
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Cst</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="idCstVeAtaSN">Código Cst</label>
+                                                                    <div class="input-group">
+                                                                        @Html.DropDownList("CstVendaAtaSimpNacional", new SelectList(ViewBag.CstGeral, "descricao", "codigo"), "CST", new { @class = "form-control form-control-sm dropdown", @id = "idCstVeAtaSN", @name = "cstVendaAtaSimpNacional" })
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-10">
+                                                                    <label class="pr-fonte-label" for="idCstVSN">Descrição</label>
+                                                                    <input type="text" class="form-control form-control-sm" name="desVenSN" id="desVenSN" style="min-width:100%;" readonly />
+                                                                </div>
+
+
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa">Aliquotas</legend>
+                                                            <div class="form-row">
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVSN">Aliq ICMS Venda</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVSN" id="alVSN" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="alVSNSt">Aliq ICMS ST </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="alVSNSt" id="alVSNSt" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcVSN">Red.Base Calc ICMS </label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcVSN" id="rBcVSN" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="pr-fonte-label" for="rBcSTVSN">Red.Base Calc ICMS ST</label>
+                                                                    <input type="text" class="form-control form-control-sm decimal" name="rBcSTVSN" id="rBcSTVSN" style="min-width:100%;" placeholder="Digite Aliquota (%)" />
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12 p-2 mb-0">
+
+                                                <div class="card p-1" style="border:1.8px solid #ccc !important;">
+                                                    <div class="card-header" style="font-weight:600 !important;">
+                                                        Legislação para ICMS Saída
+                                                    </div>
+                                                    <div class="card-body">
+
+                                                        <fieldset class="pr-fonte-label p-1" style="border: 1px solid #ccc; margin-top:5px;">
+                                                            <legend class="pr-fontalternativa" style="width:150px !important;">Fundamento</legend>
+                                                            <div class="form-row">
+                                                                <div class="col-lg-8">
+
+                                                                    <div class="input-group mb-3">
+                                                                        @Html.DropDownList("IdFundLegalSaidaICMS", new SelectList(ViewBag.FundLegalSaida, "id", "fundLegal"), "Fundamento Legal Saída ICMS", new { @class = "form-control form-control-sm dropdown", @style = "min-width:100%;" })
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="entrada" role="tabpanel" aria-labelledby="contact-tab">
+                                        <!--Tab Venda Ata Simples Nacional-->
+                                        entrada
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!--Tabls-->
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+
+                            <div class="overflow-auto" style="max-width: 100%; max-height: 500px;">
+
+                                <table id="table-editmassa" class="table table-sm table-striped">
+                                    <caption>Produtos que receberão o novo NCM : <label id="lab" /> </caption>
+                                    <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Código de Barras</th>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">Cest</th>
+                                            <th scope="col">NCM</th>
+                                            <th scope="col" class="text-center">Última alteração</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.Produtos)
+                                        {
+                                            <tr class="pr-td sel">
+                                                <td style="width:5%">
+                                                    @item.Id
+                                                </td>
+                                                <td style="width:10%">
+                                                    @item.codBarras
+                                                </td>
+                                                <td style="width:20%">
+                                                    @item.descricao
+                                                </td>
+
+                                                <td style="width:15%;">
+                                                    @item.cest
+                                                </td>
+                                                <td style="width:15%;">
+                                                    @item.ncm
+                                                </td>
+                                                <td style="width:10%;" class="text-center">
+                                                    @item.Data
+                                                </td>
+
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div>
+            </div><!--fim da linha-->
+
+        </div><!--fim do container do body do card-->
+
+    </div><!--Fim do corpo do card-->
+
+</div><!--fim do card-->
+</div><!--fim do container-->

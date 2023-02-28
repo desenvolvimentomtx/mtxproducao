@@ -1,0 +1,117 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MatrizTributaria.Models.Empresa>
+@{ ViewBag.Title = "Empresa"; }
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Empresas - LISTAGEM
+            @RenderPage("~/Views/Acoes/botoes2.cshtml")
+            @*<a data-toggle="tooltip" data-placement="right" title="Ir para gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("GfRedBCalcIcmsEntrada","Tributacao")"><i style="font-size:1.5em;" class="fas fa-chart-pie"></i>  </a>
+                <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosRedBCalcSTCompSN" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i></button>*@
+
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("Index", "Empresa", FormMethod.Get))
+                            {
+                @RenderPage("~/Views/Acoes/CamposComunsEmpresa.cshtml") <!--Renderiza os botões de ação-->}
+                            <!--Tabela-->
+                            <table id="tablepr-user" class="table table table-light table-hover thead-dark table-striped" style="border-bottom: 1px solid #021e36;">
+
+                                <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Razão Social</th>
+                                        <th>Fantasia</th>
+                                        <th>Cnpj</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>Software House</th>
+
+                                        
+
+                                    </tr>
+                                </thead>
+                                <!--Corpo da Tabela-->
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+
+                                    <tr class="pr-td">
+                                        <td style="width:2%">
+                                            @Html.DisplayFor(modelItem => item.id)
+                                        </td>
+                                        <td style="width:20%">
+                                            @Html.DisplayFor(modelItem => item.razacaosocial)
+                                        </td>
+                                        <td style="width:5%">
+                                            @Html.DisplayFor(modelItem => item.fantasia)
+                                        </td>
+
+                                        <td style="width:10%">
+                                            @Html.DisplayFor(modelItem => item.cnpj)
+                                        </td>
+                                        <td style="width:5%">
+                                            @Html.DisplayFor(modelItem => item.cidade)
+                                        </td>
+                                        <td style="width:5%">
+                                            @Html.DisplayFor(modelItem => item.estado)
+                                        </td>
+                                        <td style="width:5%">
+                                            @Html.DisplayFor(modelItem => item.SoftwareHouse.Nome)
+                                        </td>
+
+
+
+                                    </tr>            }
+                                </tbody>
+
+                            </table>
+                            <!--Rodape-->
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <p class="pr-fontanternativa">
+                                        <span class="pr-fontalternativa"> Página @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</span>
+                                    </p>
+                                </div>
+
+                                <div style="float:right;" class="p-2 pr-fontalternativa">
+                                    @Html.PagedListPager(
+                                              Model, page => Url.Action("Index", new
+                                              {
+                                                  page,
+                                                  filtroCorrente = ViewBag.FiltroCorrente,
+                                                  filtroEmpresa = ViewBag.FiltroCorrenteEmpresa,
+                                                  numeroLinhas = ViewBag.NumeroLinhas,
+                                              }),
+                                              new PagedListRenderOptions()
+                                              {
+                                                  LiElementClasses = new List<string>
+                                                  {
+                                                        "page-item"
+  }
+                                              }
+
+                                              )
+
+
+                                </div>
+                            </div>
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--fim da coluna de 10-->
+                </div><!--fim da linha-->
+
+
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

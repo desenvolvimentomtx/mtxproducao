@@ -1,0 +1,63 @@
+﻿<div class="container-fluid">
+    <div class="row pl-1">
+
+
+        <div class="form-group col-lg-2">
+            <label class="pr-fontalternativa">UF Origem</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="ufOrigem" name="ufOrigem">
+                    <option value="null">UF de Origem</option>
+                    @foreach (var item in ViewBag.EstadosOrigem)
+                    {
+                        if (item.uf == ViewBag.UfOrigem)
+                        {
+        <option selected value="@item.uf">@item.uf</option> }
+                        else
+                        {
+        <option value="@item.uf">@item.uf</option>}
+
+                    }
+                </select>
+
+
+            </div><!--fim div input-->
+
+        </div><!--fim coluna 2-->
+
+        <div class="form-group col-lg-2">
+            <label class="pr-fontalternativa">UF Destino</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="ufDestino" name="ufDestino">
+                    <option value="null">UF de Destino</option>
+                    @foreach (var item in ViewBag.EstadosDestinos)
+                    {
+                        if (item.uf == ViewBag.UfDestino)
+                        {
+        <option selected value="@item.uf">@item.uf</option> }
+                        else
+                        {
+        <option value="@item.uf">@item.uf</option>}
+
+                    }
+                </select>
+
+
+                <div class="input-group-append">
+                    <button data-toggle="tooltip" data-placement="right" title="Aplicar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                        <i style="font-size:1.3em;" class="fas fa-search"></i>
+                    </button>
+                </div><!--fim do appende-->
+            </div><!--fim div input-->
+        </div><!--fim coluna 2-->
+
+
+
+
+
+
+    </div><!--linha do container do body-->
+</div> <!--container do body-->

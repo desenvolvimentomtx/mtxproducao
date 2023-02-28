@@ -1,0 +1,106 @@
+﻿@model IEnumerable<MatrizTributaria.Models.TributacaoEmpresa>
+@{
+    ViewBag.Title = "EditClienteAliqIcmsSTVenAtaSNMassaManualModal";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Alterar Alíquota Icms ST Venda Atacado para Simples Nacional no Cliente Manualmente
+            <a href='javascript:history.go(-1)' data-toggle="tooltip" data-placement="right" title="Voltar à tabela" type="button" id="voltar" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-undo"></i></a>
+
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container-fluid ml-1 mt-1">
+                            <div class="form-group row">
+
+                                <label class="col-form-label col-lg-3 pl-1  pr-fontalternativa" for="linhas">Digite a nova Alíquota para os produtos abaixo:</label>
+
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control form-control-sm mt-1 pr-aliq decimal" name="aliqIcmsSTVenAtaSNClienteManual" id="aliqIcmsSTVenAtaSNClienteManual" style="min-width:100%;" />
+
+                                </div>
+                                <div class="col-lg-2 ml-1 mt-1">
+                                    <button id="salvaraliqIcmsSTVenAtaSNClienteManual" type="submit" class="btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="right" title="Salvar Alíquota em Massa">
+                                        <i style="font-size:1.3em;" class="fas fa-save"></i>
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+
+                            <div class="overflow-auto" style="max-width: 100%; max-height: 500px;">
+
+                                <table id="table-editmassa" class="table table-sm table-striped">
+                                    <caption class="pr-fontalternativa">Produtos que receberão a nova Alíquota : <label class="pr-fontalternativa" id="lab" /> </caption>
+                                    <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                        <tr>
+                                            <th class="align-middle">Id</th>
+                                            <th class="align-middle">Código de Barras</th>
+                                            <th class="align-middle">Descrição do Produto</th>
+                                            <th class="align-middle text-center">Cest</th>
+                                            <th class="align-middle text-center">Alíquota</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="pr-td sel">
+                                                <td style="width:3%">
+                                                    @Html.DisplayFor(modelItem => item.ID)
+                                                </td>
+                                                <td style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                                </td>
+                                                <td style="width:20%">
+                                                    @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                                </td>
+                                                <td class="text-center" style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.PRODUTO_CEST)
+                                                </td>
+                                                <td class="text-center" style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.ALIQ_ICMS_ST_VENDA_ATA_SIMP_NACIONAL)
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

@@ -1,0 +1,138 @@
+﻿@model MatrizTributaria.Models.ViewModels.TokenViewModel
+@{
+    ViewBag.Title = "GerarToken";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Gerar Token Software House - EDITAR
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("GerarToken", "Token", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group row">
+                                    <div class="col-md-offset-2 col-md-12">
+                                        <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                            <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                                <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-save"></i>Salvar</button>
+                                                <a href="@Url.Action("Index", "Token")" class="btn btn-secondary pr-botoes-fundo border-0 "><i style="font-size:1.5em;" class="fas fa-ban"></i>Cancelar</a>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    @if (ViewBag.Mensagem == "Data não pode ser nula")
+                                    {
+                                        <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                            <span>Data de Vencimento não pode ser nulla</span>
+
+
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    }
+                                    @if (ViewBag.MensagemChave != null)
+                                    {
+                                        if (ViewBag.MensagemChave != "")
+                                        {
+
+                                            <div class="alert alert-danger alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                                                <span>A chave para esta software house será mudada, caso continue!</span>
+
+
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+
+                                @*<div class="form-row">*@
+                                    @*<div class="col-lg-2 mb-3">
+                                        <label class="pr-fonte-label" for="idSofwareHouse">Id:</label>
+
+                                        @Html.TextBoxFor(m => m.Id, new { @class = "form-control form-control-sm", @readonly = true, @name = "idSofwareHouse", id = "idSofwareHouse" })
+
+                                    </div>*@
+                                    @*<div class="col-lg-5 mb-3">
+                                        <label class="pr-fonte-label" for="nome">Nome:</label>
+
+                                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", @readonly = true, name = "nome" })
+
+                                    </div>*@
+
+                                    @*<div class="col-lg-5 mb-3">
+                                        <label class="pr-fonte-label" for="raz">Razão Social:</label>
+
+                                        @Html.TextBoxFor(m => m.RazaoSocial, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", @readonly = true, name = "raz" })
+
+                                    </div>*@
+
+
+                                @*</div>*@
+                                <div class="form-row">
+
+                                    @*<div class="col-lg-4 mb-3">
+            <label class="pr-fonte-label" for="cidade">Cidade:</label>
+            @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", @readonly = true, name = "cidade" })
+        </div>*@
+
+                                    @*<div class="col-lg-2 mb-3">
+            <label class="pr-fonte-label" for="estado">UF:</label>
+            @Html.TextBoxFor(m => m.Estado, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", @readonly = true, name = "estado" })
+        </div>*@
+                                    @*<div class="col-lg-4 mb-3">
+            <label class="pr-fonte-label" for="telefone">Telefone:</label>
+            @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control form-control-sm", name = "telefone", @readonly = true, id = "telefone" })
+        </div>*@
+                                    <div class="col-lg-4 mb-3">
+                                        <label class="pr-fonte-label" for="idEmpresa">Software House*</label>
+                                        @Html.DropDownListFor(m => m.idSofwareHouse, new SelectList(ViewBag.SofwareHouse, "Id", "Nome"), "Escolha a Empresa", new { @class = "form-control form-control-sm prn-select" })
+                                        @Html.ValidationMessageFor(m => m.idSofwareHouse, "", new { @class = "text-danger", role = "alert" })
+
+                                    </div>
+                                    <div class="col-lg-2 mb-3">
+                                        <label class="pr-fonte-label" for="DataVenc">Vencimento Token:</label>
+                                        @*<input class="form-control form-control-sm" id="DataVenc" name="DataVenc" type="date">*@
+                                        @Html.TextBoxFor(m => m.Vencimento, "{0:dd-MM-yyyy}", new { @class = "form-control form-control-sm prn-select", @type = "date" })
+
+
+                                    </div>
+                                </div>
+
+                                @*<div class="form-row">
+                                    <div class="col-lg-3 mb-3">
+                                        <label class="pr-fonte-label" for="ativo">Ativo:</label>
+
+
+                                        <span class="pr-fonte-label"> Sim: @Html.RadioButtonFor(m => m.Ativo, 1)</span>
+                                        <span class="pr-fonte-label"> Não: @Html.RadioButtonFor(m => m.Ativo, 0)</span>
+
+                                    </div>
+
+                                </div>*@
+
+
+                            }
+
+
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

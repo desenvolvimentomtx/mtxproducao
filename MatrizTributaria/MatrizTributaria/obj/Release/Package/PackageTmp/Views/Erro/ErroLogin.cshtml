@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="~/Content/img/preciso.ico" />
+      
+    <title id="titulo" class="pr-titulo">@ViewBag.Title</title>
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container-fluid pr-container pr-card-cad">
+        <div class="card mt-2">
+            <div class="card-header">
+                ERRO
+            </div><!--fim do cabeçalho-->
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+
+
+                            <div class="form-row">
+                                <div class="col-6">
+
+                                    <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                        <div style="width:5%;" id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                            <a href='http://precisotax.com.br/' data-toggle="tooltip" data-placement="right" title="Voltar à tabela" type="button" id="voltar" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0">Acessar PrecisoTax</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-lg-6">
+
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>@ViewBag.Mensagem</strong>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div><!--Fim da coluna de 10-->
+                    </div><!--fim da linha-->
+                </div><!--Fim do container do body do card-->
+            </div><!--fim do body do card-->
+        </div><!--Fim do card-->
+    </div><!--Fim do container-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquerydatatables")
+    @Scripts.Render("~/bundles/adm-script")<!--Script do administrador -->
+    <script src="~/Scripts/toastr.min.js"></script>
+   
+    @Scripts.Render("~/bundles/wztooltip")
+    @Scripts.Render("~/bundles/jquerymaskedinput")
+    @Scripts.Render("~/bundles/jquerymask")
+    <script src="~/Scripts/admin/jquery.blockUI.js"></script>
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+</body>
+</html>

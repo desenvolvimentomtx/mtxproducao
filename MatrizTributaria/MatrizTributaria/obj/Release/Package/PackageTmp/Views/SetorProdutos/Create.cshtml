@@ -1,0 +1,50 @@
+﻿
+@model MatrizTributaria.Models.ViewModels.SetorProdutosViewModel
+@{
+    ViewBag.Title = "SetorProdutos";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Setor de Produtos - NOVO
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container-fluid">
+
+                            @using (Html.BeginForm("Create", "SetorProdutos", FormMethod.Post, new { @class = "needs-validation" }))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                <div class="form-group row">
+                                    <div class="col-md-offset-2 col-md-12">
+                                        <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                            <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                                <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-save"></i>Salvar</button>
+                                                <a class="btn btn-secondary pr-botoes-fundo border-0 " href="@Url.Action("Index", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-ban"></i>Cancelar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-lg-6 mb-3">
+                                        <label class="pr-fonte-label" for="descricao">Descrição*</label>
+                                        @Html.TextBoxFor(m => m.descricao, new { @class = "form-control form-control-sm pr-input", onkeyup = "maiuscula(this);", placeholder = "Digite a descrição do Setor", name = "desc" })
+
+                                        @Html.ValidationMessageFor(m => m.descricao, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                            }
+
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

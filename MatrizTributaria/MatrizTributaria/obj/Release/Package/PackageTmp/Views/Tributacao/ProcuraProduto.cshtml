@@ -1,0 +1,124 @@
+﻿@using PagedList.Mvc
+@using MatrizTributaria.Models
+@model PagedList.IPagedList<MatrizTributaria.Models.Produto>
+@{
+    ViewBag.Title = "ProcuraProduto";
+}
+
+<div class="modal-dialog" style="z-index:99999">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:#cd3301; font-weight:900;">Cadastro de Produtos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <!--Formulario de busca-->
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("ProcuraProduto", "Produto", FormMethod.Get))
+                            {
+
+                                <div class="form-group row ">
+
+
+                                    <label class="col-form-label col-lg-1 pl-1  pr-fontalternativa" for="produtoFor">Produto:</label>
+
+                                    <div class="col-lg-8">
+                                        @Html.TextBox("SearchString", null, new { @class = "pr-fontalternativa   form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto", style = "width:100%;", id = "btnClick" })
+                                    </div>
+                                    <div class="col-lg-2 pl-1">
+                                        <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0">
+                                            <i style="font-size:1.3em;" class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+                            }
+                            <!--Tabela-->
+                            <table style="border-bottom: 1px solid #111;" class="table table-striped table-hover" id="tablepr-2">
+                                <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                    <tr>
+                                        <th>
+                                            Id
+                                        </th>
+                                        <th>
+                                            Código de Barras
+                                        </th>
+                                        <th class="pr-actionlink">
+                                            <i style="font-size:1.1em;" class="fas fa-sort pr-actionlink"></i>
+                                            @Html.ActionLink("Produto", "ProcuraProduto", new { sortOrder = ViewBag.ProdutoParam })
+
+                                        </th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <!--Corpo da Tabela-->
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="pr-td">
+                                            <td style="width:5%">
+                                                @Html.DisplayFor(modelItem => item.Id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.codBarras)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.descricao)
+                                            </td>
+
+
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                            <!--Rodape-->
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <p class="pr-fontanternativa">
+                                        <span class="pr-fontalternativa"> Página @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</span>
+                                    </p>
+                                </div>
+
+                                <div style="float:right;" class="p-2 pr-fontalternativa">
+                                    @Html.PagedListPager(
+                                    Model, page => Url.Action("ProcuraProduto", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+                                    new PagedListRenderOptions()
+                                    {
+                                        LiElementClasses = new List<string>
+                                        {
+                                            "page-item"
+                                        }
+                                    }
+
+                                    )
+
+
+                                </div>
+                            </div>
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--fim do container do body do card-->
+
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,620 @@
+﻿
+@using PagedList.Mvc
+@using MatrizTributaria.Areas.Cliente.Models
+@model PagedList.IPagedList<MatrizTributaria.Areas.Cliente.Models.AnaliseTributaria>
+@{
+    ViewBag.Title = "TabelaPisCofins";
+}
+@RenderPage("~/Areas/Cliente/Views/Acoes/CardTabelas.cshtml") <!--Renderiza o card inicial das tabelas-->
+
+
+<div id="card-analise" class="container-fluid pr-container-2 pr-card-cad">
+    <div class="card">
+        <div class="card-header">
+            ANALISE: Aliq. Pis/Cofins<a class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnalisePisCofins","TributacaoEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-5">
+
+                        <!--Caixa Geral-->
+                        <div class="scrolling-wrapper">
+                            <div style="min-width:620px; height:inherit;" class="box">
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="4" class="pr-fonte2" scope="col">Produto</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th>
+                                                Descrição
+                                            </th>
+                                            <th>
+                                                Cód. de Barras
+                                            </th>
+                                            <th>
+                                                CEST
+                                            </th>
+                                            <th>
+                                                NCM
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr style="height:52px; border-bottom:2px solid #ccc;" class="pr-td">
+                                            <td style="width:50%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_CEST)
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                            </td>
+                                        </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+                            </div> <!--Fim primeira Caixa-->
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="scrolling-wrapper">
+
+                            <!--Segunda caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Pis Entrada</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr class="pr-td">
+                                                <td style="width:5%;">CST</td>
+
+                                                @if (item.CST_ENTRADA_PIS_COFINS == null || item.Cst_Entrada_PisCofins_INTERNO == null)
+                                                {
+                                                    <td style="text-align:center; width:10%;">
+                                                        @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.CST_ENTRADA_PIS_COFINS != item.Cst_Entrada_PisCofins_INTERNO)
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-maior">
+                                                            @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-igual">
+                                                            @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                }
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Cst_Entrada_PisCofins_INTERNO)
+
+                                                </td>
+
+
+                                            </tr><tr class="pr-td" style="border-bottom: 2px solid #ccc;">
+                                                <td style="width:5%;">Aliq</td>
+                                                @if (item.ALIQ_ENTRADA_PIS == null && item.Aliq_Ent_Pis_INTERNO == null)
+                                                {
+                                                    <td class="text-center" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_PIS)
+                                                    </td>
+                                                }
+                                                else 
+                                                {
+                                                    if (item.ALIQ_ENTRADA_PIS > item.Aliq_Ent_Pis_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_PIS)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ALIQ_ENTRADA_PIS < item.Aliq_Ent_Pis_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_PIS)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.ALIQ_ENTRADA_PIS == item.Aliq_Ent_Pis_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_PIS)
+                                                            </td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_PIS)
+                                                            </td>
+
+                                                        }
+
+
+                                                    }
+
+                                                }
+
+                                                }
+
+
+                                                
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Aliq_Ent_Pis_INTERNO)
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim Segunda caixa-->
+                            <!--Terceira caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Pis Saída</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr class="pr-td">
+                                                <td style="width:5%;">CST</td>
+
+                                                @if (item.CST_SAIDA_PIS_COFINS == null || item.Cst_Saida_PisCofins_INTERNO == null)
+                                                {
+                                                    <td style="text-align:center; width:10%;">
+                                                        @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.CST_SAIDA_PIS_COFINS != item.Cst_Saida_PisCofins_INTERNO)
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-maior">
+                                                            @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-igual">
+                                                            @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                }
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Cst_Saida_PisCofins_INTERNO)
+
+                                                </td>
+
+
+                                            </tr><tr class="pr-td" style="border-bottom: 2px solid #ccc;">
+                                                <td style="width:5%;">Aliq</td>
+                                                @if (item.ALIQ_SAIDA_PIS == null && item.Aliq_Saida_Pis_INTERNO == null) 
+                                                {
+                                                     <td class="text-center" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_PIS)
+                                                    </td>
+                                                }
+                                                else { 
+                                                 if (item.ALIQ_SAIDA_PIS > item.Aliq_Saida_Pis_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_PIS)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ALIQ_SAIDA_PIS < item.Aliq_Saida_Pis_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_PIS)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.ALIQ_SAIDA_PIS == item.Aliq_Saida_Pis_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_PIS)
+                                                            </td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_PIS)
+                                                            </td>
+
+                                                        }
+
+
+                                                    }
+
+                                                }
+                                                }
+
+
+                                               
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Aliq_Saida_Pis_INTERNO)
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim terceira caixa-->
+                            <!--Terceira caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Cofins Entrada</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr class="pr-td">
+                                                <td style="width:5%;">CST</td>
+
+                                                @if (item.CST_ENTRADA_PIS_COFINS == null || item.Cst_Entrada_PisCofins_INTERNO == null)
+                                                {
+                                                    <td style="text-align:center; width:10%;">
+                                                        @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.CST_ENTRADA_PIS_COFINS != item.Cst_Entrada_PisCofins_INTERNO)
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-maior">
+                                                            @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-igual">
+                                                            @Html.DisplayFor(modelItem => item.CST_ENTRADA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                }
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Cst_Entrada_PisCofins_INTERNO)
+
+                                                </td>
+
+
+                                            </tr><tr class="pr-td" style="border-bottom: 2px solid #ccc;">
+                                                <td style="width:5%;">Aliq</td>
+                                                @if (item.ALIQ_ENTRADA_COFINS == null && item.Aliq_Ent_Cofins_INTERNO == null) 
+                                                {
+                                                    <td class="text-center" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_COFINS)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ALIQ_ENTRADA_COFINS > item.Aliq_Ent_Cofins_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_COFINS)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ALIQ_ENTRADA_COFINS < item.Aliq_Ent_Cofins_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_COFINS)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.ALIQ_ENTRADA_COFINS == item.Aliq_Ent_Cofins_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_COFINS)
+                                                            </td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_ENTRADA_COFINS)
+                                                            </td>
+
+                                                        }
+
+
+                                                    }
+
+                                                }
+                }
+
+                                               
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Aliq_Ent_Cofins_INTERNO)
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim terceira caixa-->
+                            <!--Terceira caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Cofins Saída</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr class="pr-td">
+                                                <td style="width:5%;">CST</td>
+
+                                                @if (item.CST_SAIDA_PIS_COFINS == null || item.Cst_Saida_PisCofins_INTERNO == null)
+                                                {
+                                                    <td style="text-align:center; width:10%;">
+                                                        @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.CST_SAIDA_PIS_COFINS != item.Cst_Saida_PisCofins_INTERNO)
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-maior">
+                                                            @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; width:10%;" class="pr-td-igual">
+                                                            @Html.DisplayFor(modelItem => item.CST_SAIDA_PIS_COFINS)
+
+                                                        </td>
+                                                    }
+                                                }
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Cst_Saida_PisCofins_INTERNO)
+
+                                                </td>
+
+
+                                            </tr><tr class="pr-td" style="border-bottom: 2px solid #ccc;">
+                                                <td style="width:5%;">Aliq</td>
+                                                @if (item.ALIQ_SAIDA_COFINS == null && item.Aliq_Saida_Cofins_INTERNO == null) 
+                                                {
+                                                 <td class="text-center" style="width:5%">
+                                                     @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_COFINS)
+                                                 </td>
+                                                }
+                                                else
+                                                {
+                                                if (item.ALIQ_SAIDA_COFINS > item.Aliq_Saida_Cofins_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_COFINS)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ALIQ_SAIDA_COFINS < item.Aliq_Saida_Cofins_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_COFINS)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.ALIQ_SAIDA_COFINS == item.Aliq_Saida_Cofins_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_COFINS)
+                                                            </td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.ALIQ_SAIDA_COFINS)
+                                                            </td>
+
+                                                        }
+
+
+                                                    }
+
+                                                }
+                                             }
+
+                                                
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Aliq_Saida_Cofins_INTERNO)
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim terceira caixa-->
+
+
+
+
+                        </div> <!--Fim caixa wrapper-->
+
+
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+                <div class="d-flex">
+                    <div class="mr-auto p-2">
+
+                        <p class="pr-fontanternativa">
+                            <span class="pr-fontalternativa">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: @Model.TotalItemCount </span>
+                        </p>
+                    </div>
+
+                    <div style="float:right;" class="p-2 pr-fontalternativa">
+                        @Html.PagedListPager(
+                             Model,
+                             pagina => Url.Action("TabelaPisCofins",
+                             new
+                             {
+                                 pagina,
+                                 ordenacao = ViewBag.Ordenacao,
+                                 filtroCorrente = ViewBag.FiltroCorrente,
+                                 filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                 filtroCorrenteCest = ViewBag.FiltroCorrenteCest,
+                                 numeroLinhas = ViewBag.NumeroLinhas
+                                 
+                             }),
+                             new PagedListRenderOptions()
+                             {
+                                 LiElementClasses = new List<string> { "page-item" }
+                             })
+                    </div>
+
+                </div>
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

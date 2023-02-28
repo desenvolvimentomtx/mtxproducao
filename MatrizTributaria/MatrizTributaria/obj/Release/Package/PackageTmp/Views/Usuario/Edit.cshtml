@@ -1,0 +1,216 @@
+﻿@model MatrizTributaria.Models.Usuario
+@{
+    ViewBag.Title = "Usuario";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    @using (Html.BeginForm())
+    {
+<div class="card mt-2">
+    <div class="card-header">
+        <span class="prn-font-header">Cadastro de Usuários - EDITAR</span>
+
+        <a class="float-lg-right dis-blockbtn btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="right" title="Cancelar Ação" href="@Url.Action("Index", "Usuario")"><i style="font-size:1.6em;" class="fas fa-ban"></i></a><!--Novo-->
+        <button type="submit" data-toggle="tooltip" data-placement="right" title="Salvar Registro" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.6em;" class="fas fa-save"></i></button><!--Salvar-->
+
+    </div><!--fim do cabeçalho-->
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="container-fluid">
+
+                        @Html.AntiForgeryToken()
+                        @*<div class="form-group row">
+                                <div class="col-md-offset-2 col-md-12">
+                                    <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                        <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-save"></i>Salvar</button>
+                                            <a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary pr-botoes-fundo border-0 "><i style="font-size:1.5em;" class="fas fa-ban"></i>Cancelar</a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="form-row">
+                            <div class="col-lg-7 mb-3">
+                                <label class="pr-fonte-label" for="nome">Nome:</label>
+
+                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do usuário", name = "nome" })
+                                @Html.ValidationMessageFor(m => m.nome, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label class="pr-fonte-label" for="email">E-mail:</label>
+
+                                @Html.TextBoxFor(m => m.email, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", placeholder = "Digite o e-mail do usuário", name = "email" })
+                                @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="estado">Sexo*</label>
+                                @*@Html.DropDownListFor(m => m.sexo, new SelectList(Enum.GetValues(typeof(MatrizTributaria.Models.GeneroEnum))), "Selecione um Sexo", htmlAttributes: new { @class = "form-control form-control-sm", id = "sexo", name = "sexo" })
+                                    @Html.ValidationMessageFor(m => m.sexo, "", new { @class = "text-danger", role = "alert" })*@
+                                <select class="form-control form-control-sm" data-val="true" data-val-required="O campo Sexo é obrigatório" id="sexo" name="sexo">
+                                    @if (ViewBag.Sexo == "M")
+                                    {
+
+
+                    <option>FEMININO</option>
+
+
+                                        <option selected>MASCULINO</option>
+                                    }
+                                    else
+                                    {
+
+                    <option selected>FEMININO</option>
+                                        <option>MASCULINO</option>
+                                    }
+                                </select>
+                            </div>
+
+
+                            @*<div class="col-lg-3 mb-3">
+
+                                    <fieldset>
+                                        <legend class="pr-fonte-label"> Sexo</legend>
+                                        <span class="pr-fonte-label">Masculino: @Html.RadioButtonFor(m => m.sexo, "M")</span>
+                                        <span class="pr-fonte-label">Feminino  : @Html.RadioButtonFor(m => m.sexo, "F")</span><br />
+                                        @Html.ValidationMessageFor(m => m.sexo, "", new { @class = "text-danger", role = "alert" })
+                                    </fieldset>
+
+
+                                </div>*@
+
+                        </div>
+                        <div class="form-row">
+                            <div class="col-lg-4 mb-3">
+                                <label class="pr-fonte-label" for="logradouro">Logradouro:</label>
+                                @Html.TextBoxFor(m => m.logradouro, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Rua, Avenida, Viela, Travessa", name = "logradouro" })
+                                @Html.ValidationMessageFor(m => m.logradouro, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+                            <div class="col-lg-1 mb-3">
+                                <label class="pr-fonte-label" for="numero">Número:</label>
+                                @Html.TextBoxFor(m => m.numero, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Nº", name = "numero" })
+                                @Html.ValidationMessageFor(m => m.numero, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="cep">Cep:</label>
+                                @Html.TextBoxFor(m => m.cep, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cep da Rua", name = "cep", id = "cep" })
+                                @Html.ValidationMessageFor(m => m.cep, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <label class="pr-fonte-label" for="cidade">Cidade:</label>
+                                @Html.TextBoxFor(m => m.cidade, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cidade de residência", name = "cidade" })
+                                @Html.ValidationMessageFor(m => m.cidade, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="estado">UF:</label>
+                                @Html.DropDownListFor(m => m.estado, new SelectList(Enum.GetValues(typeof(MatrizTributaria.Models.EstadosEnun))), "Selecione uma UF", htmlAttributes: new { @class = "form-control form-control-sm", id = "estado", name = "estado" })
+                                @Html.ValidationMessageFor(m => m.estado, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="telefone">Telefone:</label>
+                                @Html.TextBoxFor(m => m.telefone, new { @class = "form-control form-control-sm", name = "telefone", placeholder = "Telefone com DDD", id = "telefone" })
+                                @Html.ValidationMessageFor(m => m.telefone, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="idNivel">Nivel Acesso:</label>
+                                @Html.DropDownListFor(m => m.idNivel, new SelectList(ViewBag.Niveis, "id", "descricao"), "Escolha o Acesso", new { @class = "form-control form-control-sm prn-select", id = "idNivel", name = "idNivel" })
+                                @Html.ValidationMessageFor(m => m.idNivel, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <label class="pr-fonte-label" for="idEmpresa">Empresa</label>
+                                @Html.DropDownListFor(m => m.idEmpresa, new SelectList(ViewBag.Empresas, "id", "razacaosocial"), "Escolha a Empresa", new { @class = "form-control form-control-sm prn-select" })
+                                @Html.ValidationMessageFor(m => m.idEmpresa, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="senha">Senha</label>
+                                @Html.PasswordFor(m => m.senha, new { @class = "form-control form-control-sm", name = "senha", placeholder = "Senha" })
+                                @Html.ValidationMessageFor(m => m.senha, "", new { @class = "text-danger", role = "alert" })
+                            </div>
+
+                        </div><div class="form-row">
+
+
+                            <div class=" form-group col-lg-2 mb-3">
+
+
+
+                                <label class="pr-fontalternativa">Mudar senha primeiro acesso?*</label>
+                                <div class="input-group input-group-sm">
+                                    <select class="pr-fontalternativa form-control form-control-sm" id="primeiro_acesso" name="primeiro_acesso">
+
+                                        if (ViewBag.MudarSenha == 1)
+                                        {
+                                        <option value=1 selected>Sim</option>
+                                        <option value=0>Não</option> }
+                                        else
+                                        {
+                                        <option value=1>Sim</option>
+                                        <option selected value=0>Não</option>}
+
+
+
+                                    </select>
+
+                                </div><!--fim div input-->
+
+
+
+                            </div>
+
+
+                            <div class=" form-group col-lg-2 mb-3">
+
+                                <label class="pr-fontalternativa">Acesso a outras empresas?*</label>
+                                <div class="input-group input-group-sm">
+                                    <select class="pr-fontalternativa form-control form-control-sm" id="acesso_empresas" name="acesso_empresas">
+
+                                        @if (ViewBag.AcessoEmpresas == 1)
+                                        {
+
+
+                        <option selected value=1>Sim</option>
+
+
+                                            <option value=0>Não</option> }
+                                        else
+                                        {
+                                            <option value=1>Sim</option>
+                                                                <option selected value=0>Não</option>}
+
+
+
+                                    </select>
+
+                                </div><!--fim div input-->
+
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div><!--fim do container da tabela-->
+                </div><!--Fim da coluna de 10-->
+            </div><!--fim da linha-->
+        </div><!--Fim do container do body do card-->
+    </div><!--fim do body do card-->
+</div><!--Fim do card-->
+    }
+            </div><!--Fim do container-->
