@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MatrizTributaria",
+    "\\MatrizTributaria\\MatrizTributaria"
   ],
-  "SelectedNode": "\\MatrizTributaria.sln",
+  "SelectedNode": "\\MatrizTributaria",
   "PreviewInSolutionExplorer": false
 }
