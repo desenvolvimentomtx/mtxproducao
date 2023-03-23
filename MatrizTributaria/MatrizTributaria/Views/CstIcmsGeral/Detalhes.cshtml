@@ -1,0 +1,84 @@
+﻿@model MatrizTributaria.Models.CstIcmsGeral
+@{
+    ViewBag.Title = "CstIcmsGeral";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cst de Icms Geral - DETALHES
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="container">
+                            <div class="form-group row">
+                                <div class="col-md-offset-2 col-md-12">
+                                    <div style="background-color: ButtonFace; width:100%;" class="mb-2">
+                                        <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                            <a href='javascript:history.go(-1)' class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-directions"></i>Voltar</a>
+
+                                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary pr-botoes-fundo border-0 "><i style="font-size:1.5em;" class="fas fa-home"></i>Inicio</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+
+                                <div class="form-group row col-lg-12 pl-3 ">
+                                    <label class="col-form-label col-lg-2 pl-1 pr-fontalternativa" for="codigo">Código:</label>
+
+                                    <div class="col-lg-2">
+                                        @Html.TextBoxFor(m => m.codigo, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row col-lg-12 pl-3">
+                                    <label class="col-form-label col-lg-2 pl-1 pr-fontalternativa" for="descricao">Descrição:</label>
+
+                                    <div class="col-lg-5">
+                                        @Html.TextBoxFor(m => m.descricao, new { @class = "form-control pr-fonte", @disabled = "disabled" })
+                                    </div>
+
+
+
+                                </div>
+                                <div class="form-group row col-lg-12 pl-3">
+                                    <label class="col-form-label col-lg-2 pl-1 pr-fontalternativa" for="dataCad">Data Cad:</label>
+
+                                    <div class="col-lg-2">
+                                      
+                                        <input class="form-control pr-fonte" disabled="disabled" id="dataCad" name="dataCad" type="text" value="@Convert.ToDateTime(@ViewBag.DataCad).ToShortDateString()" />
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="form-group row col-lg-12 pl-3">
+                                    <label class="col-form-label col-lg-2 pl-1 pr-fontalternativa" for="dataAlt">Data Alt:</label>
+
+                                    <div class="col-lg-2">
+                                        <input class="form-control pr-fonte" disabled="disabled" id="dataAlt" name="dataAlt" type="text" value="@Convert.ToDateTime(@ViewBag.DataAlt).ToShortDateString()" />
+                                       
+                                       
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div> <!--Fim div-->
+
+
+
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

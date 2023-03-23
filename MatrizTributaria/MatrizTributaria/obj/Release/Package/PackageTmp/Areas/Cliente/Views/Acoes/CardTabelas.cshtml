@@ -1,0 +1,172 @@
+﻿<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            BUSCA
+            @RenderPage("~/Areas/Cliente/Views/Acoes/BotaoHome.cshtml") <!--Renderiza o botao home-->
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            <!--Nova Busca para página: Passndo o titulo como parametro representeando a action-->
+                            @using (Html.BeginForm((string)ViewBag.Title, "TributacaoEmpresa", FormMethod.Get, new { @class = "form-row" }))
+                            {
+                        <div class="form-group col-lg-2">
+                            <label class="pr-fontalternativa">UF Origem</label>
+
+                            <div class="input-group input-group-sm">
+
+                                <select class="form-control form-control-sm dropdown prn-select" id="origem" name="origem">
+                                    <option value="null">UF de Origem</option>
+                                    @foreach (var item in ViewBag.EstadosOrigem)
+                                    {
+                                        if (item.uf == ViewBag.UfOrigem)
+                                        {
+                        <option selected value="@item.uf">@item.uf</option>
+ }
+                    else
+                    {
+                        <option value="@item.uf">@item.uf</option>
+}
+
+                }
+                                </select>
+
+
+                            </div><!--fim div input-->
+
+                        </div><!--fim coluna 2-->
+
+                                        <div class="form-group col-lg-2">
+                                            <label class="pr-fontalternativa">UF Destino</label>
+
+                                            <div class="input-group input-group-sm">
+
+                                                <select class="form-control form-control-sm dropdown prn-select" id="destino" name="destino">
+                                                    <option value="null">UF de Destino</option>
+                                                    @foreach (var item in ViewBag.EstadosDestinos)
+                                                    {
+                                                        if (item.uf == ViewBag.UfDestino)
+                                                        {
+                                    <option selected value="@item.uf">@item.uf</option>
+ }
+                                else
+                                {
+                        <option value="@item.uf">@item.uf</option>
+}
+
+                }
+                                                </select>
+
+
+                                                <div class="input-group-append">
+                                                    <button data-toggle="tooltip" data-placement="right" title="Aplicar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                                                        <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                                    </button>
+                                                </div><!--fim do appende-->
+                                            </div><!--fim div input-->
+                                        </div><!--fim coluna 2-->
+                                <!--coluna de 6 PRODUTO da row-->
+                                                                        <div class="form-group col-lg-8">
+                                                                            <label class="pr-fontalternativa">Produto</label>
+                                                                            <div class="input-group input-group-sm">
+                                                                                @if (ViewBag.FiltroCorrente == null)
+                                                                                {
+                                                                @Html.TextBox("ProcuraPor", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou o código de barras" }) }
+                                                                                else
+                                                                                {
+                                                                @Html.TextBox("ProcuraPor", (string)ViewBag.FiltroCorrente, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou o código de barras" })}
+                                                                                <div class="input-group-append">
+                                                                                    <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo"
+                                                                                            type="submit" id="button-addon2">
+                                                                                        <i style="font-size:1.3em;" class="fas fa-search"></i>
+                                                                                    </button>
+                                                                                </div><!--fim botão apend-->
+
+                                                                            </div><!--fim imput-group produto-->
+
+                                                                        </div><!--fim coluna de 5--> <!--Coluna de 2 CEST da row-->
+                                                                                                        <div class="form-group col-lg-2">
+                                                                                                            <label class="pr-fontalternativa">CEST</label>
+                                                                                                            <div class="input-group input-group-sm">
+                                                                                                                @if (ViewBag.FiltroCorrenteCest == null)
+                                                                                                                {
+                                                                                                @Html.TextBox("ProcuraCEST", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o CEST", id = "cest" }) }
+                                                                                                                else
+                                                                                                                {
+                                                                                                @Html.TextBox("ProcuraCEST", (string)ViewBag.FiltroCorrenteCest, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o CEST", id = "cest" })}
+                                                                                                                <div class="input-group-append">
+                                                                                                                    <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo"
+                                                                                                                            type="submit" id="button-cest">
+                                                                                                                        <i style="font-size:1.3em;" class="fas fa-search"></i>
+                                                                                                                    </button>
+                                                                                                                </div><!--fim botão apend-->
+                                                                                                            </div><!--Finm input cest-->
+                                                                                                        </div><!--fim coluna de 2 --> <!--Coluna de 2 NCM da row-->
+                                                                                                                                        <div class="form-group col-lg-2">
+                                                                                                                                            <label class="pr-fontalternativa">NCM</label>
+                                                                                                                                            <div class="input-group input-group-sm">
+                                                                                                                                                @if (ViewBag.FiltroCorrenteNCM == null)
+                                                                                                                                                {
+                                                                                                                                @Html.TextBox("ProcuraNCM", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM" }) }
+                                                                                                                                                else
+                                                                                                                                                {
+                                                                                                                                @Html.TextBox("ProcuraNCM", (string)ViewBag.FiltroCorrenteNCM, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM" })}
+                                                                                                                                                <div class="input-group-append">
+                                                                                                                                                    <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo"
+                                                                                                                                                            type="submit" id="button-ncm">
+                                                                                                                                                        <i style="font-size:1.3em;" class="fas fa-search"></i>
+                                                                                                                                                    </button>
+                                                                                                                                                </div><!--fim botão apend-->
+                                                                                                                                            </div><!--Finm input cest-->
+                                                                                                                                        </div><!--fim coluna de 2 --> <!--Coluna de 2 da linha-->
+                                                                                                                                                                        <div class="form-group col-lg-2">
+                                                                                                                                                                            <label class="pr-fontalternativa">Linhas</label>
+                                                                                                                                                                            <div class="input-group input-group-sm">
+                                                                                                                                                                                <select class="pr-fontalternativa form-control form-control-sm" id="numeroLinhas" name="numeroLinhas">
+                                                                                                                                                                                    @if (ViewBag.NumeroLinhas == 5)
+                                                                                                                                                                                    {
+                                                                                                                                                                    <option selected>5</option>
+                                                                                                                                                                                        <option>15</option>
+                                                                                                                                                                                                            <option>25</option> }
+                                                                                                                                                                                                                            else
+                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                if (ViewBag.NumeroLinhas == 15)
+                                                                                                                                                                                                                                {
+                                                                                                                                                                                                            <option>5</option>
+                                                                                                                                                                                                                                    <option selected>15</option>
+                                                                                                                                                                                                                                                            <option>25</option> }
+                                                                                                                                                                                                                                                                                else
+                                                                                                                                                                                                                                                                                {
+                                                                                                                                                                                                                                                            <option>5</option>
+                                                                                                                                                                                                                                                                                    <option>15</option>
+                                                                                                                                                                                                                                                                                                            <option selected>25</option>}
+
+                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                </select>
+                                                                                                                                                                                <div class="input-group-append">
+                                                                                                                                                                                    <button data-toggle="tooltip" data-placement="right" title="Filtrar" class="btn btn-secondary pr-botoes-fundo"
+                                                                                                                                                                                            type="submit" id="button-linha">
+                                                                                                                                                                                        <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                                                                                                                                                                    </button>
+                                                                                                                                                                                </div><!--fim botão apend-->
+
+                                                                                                                                                                            </div><!--Fim input d linha-->
+                                                                                                                                                                        </div><!--Fim da coluna da linha-->}
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

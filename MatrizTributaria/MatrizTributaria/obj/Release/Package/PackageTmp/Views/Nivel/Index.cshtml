@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MatrizTributaria.Models.Nivel>
+
+@{ ViewBag.Title = "Nivel"; }
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Níveis de Acesso - LISTAGEM
+            @RenderPage("~/Views/Acoes/botoes2.cshtml")
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    @*    @RenderPage("~/Views/Acoes/Botoes.cshtml") <!--Renderiza os botões laterais-->*@
+
+                    <div class="col-12">
+                        <div class="container-fluid">
+
+                            <table id="tablepr" class="table table-light table-hover thead-dark table-striped">
+                                <thead class="pr-thead">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descrição</th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                        <tr>
+                            <td style="width:5%;">
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td style="width:95%;">
+                                @Html.DisplayFor(modelItem => item.descricao)
+                            </td>
+
+
+
+                        </tr>}
+                                </tbody>
+
+                            </table>
+                        </div><!--fim do container da tabela-->
+                    </div><!--Fim da coluna de 10-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->

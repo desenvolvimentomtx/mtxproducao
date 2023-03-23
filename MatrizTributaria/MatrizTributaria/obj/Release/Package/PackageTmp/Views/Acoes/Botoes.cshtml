@@ -1,0 +1,27 @@
+﻿
+
+<div style="background: linear-gradient(to bottom, white 0%, #dcdcdc 100%); width: 100%;" class="mb-2">
+    <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+        @if (Session["nivel"].Equals("USUARIO"))
+        {
+            <a style="pointer-events: none; opacity: 0.6;" data-toggle="tooltip" data-placement="right" title="Adicionar Novo Registro" class="btn btn-secondary pr-botoes-fundo border-0 " href="@Url.Action("Create", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-plus-circle"></i>Novo</a>
+            <button style="pointer-events: none; opacity: 0.6;" data-toggle="tooltip" data-placement="right" title="Alterar registro selecionado" type="button" id="editarDados" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i>Editar</button>
+            <button style="pointer-events: none; opacity: 0.6;" type="button" id="apagarDados" class="btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="top" title="Excluir item selecionado"> <i style="font-size:1.5em;" class="fas fa-trash-alt"></i>Excluir</button>
+
+        }
+        else
+        {
+            <a class="btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="right" title="Adicionar Novo Registro" href="@Url.Action("Create", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-plus-circle"></i>Novo</a>
+            <button type="button" id="editarDados" data-toggle="tooltip" data-placement="right" title="Alterar registro selecionado" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i>Editar</button>
+
+            <button type="button" id="apagarDados" data-toggle="tooltip" data-placement="right" title="Excluir registro selecionado" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-trash-alt"></i>Excluir</button>
+
+
+        }
+
+        <button type="button" id="visualizarDados" data-toggle="tooltip" data-placement="right" title="Exibir detalhes do registro selecionado" class="btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-info-circle"></i>Detalhe</button>
+        <a href="@Url.Action("Index", "Home")" data-toggle="tooltip" data-placement="right" title="Voltar para página Home" class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-home"></i>Inicio</a>
+
+    </div>
+ 
+</div>

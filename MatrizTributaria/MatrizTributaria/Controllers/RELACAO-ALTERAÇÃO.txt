@@ -1,0 +1,74 @@
+
+CSTS
+EdtCliCstSaidaPisCofinsMassa - TODOS - OK
+EdtCliCstSaidaPisCofinsMassa - SELECIONADOS - OK
+EdtCliCstVendaVarCFMassa - TODOS
+EdtCliCstVendaVarCFMassa - SELECIONADOS - OK 
+EdtCliCstVendaVarContMassa - TODOS - OK
+EdtCliCstVendaVarContMassa - SELECIONADOS - OK
+EdtCliCstVendaAtaSNMassa - TODOS - OK
+EdtCliCstVendaAtaSNMassa - SELECIONADOS - OK
+EdtCliCstVendaAtaContMassa - TODOS - OK
+EdtCliCstVendaAtaContMassa - SELECIONADOS - OK
+-------------------------------------------------
+
+//botao INDIVIDUAL
+EditClienteAliqIcmsVendaVarfCFMassa - OK
+EditClienteAliqIcmsVendaVarSTCFMassa - OK
+EditClienteAliqIcmsVendaVarContMassa - OK
+EditClienteAliqIcmsSTVendaVarContMassa - OK
+EditClienteAliqIcmsVendaAtaContMassa - OK
+EditClienteAliqIcmsSTVendaAtaContMassa - OK
+EditClienteAliqIcmsVendaAtaSNMassa - OK
+EditClienteAliqIcmsSTVendaAtaSNMassa - OK
+
+//botao TODOS
+EditClienteAliqIcmsVendaVarfCFMassa - OK
+EditClienteAliqIcmsVendaVarSTCFMassa - OK
+EditClienteAliqIcmsVendaVarContMassa - OK
+EditClienteAliqIcmsSTVendaVarContMassa - OK
+EditClienteAliqIcmsVendaAtaContMassa - OK
+EditClienteAliqIcmsSTVendaAtaContMassa - OK
+EditClienteAliqIcmsVendaAtaSNMassa - OK
+EditClienteAliqIcmsSTVendaAtaSNMassa - OK
+-------------------
+======== ALIQUIOTA DE PIS COFINS =======================
+       ACTION             TODOS          INDIVIDUAL
+EdtCliAliqSaidaPisMassa     X                X
+EdtCliAliqSaidaPisMassa		X				 X
+
+============= ALIQUIOTA DE REDUÇÃO DE BASE DE CALC =======================
+       ACTION            				   TODOS          INDIVIDUAL
+EdtCliAliqRedBasCalcIcmsVenVarCFMassa        X                X
+EdtCliAliqRedBasCalcIcmsSTVenVarCFMassa      X                X
+
+EdtCliAliqRedBasCalcIcmsVenVarContMassa      X                X
+EdtCliAliqRedBasCalcIcmsSTVenVarContMassa    X                X
+
+EdtCliAliqRedBasCalcIcmsVenAtaContMassa
+EdtCliAliqRedBasCalcIcmsSTVenAtaContMassa
+
+EdtCliAliqRedBasCalcIcmsVenAtaSNMassa
+EdtCliAliqRedBasCalcIcmsSTVenAtaSNMassa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,203 @@
+﻿@using PagedList.Mvc
+@using MatrizTributaria.Areas.Cliente.Models
+@model PagedList.IPagedList<MatrizTributaria.Areas.Cliente.Models.AnaliseTributariaNCM>
+@{
+    ViewBag.Title = "EdtCliAliqRedBasCalcIcmsSTVenAtaContMassa";
+
+}
+
+
+@RenderPage("~/Areas/Cliente/Views/Acoes/CardInicialRed.cshtml") <!--Renderiza o card inicial-->
+
+<div id="card-analise" class="container-fluid pr-container-2 pr-card-cad">
+    <div class="card">
+        <div class="card-header">
+            ANALISE:Produto <strong>"@ViewBag.Mensagem"</strong> <a data-toggle="tooltip" data-placement="right" title="Ir para Gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnaliseRedBaseCalSai","TributacaoEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="edtSelecionadosRedBasCalcIcmsSTVenAtaContCliente" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.3em;" class="fas fa-edit"></i></button>
+            @*<button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s) Manualmente" type="button" id="edtSelecionadosRedBasCalcIcmsSTVenAtaContClienteManual" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.3em;" class="fas fa-user-edit"></i></button>*@
+
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Todos os Registros" type="button" id="edtAlterarTODOS" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.3em;" class="fas fa-database"></i></button>
+
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <!--Caixa Geral-->
+                        <div class="scrolling-wrapper">
+                            <div style="min-width:99.8%; height:inherit;" class="box">
+                                <table id="table-redBasCalcIcmsSTVenAtaCont" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="8" class="pr-fonte2" scope="col">Analise Alíquota</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th>
+                                                Registro
+                                            </th>
+                                            <th>
+                                                NCM
+                                            </th>
+                                            <th>
+                                                Código de Barras
+                                            </th>
+                                            <th>
+                                                Descrição
+                                            </th>
+                                            <th class="text-center">
+                                                CST no Cliente
+                                            </th>
+
+                                            <th class="text-center">
+                                                Alíquota no Cliente (%)
+                                            </th>
+
+                                            <th class="text-center">
+                                                CST no MTX
+                                            </th>
+                                            <th class="text-center">
+                                                Alíquota no MTX (%)
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr style="height:12.0px;" class="pr-td">
+                                            <td style="width:4%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.TE_ID)
+                                            </td>
+                                            <td style="width:5%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                            </td>
+                                            <td style="width:10%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                            </td>
+
+                                            <td style="width:20%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                            </td>
+
+                                            @if (item.CST_VENDA_VAREJO_CONT != item.CST_VENDA_VAREJO_CONT_BASE)
+                                            {
+                                        <td style="width:5%;" class="pr-td-maior prn-borderEspecial5 text-center">
+                                            @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONT)
+                                        </td> }
+                                                        else
+                                                        {
+                                        <td style="width:5%;" class="pr-td-igual prn-borderEspecial5 text-center">
+                                            @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONT)
+                                        </td>}
+
+
+                                            @if (item.RED_BASE_CALC_ICMS_ST_VENDA_ATA == null)
+                                            {
+                                        <td style="text-align:center; width:10%;" class="prn-borderEspecial5">
+                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA)
+                                        </td> }
+                                                        else
+                                                        {
+                                                            if (item.RED_BASE_CALC_ICMS_ST_VENDA_ATA > item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT_BASE)
+                                                            {
+
+                                        <td style="text-align:center; width:10%;" class="pr-td-maior prn-borderEspecial5">
+                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA)
+                                        </td> }
+                                                            else
+                                                            {
+                                                                if (item.RED_BASE_CALC_ICMS_ST_VENDA_ATA < item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT_BASE)
+                                                                {
+                                        <td style="text-align:center; width:10%;" class="pr-td-menor prn-borderEspecial5">
+                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA)
+                                        </td> }
+                                                                else
+                                                                {
+
+                                                                    if (item.RED_BASE_CALC_ICMS_ST_VENDA_ATA == item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT_BASE)
+                                                                    {
+                                        <td style="text-align:center; width:10%;" class="pr-td-igual prn-borderEspecial5">
+                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA)
+                                        </td> }
+                                                                    else
+                                                                    {
+                                                                        if (item.RED_BASE_CALC_ICMS_ST_VENDA_ATA != null && item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT_BASE == null)
+                                                                        {
+                                        <td style="text-align:center; width:10%;" class="prn-borderEspecial5">
+                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA)
+                                        </td>}
+
+
+                                                                    }
+
+
+                                                                }
+
+                                                            }
+                                                        }
+                                            <td style="text-align:center; width:10%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONT_BASE)
+                                            </td>
+                                            <td style="text-align:center; width:10%;" class="prn-borderEspecial5">
+                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT_BASE)
+                                            </td>
+                                        </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+                            </div> <!--Fim primeira Caixa-->
+                        </div>
+                    </div>
+
+                </div><!--fim da linha-->
+                <div class="d-flex" style="height:8vh; vertical-align: middle;">
+                    <div class="mr-auto p-2">
+
+                        <p class="pr-fontanternativa">
+
+                            <span class="pr-fontalternativa">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: <span id="totalReg">@Model.TotalItemCount</span></span>
+                        </p>
+
+                    </div>
+
+                    <div style="float:right;" class="p-2 pr-fontalternativa">
+                        @Html.PagedListPager(
+                            Model,
+                            page => Url.Action("EdtCliAliqRedBasCalcIcmsSTVenAtaContMassa",
+                            new
+                            {
+                                page,
+                                ordenacao = ViewBag.Ordenacao,
+                                filtroCorrente = ViewBag.FiltroCorrente,
+                                filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                filtroCorrenteCest = ViewBag.FiltroCorrenteCest,
+                                numeroLinhas = ViewBag.NumeroLinhas,
+                                filtroNulo = ViewBag.Filtro,
+                                opcao = TempData["opcao"].ToString()
+
+                            }),
+                            new PagedListRenderOptions()
+                            {
+                                LiElementClasses = new List<string> { "page-item" }
+                            })
+                    </div>
+
+                </div>
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+        <div class="card-footer">
+            @RenderPage("~/Areas/Cliente/Views/Acoes/MensagemRODAPE.cshtml") <!--Renderiza o card inicial-->
+
+        </div>
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

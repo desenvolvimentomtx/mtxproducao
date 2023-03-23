@@ -1,0 +1,349 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="~/Content/img/preciso.ico" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/components/alerts/">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>CadSuperLogica</title>
+
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        .background-cad {
+            background-color: #4e73df;
+            background-image: linear-gradient(180deg, #3c566d 20%, #021E36 100%);
+            background-size: cover;
+            padding-top: 15px;
+            padding-bottom: 20px;
+            font-family: 'Monda', Ubuntu, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+            font-weight: 400;
+            display: block;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+</head>
+<body class="background-cad">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Cadastro de Empresas MTX - Acesso SuperLógica
+
+            </div><!--fim do cabeçalho-->
+            <div class="card-body">
+                <form action="/Empresa/Cadastro/" method="post" class="container">
+
+                    @if (ViewBag.CodMsg == 1)
+                    {
+
+                        <div class="row">
+                            <!--Mensagem de erro ou sucesso-->
+                            <div class="col-12">
+                                <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+                                    <div>
+                                        <span>@ViewBag.Mensagem</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <a href='javascript:history.go(-1)' type="button" id="voltar" class="float-lg-right dis-block btn btn-secondary border-0"><i style="font-size:1.5em;" class="fas fa-undo"></i>VOLTAR</a>
+
+                            </div>
+
+                        </div>
+
+                    }
+                    else
+                    {
+
+                        <div class="row">
+
+                            <div class="card" style="padding-left:0px; padding-right: 0px;">
+                                <div class="card-header">
+                                    DADOS SUPERLÓGICA
+
+                                </div><!--fim do cabeçalho-->
+                                <div class="card-body">
+                                    <!--Form com os dados do cliente-->
+                                    <input type="text" id="senhaSuperlogica" name="senhaSuperlogica" value="@ViewBag.Senha" hidden>
+                                    <input type="text" id="planoSuperlogica" name="planoSuperlogica" value="@ViewBag.Plano" hidden>
+                                    <input type="text" id="identificadorSuperlogica" name="identificadorSuperlogica" value="@ViewBag.Identificador" hidden>
+
+                                    @*Linha 1*@
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label for="idCli" class="form-label">ID</label>
+                                            <input type="text" class="form-control" name="idCli" id="idCli" value="@ViewBag.IdCliente" readonly>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="inputRazSocial" class="form-label">Nome/Razão Social</label>
+                                            <input type="text" class="form-control" name="inputRazSocial" id="inputRazSocial" value="@ViewBag.RazSocial" required>
+                                        </div>
+                                        @if (@ViewBag.TamanhoReg > 11)
+                                        {
+                                            <div class="col-4">
+                                                <label for="inputCnpj" class="form-label">CNPJ/CGC</label>
+                                                <input type="text" class="form-control" name="inputCnpj" id="inputCnpj" value="@ViewBag.CNPJ" required>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="col-4">
+                                                <label for="inputCGC" class="form-label">CNPJ/CGC</label>
+                                                <input type="text" class="form-control" name="inputCGC" id="inputCGC" value="@ViewBag.CGC" required>
+                                            </div>
+
+                                        }
+                                    </div>
+
+                                    @*Linha 2*@
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label for="inputCEP" class="form-label">CEP</label>
+                                            <input type="text" class="form-control" name="inputCEP" id="inputCEP" value="@ViewBag.Cep">
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <label for="inputLogradouro" class="form-label">Logradouro</label>
+                                            <input type="text" class="form-control" name="inputLogradouro" id="inputLogradouro" value="@ViewBag.Endereco">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="inputBairro" class="form-label">Bairro</label>
+                                            <input type="text" class="form-control" name="inputBairro" id="inputBairro" value="@ViewBag.Bairro">
+                                        </div>
+                                    </div>
+
+                                    @*Linha 3*@
+                                    <div class="row">
+                                        <div class="col-md-1 mt-2">
+                                            <label for="inputNumero" class="form-label">Numero</label>
+                                            <input type="text" class="form-control" name="inputNumero" id="inputComplemento" value="@ViewBag.Numero">
+                                        </div>
+
+                                        <div class="col-md-3 mt-2">
+                                            <label for="inputComplemento" class="form-label">Complemento</label>
+                                            <input type="text" class="form-control" name="inputComplemento" id="inputComplemento" value="@ViewBag.Complemento">
+                                        </div>
+
+
+
+                                        <div class="col-md-3 mt-2">
+                                            <label for="inputCidade" class="form-label">Cidade</label>
+                                            <input type="text" class="form-control" name="inputCidade" id="inputCidade" value="@ViewBag.Cidade">
+                                        </div>
+
+
+                                        <div class="col-md-2 mt-3">
+                                            <label for="inputEstado">Estado</label>
+                                            <select class="form-select" name="inputEstado">
+                                                <option selected>Estado...</option>
+                                                <option value="AC">Acre</option>
+                                                <option value="AL">Alagoas</option>
+                                                <option value="AP">Amapá</option>
+                                                <option value="AM">Amazonas</option>
+                                                <option value="BA">Bahia</option>
+                                                <option value="CE">Ceará</option>
+                                                <option value="DF">Distrito Federal</option>
+                                                <option value="ES">Espírito Santo</option>
+                                                <option value="GO">Goiás</option>
+                                                <option value="MA">Maranhão</option>
+                                                <option value="MT">Mato Grosso</option>
+                                                <option value="MS">Mato Grosso do Sul</option>
+                                                <option value="MG">Minas Gerais</option>
+                                                <option value="PA">Pará</option>
+                                                <option value="PB">Paraíba</option>
+                                                <option value="PR">Paraná</option>
+                                                <option value="PE">Pernambuco</option>
+                                                <option value="PI">Piauí</option>
+                                                <option value="RJ">Rio de Janeiro</option>
+                                                <option value="RN">Rio Grande do Norte</option>
+                                                <option value="RS">Rio Grande do Sul</option>
+                                                <option value="RO">Rondônia</option>
+                                                <option value="RR">Roraima</option>
+                                                <option value="SC">Santa Catarina</option>
+                                                <option value="SP">São Paulo</option>
+                                                <option value="SE">Sergipe</option>
+                                                <option value="TO">Tocantins</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-3 mt-2">
+                                            <label for="inputTelefone" class="form-label">Telefone</label>
+                                            <input type="text" class="form-control" name="inputTelefone" id="inputTelefone" value="@ViewBag.Telefone" required>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="col-md-4 mt-2">
+                                        <label for="inputEmail" class="form-label">Email</label>
+                                        <input type="text" class="form-control" name="inputEmail" id="inputEmail" value="@ViewBag.Email" required readonly>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div><!--fim da linha DADOS SUPERLÓGICA-->
+
+
+                        <!--DADOS PRA O MTX-->
+                        <div class="row mt-3">
+
+                            <div class="card" style="padding-left:0px; padding-right: 0px;">
+                                <div class="card-header">
+                                    DADOS COMPLEMENTARES PARA CADASTRO NO MTX
+
+                                </div><!--fim do cabeçalho-->
+                                <div class="card-body">
+
+
+
+
+                                    @if (ViewBag.CodMsg == 2)
+                                    {
+
+                                        <div class="row">
+                                            <!--Mensagem de erro ou sucesso-->
+                                            <div class="col-12">
+
+                                                <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+
+                                                    <strong><span>@ViewBag.Msg</span></strong>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    }
+
+
+
+                                    <!--Form com os dados do cliente-->
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <label for="inputFantasia" class="form-label">Fantasia</label>
+                                            <input type="text" class="form-control" name="fantasia" id="inputFantasia" placeholder="Digite o nome Fantasia do Estabelecimento">
+                                        </div>
+
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmailUser" class="form-label">Nome Usuário Inicial no MTX</label>
+                                            <input type="text" class="form-control" name="inputUser" id="inputUser" placeholder="Digite o nome do usuário inicial no MTX">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmailUser" class="form-label">Login Inicial no MTX</label>
+                                            <input type="email" class="form-control" name="userMtx" id="inputEmailUser" value="@ViewBag.Email" placeholder="Digite um e-mail válido que será o login do usuário no MTX" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="inputSenhaUser" class="form-label">Senha Inicial no MTX</label>
+                                            <input type="password" class="form-control" name="userMtx" id="inputSenhaUser" value="@ViewBag.Senha" placeholder="Digite um e-mail válido que será o login do usuário no MTX">
+                                        </div>
+
+                                        <div class="col-md-2 mt-3">
+                                            <label for="inputEstado">Regime Tributário</label>
+                                            <select class="form-select" name="inputSimpNacional">
+                                                <option selected>Escolha seu regime.</option>
+                                                <option value="1">Simples Nacional</option>
+                                                <option value="0">Lucro Presumido</option>
+                                                <option value="0">Lucro Real</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <button type="submit" class="btn btn-primary">SALVAR</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div><!--fim da linha-->
+
+                    }
+
+
+
+
+
+
+                </form><!--fim do container do body do card-->
+            </div><!--Fim do body do card-->
+
+        </div> <!--Fom do card-->
+
+
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="/Scripts/jquery-3.5.1.js"></script>
+    <script src="/Scripts/jquery.maskedinput.min.js"></script>
+    <script src="/Scripts/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+    <script>
+        //mascaras
+        $(document).ready(function () {
+            $('.date').mask('99/99/9999');
+            $('.time').mask('00:00:00');
+            $('#inputCEP').mask('99.999-999');
+            $('.phone').mask('9999-9999');
+            $('#inputCnpj').mask('99.999.999/9999-99');
+            $('#inputCGC').mask('999.999.999-99');
+            $('#inputTelefone').mask('(99)99999-9999');
+            $(".senha").mask("xxxxxxxxx");
+            $("#cest").mask("99.999.99");
+            $("#ncm").mask("9999.99.99");
+            $(".decimal").mask("9999,999");
+            $(".pr-aliq").mask("9999.999");
+        });
+
+        jQuery(function ($) {
+            $("#campoData").mask("99/99/9999");
+            $("#campoTelefone").mask("(999) 999-9999");
+
+        });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //$(document).ready(function () {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //    $('input[type="text"]').each(function () {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //        var val = $(this).val().replace('.', ',');
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //        $(this).val(val);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //    });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //});
+
+    </script>
+
+</body>
+</html>

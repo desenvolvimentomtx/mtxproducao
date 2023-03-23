@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "MudarEmpresa";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Mudar Empresa
+            <a href="@Url.Action("Index", "Home")" data-toggle="tooltip" data-placement="right" title="Voltar para página Home" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-home"></i></a><!--inicio-->
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row pl-1">
+
+                    @using (Html.BeginForm("MudarEmpresa", "Empresa", FormMethod.Post , new {@class="col-lg-12" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group col-lg-8">
+                            <label class="pr-fontalternativa">Fantasia da Empresa</label>
+
+                            <div class="input-group input-group-sm">
+
+                                <select class="form-control form-control-sm dropdown prn-select" id="empresaUsuario" name="empresaUsuario">
+                                    <option value="null">Escolha a Empresa</option>
+                                    @foreach (var item in ViewBag.Empresas)
+                                    {
+                                        if (item.id == ViewBag.EmpUsuario)
+                                        {
+                                            <option style="display:none" value="@item.id">@item.fantasia</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.id">@item.fantasia</option>
+                                        }
+
+                                    }
+                                </select>
+                                <div class="input-group-append">
+                                    <button data-toggle="tooltip" data-placement="right" title="" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                                        <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                    </button>
+
+
+                                </div><!--fim do appende-->
+
+
+                            </div><!--fim div input-->
+
+                        </div><!--fim coluna 2-->
+
+                    }
+
+
+
+
+                </div><!--fim da linha-->
+            </div><!--fim do container do body do card-->
+        </div><!--Fim do body do card-->
+
+    </div> <!--Fom do card-->
+
+
+</div>
+

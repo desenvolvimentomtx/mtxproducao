@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "LerArquivoJson";
+}
+
+
+<h2>Retorno</h2>
+
+<script src="/Scripts/jquery-3.4.1.js"></script>
+<script>
+
+        $(function () {
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                url: "/Nivel/LerArquivo",
+                success: function (dados) {
+                    $(dados).each(function (i) {
+                        document.writeln("<p>Nome: " + dados[i].id + " | URL: " + dados[i].descricao + "</p>")
+                    });
+                }
+            });
+    });
+</script>
+
+
+
+
+

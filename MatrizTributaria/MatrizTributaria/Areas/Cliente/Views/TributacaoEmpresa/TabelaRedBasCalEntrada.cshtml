@@ -1,0 +1,566 @@
+﻿@using PagedList.Mvc
+@using MatrizTributaria.Areas.Cliente.Models
+@model PagedList.IPagedList<MatrizTributaria.Areas.Cliente.Models.AnaliseTributaria>
+@{
+    ViewBag.Title = "TabelaRedBasCalEntrada";
+}
+
+@RenderPage("~/Areas/Cliente/Views/Acoes/CardTabelas.cshtml") <!--Renderiza o card inicial das tabelas-->
+
+
+<div id="card-analise" class="container-fluid pr-container-2 pr-card-cad">
+    <div class="card">
+        <div class="card-header">
+            ANALISE: Redução Base de Calc ICMS de Entrada<a class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnaliseIcmsEntrada","TributacaoEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+        </div><!--fim do cabeçalho-->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-5">
+
+                        <!--Caixa Geral-->
+                        <div class="scrolling-wrapper">
+                            <div style="min-width:615px; height:inherit;" class="box">
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="4" class="pr-fonte2" scope="col">Produto</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th>
+                                                Descrição
+                                            </th>
+                                            <th>
+                                                Cód. de Barras
+                                            </th>
+                                            <th>
+                                                CEST
+                                            </th>
+                                            <th>
+                                                NCM
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr style="height:52.0px; border-bottom:2px solid #ccc;" class="pr-td">
+                                            <td style="width:50%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_CEST)
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                            </td>
+                                        </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+                            </div> <!--Fim primeira Caixa-->
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="scrolling-wrapper">
+                            <!--Segunda caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Red. Base Calc Compra de Indústria</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+
+                                            <tr class="pr-td">
+                                                <td style="width:5%;">Aliq</td>
+
+                                                @if (item.RED_BASE_CALC_ICMS_COMPRA_DE_IND == null && item.Red_Base_Calc_Icms_Compra_de_Ind_INTERNO == null)
+                                                {
+                                                    <td class="text-center" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_IND)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_COMPRA_DE_IND > item.Red_Base_Calc_Icms_Compra_de_Ind_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-maior" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_IND)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_COMPRA_DE_IND < item.Red_Base_Calc_Icms_Compra_de_Ind_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-menor" style="width:5%">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_IND)
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.RED_BASE_CALC_ICMS_COMPRA_DE_IND == item.Red_Base_Calc_Icms_Compra_de_Ind_INTERNO)
+                                                            {
+                                                                <td class="text-center pr-td-igual" style="width:5%;">
+                                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_IND)
+                                                                </td>
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <td class="text-center" style="width:5%;">
+                                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_IND)
+                                                                </td>
+
+                                                            }
+
+
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_Compra_de_Ind_INTERNO)
+
+                                                </td>
+
+                                            </tr><tr style="border-bottom: 2px solid #ccc;" class="pr-td">
+                                                <td style="width:5%;">Aliq ST</td>
+                                                @if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND == null && item.Red_Base_Calc_Icms_ST_Compra_de_Ind_INTERNO == null) 
+                                                {
+                                                 <td class="text-center" style="width:5%">
+                                                     @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND)
+                                                 </td>
+                                                    }
+                                                    else
+                                                    {
+
+                                                     if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND > item.Red_Base_Calc_Icms_ST_Compra_de_Ind_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND < item.Red_Base_Calc_Icms_ST_Compra_de_Ind_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND == item.Red_Base_Calc_Icms_ST_Compra_de_Ind_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND)
+                                                            </td>
+                                                       }
+                                                       else
+                                                       {
+                                                          <td class="text-center" style="width:5%">
+                                                          @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND)
+                                                          </td>
+                                                       }
+                                                     
+
+                                                    }
+
+
+
+                                                }
+
+                                                    }
+
+                                               
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_ST_Compra_de_Ind_INTERNO)
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim Segunda caixa-->
+                            <!--Terceira caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Red. Base Calc Compra de Atacado</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+
+                                        <tr class="pr-td">
+                                            <td style="width:5%;">Aliq</td>
+                                            @if (item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA == null && item.Red_Base_Calc_Icms_Compra_de_Ata_INTERNO == null)
+                                            {
+                                                <td class="text-center" style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA)
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                if (item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA > item.Red_Base_Calc_Icms_Compra_de_Ata_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA < item.Red_Base_Calc_Icms_Compra_de_Ata_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_VENDA_VAREJO_CONT)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA == item.Red_Base_Calc_Icms_Compra_de_Ata_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA)
+                                                            </td>
+
+                                                        }
+                                                        else 
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_DE_ATA)
+                                                            </td>
+
+                                                        }
+
+
+
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+
+
+
+                                            <td style="text-align:center; width:10%;">
+                                                @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_Compra_de_Ata_INTERNO)
+
+                                            </td>
+
+                                        </tr>
+                                        <tr style="border-bottom: 2px solid #ccc;" class="pr-td">
+                                            <td style="width:5%;">Aliq ST</td>
+                                            @if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA == null && item.Red_Base_Calc_Icms_ST_Compra_de_Ata_INTERNO == null)
+                                            {
+                                                <td class="text-center" style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA)
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA > item.Red_Base_Calc_Icms_ST_Compra_de_Ata_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA < item.Red_Base_Calc_Icms_ST_Compra_de_Ata_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA == item.Red_Base_Calc_Icms_ST_Compra_de_Ata_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA)
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA)
+                                                            </td>
+                                                        }
+
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+
+
+
+
+
+                                            <td style="text-align:center; width:10%;">
+                                                @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_ST_Compra_de_Ata_INTERNO)
+                                            </td>
+
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim da terceira  caixa-->
+                            <!--Quarta caixa-->
+                            <div style="min-width:300px; height:inherit;" class="box">
+
+                                <table id="tablepr-2" class="table table table-light table-hover thead-dark table-striped pr-table">
+                                    <thead class="pr-thead">
+                                        <tr>
+                                            <th style="text-align:center; border:none;" colspan="3" class="pr-fonte2 pr-thtd" scope="col">Red. Base Calc Compra de Simples Nacional</th>
+
+                                        </tr>
+                                        <tr class="pr-td">
+                                            <th class="text-center">
+                                                Item
+                                            </th>
+                                            <th class="text-center">
+                                                Cliente
+                                            </th>
+                                            <th class="text-center">
+                                                MTX
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+
+                                        <tr class="pr-td">
+                                            <td style="width:5%;">Aliq</td>
+                                            @if (item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL == null && item.Red_Base_Calc_Icms_Compra_de_Simp_Nacional_INTERNO == null)
+                                            {
+                                                <td class="text-center" style="width:5%">
+                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL)
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                if (item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL > item.Red_Base_Calc_Icms_Compra_de_Simp_Nacional_INTERNO)
+                                                {
+                                                    <td class="text-center pr-td-maior" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL < item.Red_Base_Calc_Icms_Compra_de_Simp_Nacional_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-menor" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL == item.Red_Base_Calc_Icms_Compra_de_Simp_Nacional_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-igual" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL)
+                                                            </td>
+
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <td class="text-center" style="width:5%;">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_COMPRA_SIMP_NACIONAL)
+                                                            </td>
+                                                        }
+
+
+
+                                                    }
+
+
+
+                                                }
+                                            }
+
+
+                                            <td style="text-align:center; width:10%;">
+                                                @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_Compra_de_Simp_Nacional_INTERNO)
+
+                                            </td>
+
+                                        </tr>
+                                            <tr style="border-bottom: 2px solid #ccc;" class="pr-td">
+                                                <td style="width:5%;">Aliq ST</td>
+
+                                                @if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL == null && item.Red_Base_Calc_Icms_ST_Compra_de_Simp_Nacional_INTERNO == null)
+                                                {
+                                                    <td class="text-center" style="width:5%">
+                                                        @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL > item.Red_Base_Calc_Icms_ST_Compra_de_Simp_Nacional_INTERNO)
+                                                    {
+                                                        <td class="text-center pr-td-maior" style="width:5%">
+                                                            @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL)
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL < item.Red_Base_Calc_Icms_ST_Compra_de_Simp_Nacional_INTERNO)
+                                                        {
+                                                            <td class="text-center pr-td-menor" style="width:5%">
+                                                                @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL)
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL == item.Red_Base_Calc_Icms_ST_Compra_de_Simp_Nacional_INTERNO)
+                                                            {
+                                                                <td class="text-center pr-td-igual" style="width:5%">
+                                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL)
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center" style="width:5%;">
+                                                                    @Html.DisplayFor(modelItem => item.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL)
+                                                                </td>
+                                                            }
+
+                                                        }
+
+
+
+                                                    }
+                                                }
+
+
+
+                                                <td style="text-align:center; width:10%;">
+                                                    @Html.DisplayFor(modelItem => item.Red_Base_Calc_Icms_ST_Compra_de_Simp_Nacional_INTERNO)
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table><!--fim da tabela-->
+
+
+                            </div> <!--Fim da quarta  caixa-->
+
+
+
+                        </div> <!--Fim da caixa wrapper-->
+
+
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+                <div class="d-flex">
+                    <div class="mr-auto p-2">
+
+                        <p class="pr-fontanternativa">
+
+                            <span class="pr-fontalternativa">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount - Total de registros: @Model.TotalItemCount</span>
+                        </p>
+                    </div>
+
+                    <div style="float:right;" class="p-2 pr-fontalternativa">
+                        @Html.PagedListPager(
+                             Model,
+                             pagina => Url.Action("TabelaRedBasCalEntrada",
+                             new
+                             {
+                                 pagina,
+                                 ordenacao = ViewBag.Ordenacao,
+                                 filtroCorrente = ViewBag.FiltroCorrente,
+                                 filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                 filtroCorrenteCest = ViewBag.FiltroCorrenteCest,
+                                 numeroLinhas = ViewBag.NumeroLinhas
+                                 
+                             }),
+                             new PagedListRenderOptions()
+                             {
+                                 LiElementClasses = new List<string> { "page-item" }
+                             })
+                    </div>
+
+                </div>
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

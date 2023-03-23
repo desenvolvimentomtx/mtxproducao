@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "EditVarios";
+}
+
+
+<div class="container-fluid pr-container pr-card-cad">
+ 
+        <div class="card mt-2">
+            <div class="card-header">
+                Alterar CATEGORIA, CEST E NCM de Produtos em Massa
+                <a class="float-lg-right dis-blockbtn btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="right" title="Cancelar Ação" href="@Url.Action("Index", "Produto")"><i style="font-size:1.6em;" class="fas fa-ban"></i></a><!--Novo-->
+                <button type="button" id="savarlAlteracaoCat"  data-toggle="tooltip"   data-placement="right" title="Salvar Registro"   class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.6em;" class="fas fa-save"></i></button><!--Salvar-->
+
+            </div><!--fim do cabeçalho-->
+
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="form-group col-lg-2 p-2 mb-0">
+                            <label class="pr-fontalternativa">Digite o novo NCM</label>
+                            <div class="input-group input-group-sm">
+                                <!--input-->
+
+                                <input type="text" class="form-control form-control-sm" placeholder="NCM aqui" name="ncm" id="ncm" onkeypress="return onlynumber();" size=10 maxlength=10 />
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-2 p-2 mb-0">
+                            <label class="pr-fontalternativa">Digite o novo CEST</label>
+                            <div class="input-group input-group-sm">
+                                <!--input-->
+
+                                <input type="text" class="form-control form-control-sm" placeholder="Cest aqui" name="cest" id="cest" onkeypress="return onlynumber();" size=10 maxlength=10 />
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-8 p-2 mb-0" id="mudarValoresCategoria">
+                            <label class="pr-fontalternativa">Categoria</label>
+                            <div class="input-group input-group-sm">
+                                @Html.DropDownList("IdCategoria", new SelectList(ViewBag.Categorias, "id", "descricao"), "Escolha a Categoria", new { @class = "form-control form-control-sm dropdown", @style = "max-width:100% !important;", @id="categor" })
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+                    <!--Campos para serem alterados-->
+                  <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="container-fluid">
+
+                                <div class="overflow-auto" style="max-width: 100%; max-height: 500px;">
+
+                                    <table id="table-editmassa" class="table table-sm table-striped">
+                                        <caption>Produtos que receberão o novo NCM : <label id="lab" /> </caption>
+                                        <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Código de Barras</th>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col">Cest</th>
+                                                <th scope="col">NCM</th>
+                                                <th scope="col">Categoria</th>
+                                                <th scope="col" class="text-center">Última alteração</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.Produtos)
+                                            {
+                                                <tr class="pr-td sel">
+                                                    <td style="width:5%">
+                                                        @item.Id
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        @item.codBarras
+                                                    </td>
+                                                    <td style="width:20%">
+                                                        @item.descricao
+                                                    </td>
+
+                                                    <td style="width:15%;">
+                                                        @item.cest
+                                                    </td>
+                                                    <td style="width:15%;">
+                                                        @item.ncm
+                                                    </td>
+
+                                                    <td style="width:20%;">
+
+                                                        @foreach (var dado in ViewBag.Categorias)
+                                                        {
+                                                            if (item.idCategoria == dado.id)
+                                                            {
+                                                                <span>@dado.descricao</span>break;
+                                                            }
+
+                                                        }
+
+                                                    </td>
+
+                                                    <td style="width:10%;" class="text-center">
+                                                        @item.Data
+                                                    </td>
+
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+
+                            </div><!--Fim do container da coluna-->
+                        </div><!--Fim da primeira coluna 12-->
+
+                    </div>
+                </div><!--fim da linha-->
+
+           
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+    
+</div><!--fim do container-->

@@ -1,0 +1,67 @@
+﻿<thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+
+
+    <tr>
+
+        <th class="align-middle">
+            Id
+        </th>
+        <th class="align-middle">
+            Cód. de Barras
+        </th>
+
+        <th class="align-middle">
+            @if (ViewBag.ParametroProduto == "Produto_asc")
+            {
+                <i style="font-size:1.1em;" class="fas fa-sort-up pr-actionlink"></i>
+                @Html.ActionLink("Produtos", (string)ViewBag.Title,
+                                                                  new
+                                                                  {
+                                                                      filtroCorrente = ViewBag.FiltroCorrente,
+                                                                      numeroLinhas = ViewBag.NumeroLinhas,
+                                                                      ordenacao = "Produto_desc",
+                                                                      filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                                                      filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                                                                      filtroSetor = ViewBag.FiltroCorrenteSetor,
+                                                                      filtroCate = ViewBag.FiltroCorrenteCate,
+                                                                      filtraPor = ViewBag.FiltroFiltraPor,
+                                                                      filtraCST = ViewBag.FiltroCST,
+                                                                      opcao = TempData["opcao"].ToString()
+                                                                  }) }
+            else
+            {
+                <i style="font-size:1.1em;" class="fas fa-sort-down pr-actionlink"></i>
+                @Html.ActionLink("Produtos", (string)ViewBag.Title,
+                                                                  new
+                                                                  {
+                                                                      filtroCorrente = ViewBag.FiltroCorrente,
+                                                                      numeroLinhas = ViewBag.NumeroLinhas,
+                                                                      ordenacao = "Produto_asc",
+                                                                      filtroCorrenteNCM = ViewBag.FiltroCorrenteNCM,
+                                                                      filtroCorrenteCEST = ViewBag.FiltroCorrenteCEST,
+                                                                      filtroSetor = ViewBag.FiltroCorrenteSetor,
+                                                                      filtroCate = ViewBag.FiltroCorrenteCate,
+                                                                      filtraPor = ViewBag.FiltroFiltraPor,
+                                                                      filtraCST = ViewBag.FiltroCST,
+                                                                      opcao = TempData["opcao"].ToString()
+                                                                  })}
+
+        </th>
+
+        <th class="align-middle">
+            CST Código
+        </th>
+        <th class="align-middle text-center">
+            CST Descrição
+        </th>
+        <th class="align-middle">
+            CEST
+        </th>
+
+        <th class="align-middle">
+            NCM
+        </th>
+
+
+    </tr>
+</thead>

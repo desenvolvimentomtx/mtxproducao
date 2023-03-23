@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MatrizTributaria.Models.NaturezaReceita>
+@{ ViewBag.Title = "NaturezaReceita"; 
+    }
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Cadastro de Natureza de Receita - LISTAGEM
+            @RenderPage("~/Views/Acoes/botoes2.cshtml")
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    @*    @RenderPage("~/Views/Acoes/Botoes.cshtml") <!--Renderiza os botões laterais-->*@
+
+                    <div class="col-12">
+                        <div class="container-fluid">
+                            <table id="tablepr" class="table table table-light table-hover thead-dark table-striped">
+                                <thead class="pr-thead">
+
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Descrição</th>
+                                        <th>Classificacao</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                        <tr>
+                            <td style="width:5%;">@item.id</td>
+                            <td style="width:20%;">@item.descricao</td>
+                            <td style="width:25%;">@item.classificacaoNatRec.Descricao</td>
+
+                        </tr>
+}
+                                </tbody>
+                            </table>
+
+                        </div><!--Fim container da coluna-->
+                    </div> <!--Fim da coluna-->
+                </div><!--fim da linha-->
+            </div><!--Fim do container-->
+        </div><!--Fim do body do card-->
+
+    </div><!--Fim do card-->
+
+</div><!--fim do container-->

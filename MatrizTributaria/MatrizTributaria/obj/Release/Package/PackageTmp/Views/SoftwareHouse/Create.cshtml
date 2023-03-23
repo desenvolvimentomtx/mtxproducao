@@ -1,0 +1,133 @@
+﻿@model MatrizTributaria.Models.ViewModels.SoftwareHouseViewModel
+
+    @{
+        ViewBag.Title = "SoftwareHouse";
+    }
+
+
+    <div class="container-fluid pr-container pr-card-cad">
+        <div class="card mt-2">
+            <div class="card-header">
+                Cadastro de Software House - NOVO
+            </div><!--fim do cabeçalho-->
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+
+                                @using (Html.BeginForm("Create", "SoftwareHouse", FormMethod.Post, new { @class = "needs-validation" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group row">
+                                        <div class="col-md-offset-2 col-md-12">
+
+                                            <div style="background-color: ButtonFace; border-radius:0.4em; width:100%;" class="mb-2">
+                                                <div id="pr-botoes" class="btn-group border-0" role="group" aria-label="Grupo de botões com dropdown aninhado">
+                                                    <button type="submit" class="btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-save"></i>Salvar</button>
+                                                    <a class="btn btn-secondary pr-botoes-fundo border-0 " href="@Url.Action("Index", @ViewBag.Title)"><i style="font-size:1.5em;" class="fas fa-ban"></i>Cancelar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-lg-5 mb-3">
+                                            <label class="pr-fonte-label" for="nome">Nome*</label>
+
+                                            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome da Software House", name = "nome" })
+                                            @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger", role = "alert" })
+
+
+                                        </div>
+
+                                        <div class="col-lg-5 mb-3">
+                                            <label class="pr-fonte-label" for="razsocial">Razão Social*</label>
+
+                                            @Html.TextBoxFor(m => m.RazaoSocial, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite a razão social da Software House", name = "razsocial" })
+                                            @Html.ValidationMessageFor(m => m.RazaoSocial, "", new { @class = "text-danger", role = "alert" })
+
+
+                                        </div>
+                                        <div class="col-lg-2 mb-2">
+                                            <label class="pr-fonte-label" for="cnpj">CNPJ</label>
+
+                                            @Html.TextBoxFor(m => m.Cnpj, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", placeholder = "Digite o cnpj da Software House", name = "cnpj", id="cnpj" })
+                                            @Html.ValidationMessageFor(m => m.Cnpj, "", new { @class = "text-danger", role = "alert" })
+
+                                        </div>
+
+                                      
+
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="col-lg-4 mb-3">
+                                            <label class="pr-fonte-label" for="logradouro">Logradouro*</label>
+                                            @Html.TextBoxFor(m => m.Logradouro, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Rua, Avenida, Viela, Travessa", name = "logradouro" })
+                                            @Html.ValidationMessageFor(m => m.Logradouro, "", new { @class = "text-danger", role = "alert" })
+
+                                        </div>
+                                        <div class="col-lg-1 mb-3">
+                                            <label class="pr-fonte-label" for="numero">Número</label>
+                                            @Html.TextBoxFor(m => m.Numero, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Nº", name = "numero" })
+                                        </div>
+
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="pr-fonte-label" for="cep">Cep*</label>
+                                            @Html.TextBoxFor(m => m.CEP, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cep da Rua", name = "cep", id = "cep" })
+                                            @Html.ValidationMessageFor(m => m.CEP, "", new { @class = "text-danger", role = "alert" })
+                                        </div>
+
+                                        <div class="col-lg-5 mb-3">
+                                            <label class="pr-fonte-label" for="complemento">Complemento</label>
+                                            @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Qd, Lt, Apto", name = "complemento" })
+                                            @Html.ValidationMessageFor(m => m.Complemento, "", new { @class = "text-danger", role = "alert" })
+
+                                        </div>
+
+                                       
+
+
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-lg-3 mb-3">
+                                            <label class="pr-fonte-label" for="cidade">Cidade*</label>
+                                            @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Cidade de residência", name = "cidade" })
+                                            @Html.ValidationMessageFor(m => m.Cidade, "", new { @class = "text-danger", role = "alert" })
+                                        </div>
+
+                                        <div class="col-lg-2 mb-2">
+                                            <label class="pr-fonte-label" for="estado">UF*</label>
+
+                                            @Html.DropDownListFor(m => m.Estado, new SelectList(Enum.GetValues(typeof(MatrizTributaria.Models.EstadosEnun))), "Selecione uma UF", htmlAttributes: new { @class = "form-control form-control-sm", id = "estado", name = "estado" })
+                                            @Html.ValidationMessageFor(m => m.Estado, "", new { @class = "text-danger", role = "alert" })
+                                        </div>
+
+                                        <div class="col-lg-2 mb-3">
+                                            <label class="pr-fonte-label" for="telefone">Telefone</label>
+                                            @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control form-control-sm", name = "telefone", placeholder = "Telefone com DDD", id = "telefone" })
+                                            @Html.ValidationMessageFor(m => m.Telefone, "", new { @class = "text-danger", role = "alert" })
+                                        </div>
+                                       
+                                        <div class="col-lg-3 mb-4">
+                                            <label class="pr-fonte-label" for="email">E-mail</label>
+
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", placeholder = "Digite o e-mail do usuário", name = "email" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", role = "alert" })
+
+                                        </div>
+                                       
+
+
+                                    </div>}
+
+                            </div><!--fim do container da tabela-->
+                        </div><!--Fim da coluna de 10-->
+                    </div><!--fim da linha-->
+                </div><!--Fim do container do body do card-->
+            </div><!--fim do body do card-->
+        </div><!--Fim do card-->
+    </div><!--Fim do container-->

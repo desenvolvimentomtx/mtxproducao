@@ -1,0 +1,129 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MatrizTributaria.Models.Produto>
+@{
+    ViewBag.Title = "EditCodBarrasMassa";
+}
+
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Alterar Código de Barras de Produtos -  "@ViewBag.Opcao"
+            @RenderPage("~/Views/Acoes/BotaoHome.cshtml") <!--Renderiza os botões de ação-->
+            <a data-toggle="tooltip" data-placement="right" title="Ir para gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("GraficoAnaliseProdutos","Produto")"><i style="font-size:1.5em;" class="fas fa-chart-pie"></i>  </a>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosCodBarras" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i></button>
+
+            @*<a data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" href="@Url.Action("Index", "Home")" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.5em;" class="fas fa-edit"></i></a>*@
+        </div><!--fim do cabeçalho-->
+        <div class="card-body">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                            @using (Html.BeginForm("EditCodBarrasMassa", "Produto", FormMethod.Get))
+                            {
+
+                                @RenderPage("~/Views/Acoes/CamposComunsProd.cshtml")
+                            
+                            
+                            }
+                            <!--Tabela-->
+                            <table style="border-bottom: 1px solid #111;" class="table table-striped table-hover table-graficos" id="table-graficosCodBarras">
+
+                                <thead style="font-size:12px; color:#ffffff; font-weight:100 !important" class="pr-thead">
+                                    <tr>
+                                        <th>
+                                            Id
+                                        </th>
+                                        <th>
+                                            Código de Barras
+                                        </th>
+                                        <th class="pr-actionlink">
+                                            <i style="font-size:1.1em;" class="fas fa-sort pr-actionlink"></i>
+                                            @Html.ActionLink("Produto", "EditCodBarrasMassa", new { filtroCorrente = ViewBag.FiltroCorrente, numeroLinhas = ViewBag.NumeroLinhas, ordenacao = ViewBag.ParametroProduto, opcao = TempData["opcao"].ToString() })
+
+                                        </th>
+
+                                        <th>
+                                            CEST
+                                        </th>
+                                        <th>
+                                            NCM
+                                        </th>
+                                        <th class="text-center">
+                                            Última alteração
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <!--Corpo da Tabela-->
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                        <tr class="pr-td">
+                            <td style="width:5%">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td style="width:10%">
+                                @Html.DisplayFor(modelItem => item.codBarras)
+                            </td>
+                            <td style="width:20%">
+                                @Html.DisplayFor(modelItem => item.descricao)
+                            </td>
+
+                            <td style="width:15%">
+                                @Html.DisplayFor(modelItem => item.cest)
+                            </td>
+                            <td style="width:15%">
+                                @Html.DisplayFor(modelItem => item.ncm)
+                            </td>
+                            <td style="width:10%;" class="text-center">
+                                @Html.DisplayFor(modelItem => item.Data)
+
+                            </td>
+
+
+                        </tr>}
+                                </tbody>
+
+                            </table>
+                            <!--Rodape-->
+                            <div class="d-flex">
+                                <div class="mr-auto p-2">
+                                    <p class="pr-fontanternativa">
+                                        <span class="pr-fontalternativa"> Página @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</span>
+                                    </p>
+                                </div>
+
+                                <div style="float:right;" class="p-2 pr-fontalternativa">
+                                    @Html.PagedListPager(
+                                         Model, page => Url.Action("EditCodBarrasMassa", new { page, ordenacao = ViewBag.Ordenacao, filtroCorrente = ViewBag.FiltroCorrente, numeroLinhas = ViewBag.NumeroLinhas, opcao = TempData["opcao"].ToString() }),
+                                         new PagedListRenderOptions()
+                                         {
+                                             LiElementClasses = new List<string>
+                                             {
+                                            "page-item"
+                     }
+                                         }
+
+                                         )
+
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--fim da coluna de 10-->
+                </div><!--fim da linha-->
+
+
+
+
+            </div><!--Fim do container do body do card-->
+        </div><!--fim do body do card-->
+    </div><!--Fim do card-->
+</div><!--Fim do container-->
