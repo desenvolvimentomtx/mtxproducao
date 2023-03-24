@@ -18,7 +18,7 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
         //OBEJTOS DE APOIO
 
         readonly private MatrizDbContext db = new MatrizDbContext(); //contexto do banco
-
+        readonly private MatrizDbContextCliente dbCliente = new MatrizDbContextCliente(); //contexto do banco
 
         //Empresa da sessão
         Empresa empresa;
@@ -29,6 +29,8 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
         //LITA COM A ANALISE POR NCM
         List<AnaliseTributariaNCM> analise_NCM = new List<AnaliseTributariaNCM>(); //por ncm
+
+        List<TributacaoEmpresa> dadosClienteBkp = new List<TributacaoEmpresa>(); //por ncm
 
         // GET: Cliente/TributacaoMTXEmpresa
         public ActionResult Index()
@@ -6130,8 +6132,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             }
 
             //Mensagem do card
-            ViewBag.Mensagem = "CST de Saída para Pis Cofins no Cliente X no MTX";
+            ViewBag.Mensagem = "CST de Saída para Pis Cofins no Cliente vs no MTX";
 
+
+           
             //variavel auxiliar
             string resultado = param;
 
@@ -6139,6 +6143,15 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
 
+            //FAZER A VIEWBAG PARA COMPARAR O QUE JA TINHA NO CLIENTE O QUE VAI TER AGORA
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+    
+             ViewBag.DadosClientes = this.dadosClienteBkp;
+            
+
+           
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -13833,6 +13846,24 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             return new EmptyResult();
 
         }
+        //VERIFICAR A TEMPDATA DA EMPRESA NO OUTRO BANCO
+        public EmptyResult VerificaTempDataEmpresa(string cnpj)
+        {
+            if(TempData["dadosOutroBanco"] == null)
+            {
+                TempData["dadosOutroBanco"] = dbCliente.TributacaoEmpresas.Where(a => a.CNPJ_EMPRESA == this.empresa.cnpj).ToList();
+                this.dadosClienteBkp = (List<TributacaoEmpresa>)TempData["dadosOutroBanco"];
+                TempData.Keep("dadosOutroBanco");
+
+            }
+            else
+            {
+                this.dadosClienteBkp = (List<TributacaoEmpresa>)TempData["dadosOutroBanco"];
+                TempData.Keep("dadosOutroBanco");
+            }
+
+            return new EmptyResult();
+        }
 
         private EmptyResult VerificaOriDest(string origem, string destino)
         {
@@ -13900,9 +13931,9 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             {
                 if (TempData["linhas"] == null)
                 {
-                    TempData["linhas"] = 10;
+                    TempData["linhas"] = 30;
                     TempData.Keep("linhas");
-                    ViewBag.NumeroLinhas = 10;
+                    ViewBag.NumeroLinhas = 30;
                 }
                 else
                 {

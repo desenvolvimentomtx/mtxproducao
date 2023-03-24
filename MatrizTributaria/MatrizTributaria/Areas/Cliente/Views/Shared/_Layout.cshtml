@@ -31,7 +31,7 @@
 
         <div class="container-fluid">
             <a class="navbar-brand" href="@Url.Action("HomeCliente", "HomeCliente")">
-                <img src="~/Content/img/logo_nova_3006_4_emp.png" width="150" height="25" class="d-inline-block align-top" alt="">
+                <img id="img_empresa" src="~/Content/img/logo_nova_3006_4_emp.png" width="150" height="25" class="d-inline-block align-top" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuCollapse" aria-controls="menuCollapse" aria-expanded="false" aria-label="Alterna navegação">
                 <span class="navbar-toggler-icon"></span>
@@ -162,7 +162,7 @@
                                                 </li>
 
                                                 <li class="nav-item">
-                                                    <button   style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Red.Base de Calc. de Saída" type="button" onclick="chamarTelaMTX('AnaliseRedBaseCalSai')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> Red. Base Calc Saída</button>
+                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Red.Base de Calc. de Saída" type="button" onclick="chamarTelaMTX('AnaliseRedBaseCalSai')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> Red. Base Calc Saída</button>
 
                                                     @*<a class="nav-link active" href="@Url.Action("AnaliseRedBaseCalSai", "TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> Red. Base Calc Saída</a>*@
 
@@ -175,12 +175,12 @@
                                                 <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Icms de Entrada" type="button" onclick="chamarTela('AnaliseIcmsEntrada')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Icms Entrada</button>
 
 
-                                    </li>
-                                    <li class="nav-item">-->
+                                                </li>
+                                                <li class="nav-item">-->
                                                 @*<a class="nav-link" href="@Url.Action("AnaliseRedBaseCalEnt","TributacaoEmpresa")"><i class="fas fa-donate"></i> Red. Base Calc Entrada</a>*@
                                                 <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Red.Base de Calc. de Entrada" type="button" onclick="chamarTela('AnaliseRedBaseCalEnt')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Red. Base Calc Entrada</button>
 
-                                    </li>-->
+                                                </li>-->
 
 
 
@@ -200,13 +200,13 @@
                                                 <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de CST de Entrada" type="button" onclick="chamarTela('AnaliseCSTEnt')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-suitcase ml-1"></i> CST's Entrada</button>
 
 
-                                    </li>-->
+                                                </li>-->
 
 
 
                                                 <li class="nav-item">
                                                     @*<a class="nav-link" href="@Url.Action("AnaliseProd","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a>*@
-                                                    <button  style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" onclick="chamarTela('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
+                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" onclick="chamarTela('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
 
                                                 </li>
 
@@ -218,127 +218,125 @@
                                 </div>
                             </div>
 
-                        <!--atualizar tabelas antes de mostra-las-->
-                           
-                    <!--<div>
-                        <div id="headingThree">
-                            <h5 class="mb-0 pr-sidebar-titulo-bottom">
-                                <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <i class="fas fa-table prn-cor-icone"></i> TABELAS
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
-                            <div class="pr-fundo-li">
-                                <ul class="nav flex-column pr-fundo-ul">
-                              @*      @if (Session["simplesNacional"].Equals("1"))
+                            <!--atualizar tabelas antes de mostra-las-->
+                            <!--<div>
+                                <div id="headingThree">
+                                    <h5 class="mb-0 pr-sidebar-titulo-bottom">
+                                        <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <i class="fas fa-table prn-cor-icone"></i> TABELAS
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="pr-fundo-li">
+                                        <ul class="nav flex-column pr-fundo-ul">
+                                      @*      @if (Session["simplesNacional"].Equals("1"))
+                                            {
+                                            <li class="nav-item">
+                                                <a style="pointer-events: none;" class="nav-link active" href="@Url.Action("TabelaIcmsSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> ICMS Saída</a>-->
+                                                @*<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Saída" type="button" onclick="chamarTela('TabelaIcmsSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> ICMS Saída</button>*@
+
+                                 @*   <!--</li>
+                                    <li class="nav-item"><a style="pointer-events: none;" class="nav-link active" href="@Url.Action("TabelaRedBasCalSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> Red. Base Calc Saída</a></li>
+                                    <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaIcmsEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Icms Entrada</a></li>
+                                    <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaRedBasCalEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Red. Base Calc Entrada</a></li>
+                                    <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaPisCofins","TributacaoEmpresa")"><i class="fas fa-chart-pie"></i> Pis/Cofins</a></li>
+                                    <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaProduto","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a></li>
+
+
+                                    }
+                                    else
                                     {
-                                    <li class="nav-item">
-                                        <a style="pointer-events: none;" class="nav-link active" href="@Url.Action("TabelaIcmsSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> ICMS Saída</a>-->
-                                        @*<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Saída" type="button" onclick="chamarTela('TabelaIcmsSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> ICMS Saída</button>*@
-
-                         @*   <!--</li>
-                            <li class="nav-item"><a style="pointer-events: none;" class="nav-link active" href="@Url.Action("TabelaRedBasCalSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> Red. Base Calc Saída</a></li>
-                            <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaIcmsEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Icms Entrada</a></li>
-                            <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaRedBasCalEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Red. Base Calc Entrada</a></li>
-                            <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaPisCofins","TributacaoEmpresa")"><i class="fas fa-chart-pie"></i> Pis/Cofins</a></li>
-                            <li class="nav-item"><a style="pointer-events: none;" class="nav-link" href="@Url.Action("TabelaProduto","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a></li>
-
-
-                            }
-                            else
-                            {
-                            <li class="nav-item">-->
-                                @*<a class="nav-link active" href="@Url.Action("TabelaIcmsSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> ICMS Saída</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Saída" type="button" onclick="chamarTela('TabelaIcmsSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> ICMS Saída</button>
-
-                            </li>
-                            <li class="nav-item">-->
-                                @*<a class="nav-link active" href="@Url.Action("TabelaRedBasCalSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> Red. Base Calc Saída</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Red. Base de Calc. Icms de Saída" type="button" onclick="chamarTela('TabelaRedBasCalSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> Red. Base Calc Saída</button>
-
-                            </li>
-
-                            <li class="nav-item">-->
-                                @*<a class="nav-link" href="@Url.Action("TabelaIcmsEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Icms Entrada</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Entrada" type="button" onclick="chamarTela('TabelaIcmsEntrada')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Icms Entrada</button>
-
-                            </li>
-                            <li class="nav-item">-->
-                                @*<a class="nav-link" href="@Url.Action("TabelaRedBasCalEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Red. Base Calc Entrada</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Red. Base de Calc. Icms de Entrada" type="button" onclick="chamarTela('TabelaRedBasCalEntrada')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Red. Base Calc Entrada</button>
-
-                            </li>
-                            <li class="nav-item">-->
-                                @*<a class="nav-link" href="@Url.Action("TabelaPisCofins","TributacaoEmpresa")"><i class="fas fa-chart-pie"></i> Pis/Cofins</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Pis e Cofins" type="button" onclick="chamarTela('TabelaPisCofins')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-chart-pie ml-1"></i> Pis/Cofins</button>
-
-                            </li>
-                            <li class="nav-item">-->
-                                @*<a class="nav-link" href="@Url.Action("TabelaProduto","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a>*@
-                                <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Produtos" type="button" onclick="chamarTela('TabelaProduto')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
-
-                            </li>
-
-
-                            }
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>-->
-                
-                <!--usuario-->
-                <div>
-                    <div id="headingUser">
-                        <h5 class="mb-0 pr-sidebar-titulo-bottom">
-                            <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
-                                <i class="fas fa-tools prn-cor-icone"></i> CONFIGURAÇÕES
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionExample">
-                        <div class="pr-fundo-li">
-                            <ul class="nav flex-column pr-fundo-ul">
-
-                                <li class="nav-item">
-                                    @*<a class="nav-link active" href="@Url.Action("Usuario","TributacaoEmpresa")"> <i class="fas fa-address-card"></i> Usuário</a>*@
-                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Usuários" type="button" onclick="chamarTela('Usuario')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-address-card ml-1"></i> Usuário</button>
-
-                                    @if (Session["acessoEmpresas"] != null)
-                                    {
-                                    <li class="nav-item">
-                                        @*<a class="nav-link active" href="@Url.Action("MudarEmpresa","TributacaoEmpresa")"> <i class="fas fa-random"></i> Trocar Empresa</a>*@
-                                        <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Mudar Empresa" type="button" onclick="chamarTela('MudarEmpresa')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-random ml-1"></i> Trocar Empresa</button>
-
-
+                                    <li class="nav-item">-->
+                                        @*<a class="nav-link active" href="@Url.Action("TabelaIcmsSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> ICMS Saída</a>*@
+                                        <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Saída" type="button" onclick="chamarTela('TabelaIcmsSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> ICMS Saída</button>
 
                                     </li>
-                                }
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                                    <li class="nav-item">-->
+                            @*<a class="nav-link active" href="@Url.Action("TabelaRedBasCalSaida","TributacaoEmpresa")"><i class="fas fa-hand-holding-usd"></i> Red. Base Calc Saída</a>*@
+                            <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Red. Base de Calc. Icms de Saída" type="button" onclick="chamarTela('TabelaRedBasCalSaida')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-hand-holding-usd ml-1"></i> Red. Base Calc Saída</button>
 
-                    <div>
-                        <div id="headingSair">
-                            <h5 class="mb-0 pr-sidebar-titulo-bottom">
-                                <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseSair" aria-expanded="false" aria-controls="collapseThree">
-                                    <i class="fas fa-door-open prn-cor-icone"></i> SAIR
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapseSair" class="collapse show" aria-labelledby="headingSair" data-parent="#accordionExample">
-                            <div class="pr-fundo-li">
-                                <ul class="nav flex-column pr-fundo-ul">
-                                    <li class="nav-item"> <a  style="font-size: 0.9em; padding: 10px; text-align: left;" class="nav-link active" href="@Url.Action("LogOut","HomeCliente")"><i style="font-size:0.9em;" class="fas fa-sign-out-alt"></i> Logout</a>
+                            </li>
 
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                            <li class="nav-item">-->
+                            @*<a class="nav-link" href="@Url.Action("TabelaIcmsEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Icms Entrada</a>*@
+                            <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Icms de Entrada" type="button" onclick="chamarTela('TabelaIcmsEntrada')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Icms Entrada</button>
 
-</div> <!--FIM DO ACORDION-->
+                            </li>
+                            <li class="nav-item">-->
+                            @*<a class="nav-link" href="@Url.Action("TabelaRedBasCalEntrada","TributacaoEmpresa")"><i class="fas fa-donate"></i> Red. Base Calc Entrada</a>*@
+                            <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Red. Base de Calc. Icms de Entrada" type="button" onclick="chamarTela('TabelaRedBasCalEntrada')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-donate ml-1"></i> Red. Base Calc Entrada</button>
+
+                            </li>
+                            <li class="nav-item">-->
+                            @*<a class="nav-link" href="@Url.Action("TabelaPisCofins","TributacaoEmpresa")"><i class="fas fa-chart-pie"></i> Pis/Cofins</a>*@
+                            <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Pis e Cofins" type="button" onclick="chamarTela('TabelaPisCofins')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-chart-pie ml-1"></i> Pis/Cofins</button>
+
+                            </li>
+                            <li class="nav-item">-->
+                            @*<a class="nav-link" href="@Url.Action("TabelaProduto","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a>*@
+                            <!--<button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Produtos" type="button" onclick="chamarTela('TabelaProduto')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
+
+                                        </li>
+
+
+                                        }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <!--usuario-->
+                            <div>
+                                <div id="headingUser">
+                                    <h5 class="mb-0 pr-sidebar-titulo-bottom">
+                                        <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+                                            <i class="fas fa-tools prn-cor-icone"></i> CONFIGURAÇÕES
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionExample">
+                                    <div class="pr-fundo-li">
+                                        <ul class="nav flex-column pr-fundo-ul">
+
+                                            <li class="nav-item">
+                                                @*<a class="nav-link active" href="@Url.Action("Usuario","TributacaoEmpresa")"> <i class="fas fa-address-card"></i> Usuário</a>*@
+                                                <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Tabela Usuários" type="button" onclick="chamarTela('Usuario')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-address-card ml-1"></i> Usuário</button>
+
+                                                @if (Session["acessoEmpresas"] != null)
+                                                {
+                                                <li class="nav-item">
+                                                    @*<a class="nav-link active" href="@Url.Action("MudarEmpresa","TributacaoEmpresa")"> <i class="fas fa-random"></i> Trocar Empresa</a>*@
+                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Mudar Empresa" type="button" onclick="chamarTela('MudarEmpresa')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-random ml-1"></i> Trocar Empresa</button>
+
+
+
+                                                </li>
+                                            }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div id="headingSair">
+                                        <h5 class="mb-0 pr-sidebar-titulo-bottom">
+                                            <a class="btn btn-link pr-textos nav-item nav-link" data-toggle="collapse" data-target="#collapseSair" aria-expanded="false" aria-controls="collapseThree">
+                                                <i class="fas fa-door-open prn-cor-icone"></i> SAIR
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseSair" class="collapse show" aria-labelledby="headingSair" data-parent="#accordionExample">
+                                        <div class="pr-fundo-li">
+                                            <ul class="nav flex-column pr-fundo-ul">
+                                                <li class="nav-item"> <a style="font-size: 0.9em; padding: 10px; text-align: left;" class="nav-link active" href="@Url.Action("LogOut","HomeCliente")"><i style="font-size:0.9em;" class="fas fa-sign-out-alt"></i> Logout</a>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> <!--FIM DO ACORDION-->
 
                         </div>
                     </div>
@@ -401,7 +399,7 @@
 
 
                                                                    ['Maiores', @Html.Raw(ViewBag.AlqICMSVarejoCFMaior)],
-                                                                                                 
+
 
                                                                    ['Menores', @Html.Raw(ViewBag.AlqICMSVarejoCFMenor)],
 
@@ -822,7 +820,7 @@
                                              success: function () {
                                                                 window.location.href = '/Cliente/TributacaoMTXEmpresa/EditClienteAliqIcmsSTVendaAtaContMassa?opcao=' + topping;
                                                             }
-                                                                                       
+
                                                         }); //fim ajax
                                      }//fim if topping
 
@@ -860,7 +858,7 @@
                                                           ['Não Tributadas', @Html.Raw(ViewBag.AliqICMSVendaAtaSimpNacionalNTrib)],
                                                     ['Uso Consumo', @Html.Raw(ViewBag.AliqICMSVendaAtaSimpNacionalUsoConsumo)],
                                                       ['Subst. Tributária', @Html.Raw(ViewBag.AliqICMSVendaAtaSimpNacionalSubsTributaria)]
-                                                          
+
 
                                     ]);
 
@@ -4362,7 +4360,7 @@
 
             });
         </script>
-
+       
 
         @RenderSection("scripts", required: false)
 
