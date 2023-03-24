@@ -361,6 +361,7 @@
     <Compile Include="Models\GeneroEnum.cs" />
     <Compile Include="Models\Hash.cs" />
     <Compile Include="Models\Legislacao.cs" />
+    <Compile Include="Models\MatrizDbContextCliente.cs" />
     <Compile Include="Models\MatrizDbContext.cs" />
     <Compile Include="Models\NaturezaReceita.cs" />
     <Compile Include="Models\Nivel.cs" />

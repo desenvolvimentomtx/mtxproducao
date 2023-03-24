@@ -70,6 +70,7 @@ table.dataTable thead th, table.dataTable tfoot th {
     background-color: #021E36 !important;
     color: #ffffff;
     font-weight: 200;
+    
 }
 
 table.dataTable thead th, table.dataTable thead td {
@@ -811,6 +812,11 @@ legend {
     font-weight: 500;
 }
 
+.pr-td-anterior {
+    color: #D2691E;
+    font-weight: 500;
+}
+
 .pr-table {
     margin-bottom: 5px !important;
 }
@@ -1004,6 +1010,9 @@ li.page-item.active > a {
     border-bottom: none;
     border-top: none;
     border-right: none;
+}
+.prn-borderEspecial6 {
+    border-right: 0.75px solid #ccd3db !important;
 }
 
 .prn-select{
