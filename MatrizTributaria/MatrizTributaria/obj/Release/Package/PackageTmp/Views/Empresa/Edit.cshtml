@@ -102,15 +102,27 @@
                                 <label class="pr-fonte-label" for="email">Id Superlógica</label>
                                 @Html.TextBoxFor(m => m.id_superlogica, new { @class = "form-control form-control-sm", name = "id_superlogica", id = "id_superlogica", placeholder = "Digite o Id da Superlógica" })
                             </div>
+                            <div class="col-lg-4 mb-3">
+                                <label class="pr-fonte-label" for="idNivel">CRT*</label>
+                                @Html.DropDownListFor(m => m.crt, new SelectList(ViewBag.CRT, "ID", "DESCRICAO"), "Escolha O CRT", new { @class = "form-control form-control-sm", id = "crt", name = "crt", style = "max-width:100% !important;" })
+                                @Html.ValidationMessageFor(m => m.crt, "", new { @class = "text-danger", role = "alert" })
 
+                            </div>
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="idNivel">REGIME*</label>
+                                @Html.DropDownListFor(m => m.regime_trib, new SelectList(ViewBag.Regime, "ID", "TIPO"), "Escolha O REGIME", new { @class = "form-control form-control-sm", id = "regime_trib", name = "regime_tribu", style = "max-width:100% !important;" })
+                                @Html.ValidationMessageFor(m => m.regime_trib, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
                             <div class="col-lg-2 mb-3">
 
                                 <label class="pr-fonte-label" for="ativo">Ativo: </label>
                                 <br />
-                                Sim: @Html.RadioButtonFor(m => m.ativo, 1) | 
+                                Sim: @Html.RadioButtonFor(m => m.ativo, 1) |
                                 Não: @Html.RadioButtonFor(m => m.ativo, 0)
 
                             </div>
+
                         </div>
 
 
