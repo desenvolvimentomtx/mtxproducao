@@ -109,7 +109,7 @@
 
                         </div>
                         <div class="form-row">
-                            <div class="col-lg-6 mb-3">
+                            <div class="col-lg-4 mb-3">
                                 <label class="pr-fonte-label" for="idNivel">Software House*</label>
                                 @Html.DropDownListFor(m => m.idSofwareHouse, new SelectList(ViewBag.SoftwareHouse, "Id", "Nome"), "Escolha a Software House", new { @class = "form-control form-control-sm", id = "idSoftwareHouse", name = "idSoftwareHouse", style = "max-width:100% !important;" })
                                 @Html.ValidationMessageFor(m => m.idSofwareHouse, "", new { @class = "text-danger", role = "alert" })
@@ -124,20 +124,26 @@
                             </div>
                             @*<div class="col-lg-4 mb-3">
 
-                                    <label class="pr-fonte-label" for="cidade">Usuário Admin Inicial</label>
-                                    @Html.TextBoxFor(m => m.usuarioInicial, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", name = "usuarioInicial", id = "usuarioInicial", placeholder = "Digite um e-mail válido" })
-                                </div>*@
+            <label class="pr-fonte-label" for="cidade">Usuário Admin Inicial</label>
+            @Html.TextBoxFor(m => m.usuarioInicial, new { @class = "form-control form-control-sm", onkeyup = "minuscula(this);", name = "usuarioInicial", id = "usuarioInicial", placeholder = "Digite um e-mail válido" })
+        </div>*@
+
+
                             <div class="col-lg-4 mb-3">
-
-                                <fieldset>
-                                    <legend style="width: 150px !important;" class="pr-fonte-label"> Regime Tributário*</legend>
-                                    <span class="pr-fonte-label ml-2">Simples Nacional: @Html.RadioButtonFor(m => m.simples_nacional, 1)</span>
-                                    <span class="pr-fonte-label">Outros  : @Html.RadioButtonFor(m => m.simples_nacional, 0)</span><br />
-                                    @Html.ValidationMessageFor(m => m.simples_nacional, "", new { @class = "text-danger", role = "alert" })
-                                </fieldset>
-
+                                <label class="pr-fonte-label" for="idNivel">CRT*</label>
+                                @Html.DropDownListFor(m => m.crt, new SelectList(ViewBag.CRT, "ID", "DESCRICAO"), "Escolha O CRT", new { @class = "form-control form-control-sm", id = "idSoftwareHouse", name = "idSoftwareHouse", style = "max-width:100% !important;" })
+                                @Html.ValidationMessageFor(m => m.crt, "", new { @class = "text-danger", role = "alert" })
 
                             </div>
+                            <div class="col-lg-2 mb-3">
+                                <label class="pr-fonte-label" for="idNivel">REGIME*</label>
+                                @Html.DropDownListFor(m => m.regime_trib, new SelectList(ViewBag.Regime, "ID", "TIPO"), "Escolha O REGIME", new { @class = "form-control form-control-sm", id = "idSoftwareHouse", name = "idSoftwareHouse", style = "max-width:100% !important;" })
+                                @Html.ValidationMessageFor(m => m.regime_trib, "", new { @class = "text-danger", role = "alert" })
+
+                            </div>
+
+
+
 
                         </div>
 

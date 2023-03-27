@@ -64,6 +64,14 @@ namespace MatrizTributaria.Models.ViewModels
         public int? id_superlogica { get; set; }
 
 
+        [Required(ErrorMessage = "O CRT é campo obrigatório", AllowEmptyStrings = false)]
+        public int? crt { get; set; }
+
+
+        [Required(ErrorMessage = "O REGIME TRIBUTÁRIO é campo obrigatório", AllowEmptyStrings = false)]
+        public int? regime_trib { get; set; }
+
+
         //inserir um combobox com os estado
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Insira uma e-mail válido")]
         public string usuarioInicial { get; set; }
