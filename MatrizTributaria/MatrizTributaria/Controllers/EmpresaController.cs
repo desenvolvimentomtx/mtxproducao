@@ -88,7 +88,8 @@ namespace MatrizTributaria.Controllers
             //Mensagens de retorno
             ViewBag.MensagemGravar = (resultado != null) ? resultado : "";
             ViewBag.RegSalvos = (qtdSalvos != null) ? qtdSalvos : "";
-
+            ViewBag.CRT = db.Crts.AsNoTracking().OrderBy(s => s.ID);
+            ViewBag.Regime = db.RegimesTribarios.AsNoTracking().OrderBy(s => s.ID);
             ViewBag.Empresas = db.Empresas.ToList();
 
             return View(listEmp.ToPagedList(numeroPagina, tamanhoPagina));//retorna o pagedlist
@@ -107,6 +108,8 @@ namespace MatrizTributaria.Controllers
                 return RedirectToAction("../Erro/Erro", new { param = par });
             }
             ViewBag.SoftwareHouse = db.SoftwareHouses;
+            ViewBag.CRT = db.Crts.AsNoTracking().OrderBy(s => s.ID);
+            ViewBag.Regime = db.RegimesTribarios.AsNoTracking().OrderBy(s => s.ID);
             var model = new EmpresaViewModel();
             return View(model);
         }
@@ -148,13 +151,15 @@ namespace MatrizTributaria.Controllers
                  ativo = model.ativo,
                  id_superlogica = model.id_superlogica,
                  idSofwareHouse = model.idSofwareHouse,
-                 simples_nacional = model.simples_nacional,
+                 //simples_nacional = model.simples_nacional,
+                 crt = model.crt,
+                 regime_trib = model.regime_trib,
                  datacad = model.datacad,
                  dataalt = model.dataalt
 
 
             };
-                
+           
 
                 db.Empresas.Add(empresa);
                 db.SaveChanges();
@@ -630,13 +635,17 @@ namespace MatrizTributaria.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.CRT = db.Crts.AsNoTracking().OrderBy(s => s.ID);
+            ViewBag.Regime = db.RegimesTribarios.AsNoTracking().OrderBy(s => s.ID);
+
             return View(empresa);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,razacaosocial, fantasia, cnpj, logradouro, numero, cep, complemento, cidade, estado, telefone, ativo, email")] Empresa model)
+        public ActionResult Edit([Bind(Include = "id,razacaosocial, fantasia, cnpj, logradouro, numero, cep, complemento, cidade, estado, telefone, ativo, email, crt, regime_trib")] Empresa model)
         {
+            string msgRetorno = "";
             if (ModelState.IsValid)
             {
                 var empresa = db.Empresas.Find(model.id);
@@ -656,9 +665,22 @@ namespace MatrizTributaria.Controllers
                  empresa.telefone = model.telefone;
                  empresa.ativo = model.ativo;
                  empresa.email = model.email;
-                
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                empresa.crt = model.crt;
+                empresa.regime_trib = model.regime_trib;
+                try
+                {
+                    
+                    db.SaveChanges();
+                    msgRetorno = "Registro alterado com sucesso.";
+                    return RedirectToAction("Index", new { param = msgRetorno});
+                   
+                }
+                catch (Exception e)
+                {
+                    msgRetorno = "Registro não alterado, verifique os dados e tente novamente.";
+                    return RedirectToAction("Index", new { param = msgRetorno });
+                }
+               
             }
 
             return View(model);

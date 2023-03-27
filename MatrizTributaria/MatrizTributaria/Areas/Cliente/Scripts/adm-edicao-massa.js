@@ -6567,7 +6567,7 @@ function onlynumber(evt) {
         function createPDF() {
             var sTable = document.getElementById('table-mtx').innerHTML;
             var titulo = document.getElementById('tituloTabela').innerHTML;
-            var img = document.getElementById('img_empresa').src();
+            //var img = document.getElementById('img_empresa').src('/Content/img/logo_nova_3006_4_emp.png" width = "150" height = "25" class= "d-inline-block align-top"');
             titulo = titulo.replace('<strong>', '');
             titulo = titulo.replace('</strong>', '');
 
@@ -6588,7 +6588,8 @@ function onlynumber(evt) {
         var win = window.open('', '', 'height=700,width=700');
 
             win.document.write('<html><head>');
-            win.document.write('<title>');
+            win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25'>");
+            win.document.write('<title style="text-align:center;">');
             win.document.write(titulo);
             win.document.write('</title>');   // <title> FOR PDF HEADER.
 

@@ -66,11 +66,11 @@ namespace MatrizTributaria.Models
         public int? id_superlogica { get; set; }
 
 
-       
+        [Required(ErrorMessage = "O CRT é campo obrigatório", AllowEmptyStrings = false)]
         [Column("crt")]
         public int? crt { get; set; }
 
-
+        [Required(ErrorMessage = "O REGIME é campo obrigatório", AllowEmptyStrings = false)]
         [Column("regime_trib")]
         public int? regime_trib { get; set; }
 
@@ -94,6 +94,7 @@ namespace MatrizTributaria.Models
 
         [JsonIgnore]
         public virtual SoftwareHouse SoftwareHouse { get; set; }
+    
 
     }
 }
