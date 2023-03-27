@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Language" content="pt-br">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <link rel="icon" type="image/png" href="~/Content/img/preciso.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link href="~/Areas/Cliente/Content/all-min.css" rel="stylesheet" />
@@ -3693,9 +3693,23 @@
                 $("#idCstVeVarCont").change(function () {
                     $("#desVenVarCont").val($("#idCstVeVarCont").val());
                 });
-                $("#idCstVeVarCF").change(function () {
-                    $("#desVenVarCF").val($("#idCstVeVarCF").val());
-                });
+                //atribuir aos outros
+                    $("#idCstVeVarCF").change(function () {
+                    $("#desVenVarCF").val($("#idCstVeVarCF").val()); //dele proprio
+
+                    //dos demais
+                    $("#idCstVeVarCont").val($("#idCstVeVarCF").val());
+                    $("#desVenVarCont").val($("#idCstVeVarCF").val()); //dele proprio
+
+                    $("#idCstVeAtaCont").val($("#idCstVeVarCF").val());
+                        $("#desVenAtaCont").val($("#idCstVeVarCF").val()); //dele proprio
+
+                        $("#idCstVeAtaSN").val($("#idCstVeVarCF").val());
+                        $("#desVenSN").val($("#idCstVeVarCF").val()); //dele proprio
+
+                    });
+
+             
 
                 $("#idCstCompInd").change(function () {
                     $("#desCompInd").val($("#idCstCompInd").val());

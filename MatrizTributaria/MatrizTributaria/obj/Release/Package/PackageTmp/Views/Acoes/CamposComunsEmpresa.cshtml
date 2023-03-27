@@ -4,35 +4,50 @@
         <!--Mensagem de salvar-->
         @if (@ViewBag.MensagemGravar != "")
         {
-            if (ViewBag.MensagemGravar == "Registro Salvo com Sucesso!!")
-            {
-                <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
-                    @if (@ViewBag.RegSalvos != "0")
-                    {
-                       
-                            <span>@ViewBag.MensagemGravar Qtd de Registros Salvos: @ViewBag.RegSalvos</span>
-                        
-                    }
-                   
 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-            }
-            else
+            if (ViewBag.MensagemGravar == "Registro alterado com sucesso.")
             {
-                <div class="alert alert-warning alert-dismissible fade show form-group col-lg-5 mt-1" role="alert">
-                    <span>@ViewBag.MensagemGravar</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                 <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                 <span>@ViewBag.MensagemGravar</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
             }
 
+                if (ViewBag.MensagemGravar == "Registro não alterado, verifique os dados e tente novamente.")
+                {
+                    <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
 
-        }
+
+                        <span>@ViewBag.MensagemGravar Qtd de Registros Salvos: @ViewBag.RegSalvos</span>
+
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+
+
+                if (ViewBag.MensagemGravar == "Registro Salvo com Sucesso!!")
+                {
+                    <div class="alert alert-success alert-dismissible fade show form-group col-lg-8 mt-1" role="alert">
+                        @if (@ViewBag.RegSalvos != "0")
+                        {
+
+                    <span>@ViewBag.MensagemGravar Qtd de Registros Salvos: @ViewBag.RegSalvos</span>}
+
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div> 
+                }
+
+            
+
+}
     </div>
     <div class="row">
 

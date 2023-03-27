@@ -9,7 +9,9 @@
 <div id="card-analise" class="container-fluid pr-container-2 pr-card-cad">
     <div class="card">
         <div class="card-header">
-            ANALISE:Produto <strong>"@ViewBag.Mensagem"</strong> Origem: "@ViewBag.UfOrigem" - Destino: "@ViewBag.UfDestino" <a data-toggle="tooltip" data-placement="right" title="Ir para Gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnaliseCST","TributacaoMTXEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+             <span id="tituloTabela"> ANALISE:Produto <strong>"@ViewBag.Mensagem"</strong> Origem: "@ViewBag.UfOrigem" - Destino: "@ViewBag.UfDestino" </span> <a data-toggle="tooltip" data-placement="right" title="Ir para Gráficos" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" href="@Url.Action("AnaliseCST","TributacaoMTXEmpresa")"><i style="font-size:1.3em;" class="fas fa-chart-pie"></i>  </a>
+            <button class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0" data-toggle="tooltip" data-placement="right" title="PDF" type="button" value="Create PDF" id="btPrint" onclick="createPDF()"><i style="font-size:1.3em;" class="fas fa-print"></i></button>
+
             <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosMTX" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.3em;" class="fas fa-edit"></i></button>
             @*<button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s) Manualmente" type="button" id="edtSelCstSaiPisCofCliManual" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"><i style="font-size:1.3em;" class="fas fa-user-edit"></i></button>*@
 
@@ -32,33 +34,36 @@
                                 <table id="table-mtx" class="table table table-light table-hover thead-dark table-striped pr-table">
                                     <thead class="pr-thead">
                                         <tr>
-                                            <th style="text-align:center; border:none;" colspan="8" class="pr-fonte2" scope="col">Analise CST</th>
+                                            <th style="text-align:center; border:none;" colspan="9" class="pr-fonte2" scope="col">Analise CST</th>
 
                                         </tr>
                                         <tr class="pr-td">
-                                            <th>
+                                            <th class="prn-borderEspecial3">
                                                 Registro
                                             </th>
-                                            <th>
+                                            <th class="prn-borderEspecial3">
                                                 NCM
                                             </th>
-                                            <th>
+                                            <th class="prn-borderEspecial3">
                                                 Código de Barras
                                             </th>
-                                            <th>
+                                            <th class="prn-borderEspecial3">
                                                 Descrição
                                             </th>
+                                            <th class="text-center prn-borderEspecial3">
+                                                CST ANTES (CLI)
+                                            </th>
 
-                                            <th class="text-center">
+                                            <th class="text-center prn-borderEspecial3">
                                                 CST no Cliente
                                             </th>
 
-                                            <th>Descricao CST Cliente</th>
+                                            <th class="text-center prn-borderEspecial3">Descricao CST Cliente</th>
 
-                                            <th class="text-center">
+                                            <th class="text-center prn-borderEspecial3">
                                                 CST no MTX
                                             </th>
-                                            <th>Descricao CST MTX</th>
+                                            <th style="text-align: center;" class="prn-borderEspecial3">Descricao CST MTX</th>
 
 
                                         </tr>
@@ -66,123 +71,139 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                            <tr style="height:12.0px;" class="pr-td">
-                                <td style="width:4%;">
-                                    @Html.DisplayFor(modelItem => item.TE_ID)
-                                </td>
-                                <td style="width:5%;">
-                                    @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
-                                </td>
-                                <td style="width:10%;">
-                                    @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
-                                </td>
-                                <td style="width:20%;">
-                                    @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
-                                </td>
+                                        <tr style="height:12.0px;" class="pr-td">
+                                            <td style="width:4%;" class="prn-borderEspecial6">
+                                                @Html.DisplayFor(modelItem => item.TE_ID)
+                                            </td>
+                                            <td style="width:5%;" class="prn-borderEspecial6">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_NCM)
+                                            </td>
+                                            <td style="width:8%;" class="prn-borderEspecial6 prn-imp">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_COD_BARRAS)
+                                            </td>
+                                            <td style="width:15%;" class="prn-borderEspecial6 prn-imp">
+                                                @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
+                                            </td>
+                                            <td style=" text-align: center; width: 8%;" class="pr-td-anterior prn-borderEspecial6">
 
-
-                                @if (item.CST_VENDA_VAREJO_CONS_FINAL == null)
-                                {
-                <td style="text-align:center; width:10%;">
-                    @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
-                </td>
-                                    <td style="width:20%;">
-
-                                        @foreach (var dado in ViewBag.CstGeral)
-                                        {
-                                            if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
-                                            {
-                    <span>@dado.descricao</span>break;
-                }
-
-            }
-
-                                    </td> }
-                                                    else
+                                                @foreach (var dado in ViewBag.DadosClientes)
+                                                {
+                                                    if (item.PRODUTO_COD_BARRAS == dado.PRODUTO_COD_BARRAS)
                                                     {
-                                                        if (item.CST_VENDA_VAREJO_CONS_FINAL != item.CST_VENDA_VAREJO_CONS_FINAL_BASE && item.CST_VENDA_VAREJO_CONS_FINAL != null)
+                                                        <span>@dado.CST_VENDA_VAREJO_CONS_FINAL</span>
+                                                        break;
+                                                    }
+
+                                                }
+
+                                            </td>
+
+                                            @if (item.CST_VENDA_VAREJO_CONS_FINAL == null)
+                                            {
+                                                <td style="text-align:center; width:5%;" class="prn-borderEspecial6">
+                                                    @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
+                                                </td>
+                                                <td style="width:20%;" class="prn-imp">
+
+                                                    @foreach (var dado in ViewBag.CstGeral)
+                                                    {
+                                                        if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
                                                         {
+                                                            <span>@dado.descricao</span>break;
+                                                        }
 
-                                    <td style="text-align:center; width:10%;" class="pr-td-maior">
-                                        @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
-                                    </td>
-                                                            <td style="width:20%;">
+                                                    }
 
-                                                                @foreach (var dado in ViewBag.CstGeral)
-                                                                {
-                                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
-                                                                    {
-                                        <span>@dado.descricao</span>break;
-                                    }
+                                                </td>
+ }
+                                            else
+                                            {
+                                                if (item.CST_VENDA_VAREJO_CONS_FINAL != item.CST_VENDA_VAREJO_CONS_FINAL_BASE && item.CST_VENDA_VAREJO_CONS_FINAL != null)
+                                                {
 
-                                }
+                                                    <td style="text-align:center; width:5%;" class="pr-td-maior prn-borderEspecial6">
+                                                        @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
+                                                    </td>
+                                                    <td style="width:20%;"class="prn-imp">
 
-                                                            </td> }
-                                                                                else
-                                                                                {
-                                                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL == item.CST_VENDA_VAREJO_CONS_FINAL_BASE && item.CST_VENDA_VAREJO_CONS_FINAL != null)
-                                                                                    {
-                                                            <td style="text-align:center; width:10%;" class="pr-td-menor">
-                                                                @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
-                                                            </td>
-                                                                                        <td style="width:20%;">
-
-                                                                                            @foreach (var dado in ViewBag.CstGeral)
-                                                                                            {
-                                                                                                if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
-                                                                                                {
+                                                        @foreach (var dado in ViewBag.CstGeral)
+                                                        {
+                                                            if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
+                                                            {
                                                                 <span>@dado.descricao</span>break;
                                                             }
 
                                                         }
 
-                                                                                        </td> }
-                                                                                                                else
-                                                                                                                {
+                                                    </td>
+ }
+                                                else
+                                                {
+                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL == item.CST_VENDA_VAREJO_CONS_FINAL_BASE && item.CST_VENDA_VAREJO_CONS_FINAL != null)
+                                                    {
+                                                        <td style="text-align:center; width:5%;" class="pr-td-menor prn-borderEspecial6">
+                                                            @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
+                                                        </td>
+                                                        <td style="width:20%;" class="prn-imp">
 
-                                                                                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL_BASE == null && item.CST_VENDA_VAREJO_CONS_FINAL != null)
-                                                                                                                    {
-                                                                                        <td style="text-align:center; width:10%;" class="pr-td-igual">
-                                                                                            @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
-                                                                                        </td>
-                                                                                                                        <td style="width:20%;">
+                                                            @foreach (var dado in ViewBag.CstGeral)
+                                                            {
+                                                                if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
+                                                                {
+                                                                    <span>@dado.descricao</span>break;
+                                                                }
 
-                                                                                                                            @foreach (var dado in ViewBag.CstGeral)
-                                                                                                                            {
-                                                                                                                                if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
-                                                                                                                                {
-                                                                                            <span>@dado.descricao</span>break;
-                                                                                        }
+                                                            }
 
-                                                                                    }
+                                                        </td>
+ }
+                                                    else
+                                                    {
 
-                                                                                                                        </td>}
+                                                        if (item.CST_VENDA_VAREJO_CONS_FINAL_BASE == null && item.CST_VENDA_VAREJO_CONS_FINAL != null)
+                                                        {
+                                                            <td style="text-align:center; width:5%;" class="pr-td-igual prn-borderEspecial6">
+                                                                @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL)
+                                                            </td>
+                                                            <td style="width:20%;" class="prn-imp">
+
+                                                                @foreach (var dado in ViewBag.CstGeral)
+                                                                {
+                                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL == dado.codigo)
+                                                                    {
+                                                                        <span>@dado.descricao</span>break;
+                                                                    }
+
+                                                                }
+
+                                                            </td>
+}
 
 
 
-                                                                                                                                                }
+                                                    }
 
-                                                                                                                                            }
-                                                                                                                                        }
+                                                }
+                                            }
 
 
-                                <td style="text-align:center; width:10%;">
-                                    @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL_BASE)
-                                </td>
-                                <td style="width:20%;">
+                                            <td style="text-align:center; width:5%;" class="pr-td-igual prn-borderEspecial6">
+                                                @Html.DisplayFor(modelItem => item.CST_VENDA_VAREJO_CONS_FINAL_BASE)
+                                            </td>
+                                            <td style="width:20%;"  class="prn-imp">
 
-                                    @foreach (var dado in ViewBag.CstGeral)
-                                    {
-                                        if (item.CST_VENDA_VAREJO_CONS_FINAL_BASE == dado.codigo)
-                                        {
-                    <span>@dado.descricao</span>break;
-                }
+                                                @foreach (var dado in ViewBag.CstGeral)
+                                                {
+                                                    if (item.CST_VENDA_VAREJO_CONS_FINAL_BASE == dado.codigo)
+                                                    {
+                                                        <span>@dado.descricao</span>break;
+                                                    }
 
-            }
+                                                }
 
-                                </td>
+                                            </td>
 
-                            </tr>}
+                                        </tr>}
 
                                     </tbody>
                                 </table><!--fim da tabela-->

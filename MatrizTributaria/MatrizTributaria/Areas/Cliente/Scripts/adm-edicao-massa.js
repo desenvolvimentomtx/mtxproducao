@@ -6567,6 +6567,8 @@ function onlynumber(evt) {
         function createPDF() {
             var sTable = document.getElementById('table-mtx').innerHTML;
             var titulo = document.getElementById('tituloTabela').innerHTML;
+            var nomeEmp = document.getElementById('nomeEmpresa').innerHTML;
+            var cnpjEmp = document.getElementById('cnpjEmpresa').innerHTML;
             //var img = document.getElementById('img_empresa').src('/Content/img/logo_nova_3006_4_emp.png" width = "150" height = "25" class= "d-inline-block align-top"');
             titulo = titulo.replace('<strong>', '');
             titulo = titulo.replace('</strong>', '');
@@ -6578,6 +6580,7 @@ function onlynumber(evt) {
             style = style + "tr {height:12.0px;}";
             style = style + ".prn-imp{text-align:left;}";
             style = style + ".pr-td {font-size: 10px !important; padding: 2px; font-weight: 500; }";
+            style = style + "p {font-size: 10px !important; padding: 2px; font-weight: 500; }";
             style = style + ".pr-thead { background - color: #021E36!important; color: #ffffff; font - weight: 200;}";
 
 
@@ -6588,7 +6591,7 @@ function onlynumber(evt) {
         var win = window.open('', '', 'height=700,width=700');
 
             win.document.write('<html><head>');
-            win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25'>");
+            win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25' margin-botton='10px'>");
             win.document.write('<title style="text-align:center;">');
             win.document.write(titulo);
             win.document.write('</title>');   // <title> FOR PDF HEADER.
@@ -6600,6 +6603,12 @@ function onlynumber(evt) {
             win.document.write('<table>');
             win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
             win.document.write('</table>');
+            win.document.write('<p>');
+            win.document.write('Empresa : '+nomeEmp);
+            win.document.write('</p>');
+            win.document.write('<p>');
+            win.document.write('CNPJ: '+cnpjEmp);
+            win.document.write('</p>');
                 win.document.write('</body></html>');
 
             win.document.close(); 	// CLOSE THE CURRENT WINDOW.

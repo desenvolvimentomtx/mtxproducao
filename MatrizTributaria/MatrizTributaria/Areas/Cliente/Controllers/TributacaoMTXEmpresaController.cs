@@ -6663,7 +6663,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             VerificarLinhas(numeroLinhas);
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
 
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //parametro de ordenacao da tabela
@@ -7132,6 +7135,13 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             ViewBag.RegiTribEmpresa = TempData["regimeTribEmpresa"].ToString();
 
             ViewBag.CstGeral = db.CstIcmsGerais.ToList();
+
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
 
             //se o filtro corrente estiver nulo ele busca pelo parametro procurarpor
             string codBarras = (filtroCorrente != null) ? filtroCorrente : procuraPor;
@@ -7617,6 +7627,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //parametro de ordenacao da tabela
             ViewBag.Ordenacao = ordenacao;
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Se a ordenação nao estiver nula ele aplica a ordenação produto decresente
             ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
@@ -8121,6 +8136,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             procuraNCM = (procuraNCM == null) ? filtroCorrenteNCM : procuraNCM;
             procuraCEST = (procuraCEST == null) ? filtroCorrenteCest : procuraCEST;
 
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             /*Ponto de ajuste: fazer com que as buscas persistam entre as requisições usando temp data*/
             //ViewBag.FiltroCorrente = procuraPor;
