@@ -6562,6 +6562,52 @@ function onlynumber(evt) {
     }
 }
 
+     // Script para impressão-- >
+ 
+        function createPDF() {
+            var sTable = document.getElementById('table-mtx').innerHTML;
+            var titulo = document.getElementById('tituloTabela').innerHTML;
+            //var img = document.getElementById('img_empresa').src('/Content/img/logo_nova_3006_4_emp.png" width = "150" height = "25" class= "d-inline-block align-top"');
+            titulo = titulo.replace('<strong>', '');
+            titulo = titulo.replace('</strong>', '');
+
+        var style = "<style>";
+            style = style + "table {width: 100%;font: 17px Calibri;}";
+            style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+            style = style + "padding: 2px 3px;text-align: center;}";
+            style = style + "tr {height:12.0px;}";
+            style = style + ".prn-imp{text-align:left;}";
+            style = style + ".pr-td {font-size: 10px !important; padding: 2px; font-weight: 500; }";
+            style = style + ".pr-thead { background - color: #021E36!important; color: #ffffff; font - weight: 200;}";
+
+
+            
+            style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+            win.document.write('<html><head>');
+            win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25'>");
+            win.document.write('<title style="text-align:center;">');
+            win.document.write(titulo);
+            win.document.write('</title>');   // <title> FOR PDF HEADER.
+
+           
+                win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+                win.document.write('</head>');
+            win.document.write('<body>');
+            win.document.write('<table>');
+            win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+            win.document.write('</table>');
+                win.document.write('</body></html>');
+
+            win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+            win.print();    // PRINT THE CONTENTS.
+            } //fim da funcao
+       
+
 //$(document).ready(function () {
   
    

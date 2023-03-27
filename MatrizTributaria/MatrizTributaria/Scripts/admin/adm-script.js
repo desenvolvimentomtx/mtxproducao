@@ -4576,6 +4576,54 @@ $(document).ready(function () {
 });
 
 
+
+
+//PEGAR DADOS DO SELECT DA TRIBUTAÇÃO POR NCM E ATRIBUIR AOS OUTROS SELECTS
+//$(document).ready(function () {
+
+//    var select = document.getElementById("idCstVeVarCF");
+//    var opcaoTexto = select.options[select.selectedIndex].text;
+//    var opcaoValor = select.options[select.selectedIndex].value;
+
+//    alert("Texto:" + opcaoTexto + "Valor : " + opcaoValor);
+
+
+
+//});
+function pegarValoresSelect() {
+    //pegando os valores
+   
+
+    var alqBase = document.getElementById("alVeVarCF").value; //aliquota base
+    var aliqStBase = document.getElementById("alVeVarCFSt").value; //aliquota st base
+
+    var redBcBase = document.getElementById("rBcVeVarCF").value; //red base
+    var redBcStBase = document.getElementById("rBcSTVeVarCF").value; //redSt base
+
+    //atribuir aos outros elementos
+    /*   alert("Texto: " + opcaoTexto + "Valor : " + opcaoValor + "Aliquota : "+aliq);*/
+    document.getElementById("alVeVarCont").value = alqBase;
+    document.getElementById("alVeVarContSt").value = aliqStBase;
+    document.getElementById("rBcVeVarCont").value = redBcBase;
+    document.getElementById("rBcSTVeVarCont").value = redBcStBase;
+
+    document.getElementById("alVaC").value = alqBase;
+    document.getElementById("alVaCSt").value = aliqStBase;
+    document.getElementById("rBcVaC").value = redBcBase;
+    document.getElementById("rBcSTVaC").value = redBcStBase;
+
+    document.getElementById("alVSN").value = alqBase;
+    document.getElementById("alVSNSt").value = aliqStBase;
+    document.getElementById("rBcVSN").value = redBcBase;
+    document.getElementById("rBcSTVSN").value = redBcStBase;
+
+
+
+    
+};
+
+
+//visualizar detalhes
 $(document).ready(function () {
     /** Script para selecionar a linha tabela */
     var tabela = document.getElementById("tablepr");
