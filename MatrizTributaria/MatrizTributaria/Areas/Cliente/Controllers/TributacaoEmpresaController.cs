@@ -1855,45 +1855,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             if (this.empresa.simples_nacional.Equals(1))
             {
 
-                //  VerificaTempDataSN();
-
-                ////Para os itens sem correspondencia
-                //if (TempData["analise2"] == null)
-                //{
-                //    //this.tribEmpProd = (from a in db.TributacaoEmpresas where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList();
-                //    this.trib3 = (from a in db.Analise_Tributaria_3 where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList(); //lista com os itens divegentes
-                //    this.trib2 = (from a in db.Analise_Tributaria_2 where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList(); //lista com os itens divegentes
-                //    TempData["prdInexistente"] = this.trib2;
-                //    //TempData["analise2"] = this.tribEmpProd;
-                //    TempData["analise2"] = this.trib3;
-                //    TempData.Keep("analise2");
-                //    TempData.Keep("prdInexistente");
-                //}
-                //else
-                //{
-                //    //this.tribEmpProd = (List<TributacaoEmpresa>)TempData["analise2"];
-                //    this.trib3 = (List<AnaliseTributaria3>)TempData["analise2"];
-
-                //    this.trib2 = (List<AnaliseTributaria2>)TempData["prdInexistente"];
-                //    TempData.Keep("analise2");
-                //    TempData.Keep("prdInexistente");
-                //}
+             
                 VerificaProdutos();
 
 
-                ///*Descrição: IGUAIS, DIFERENTES E NULOS*/
-                //int iguais = analise.Count(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO);
-                //int nulas = analise.Count(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null);
-                //iguais = iguais - nulas; //dessa forma ecxlui-se onde a descrição está nula no cliente e no mtx ao mesmo tempo
-
-                //ViewBag.ProdDescIguais = iguais;
-                //ViewBag.ProdDescNull = nulas;
-                //ViewBag.ProdDescDif = analise.Count(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO);
-
-                /*Descrição: IGUAIS, DIFERENTES E NULOS*/
-                //ViewBag.ProdDescIguais = this.analiseSn.Count(a => a.PRODUTO_COD_BARRAS == a.Cod_Barras_INTERNO && a.PRODUTO_DESCRICAO == a.Descricao_INTERNO);
-                //ViewBag.ProdDescNull = this.analiseSn.Count(a => a.PRODUTO_COD_BARRAS == a.Cod_Barras_INTERNO && a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null);
-                //ViewBag.ProdDescDif = this.analiseSn.Count(a => a.PRODUTO_COD_BARRAS == a.Cod_Barras_INTERNO && a.PRODUTO_DESCRICAO != a.Descricao_INTERNO);
+              
 
                 ViewBag.ProdDescIguais = this.trib3.Count(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO);
                 ViewBag.ProdDescNull = this.trib3.Count(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null);
@@ -1918,11 +1884,7 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
                 ViewBag.ProdCESTIgual = this.trib3.Count(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null);
 
 
-                /*Ncm*/
-                //ViewBag.ProdNCMNulo = this.trib3.Count(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null);
-                //ViewBag.ProdNCMDiferente = this.trib3.Count(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
-                //ViewBag.ProdNCMIgual = this.trib3.Count(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
-
+             
                 /*Versão 2 NCM*/
                 ViewBag.ProdNCMNuloAmbos   = this.trib3.Count(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null);
                 ViewBag.ProdNCMNuloMTX     = this.trib3.Count(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null);
@@ -1931,39 +1893,12 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
                 ViewBag.ProdNCMIgual       = this.trib3.Count(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null);
 
                 /*Produtos sem correspondencias*/
-                /*TO-DO: implementar código para pegar produtos sem correspondencia*/
 
-                //total de produtos
-                //int qtdProd = 0;
-
-                //variavel auxiliar
-                // int contador = 0;
-
-                //     int semTrib = 0;
-                //percorre a lista de produtos inexistentes
-                //foreach (AnaliseTributaria2 t in trib2)
-                //{
-                //    //compara com oa lista de produtos existentes
-                //    tribEmpProd = tribEmpProd.Where(a => a.PRODUTO_COD_BARRAS.StartsWith(t.PRODUTO_COD_BARRAS)).ToList();
-                //    //caso nao exista o valor vem zerado e soma no contador
-                //    if (tribEmpProd.Count() >= 0)
-                //    {
-                //        contador++;
-                //        this.tribEmpProd = (List<TributacaoEmpresa>)TempData["analise2"];
-                //    }
-                //}
-                //qtdProd = this.analiseSn.Count();
-                //contador = trib2.Count();
-
-
-                //    ViewBag.ComCorrespondencia = qtdProd;
-                //    ViewBag.SemCorrespondencia = contador;
-                //    ViewBag.SemTributacao = this.tribEmpProd.Count() - contador;
 
                 ViewBag.SemCorrespondencia = this.trib2.Count();
                 ViewBag.ComCorrespondencia = this.trib3.Count();
 
-                //atribui a viewBag os valores que possuem e nao possuem correspondencia
+                
 
 
 
@@ -3003,23 +2938,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
                 VerificaProdutos();
 
 
-                //if (TempData["tribkk"] == null)
-                //{
-                //    this.trib = (from a in db.Analise_Tributaria where a.CNPJ_EMPRESA == this.empresa.cnpj && a.ATIVO.Equals(1) select a).ToList();
-                //    TempData["trib"] = this.trib;
-                //    TempData.Keep("trib");
-                //}
-                //else
-                //{
-                //    this.trib = (List<AnaliseTributaria>)TempData["trib"];
-                //    TempData.Keep("trib");
-                //}
-                //procura diferenciado para tabela de  produto
-               // this.analiseSn = ProcuraPorTabelaProdutoSN(filtroDados, parFiltro, this.analiseSn);
+              
 
                 this.trib3 = ProcuraPorTabelaProdutoSNCorrespondente(filtroDados, parFiltro, this.trib3);
 
-                //this.trib = this.trib.Where(s => s.UF_ORIGEM.Equals(this.ufOrigem) && s.UF_DESTINO.Equals(this.ufDestino)).ToList();
 
                 int tamaanhoPagina = 0;
 

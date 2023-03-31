@@ -32,9 +32,85 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
         List<TributacaoEmpresa> dadosClienteBkp = new List<TributacaoEmpresa>(); //por ncm
 
+        List<AnaliseTributaria2> prodSemCorrespondecia = new List<AnaliseTributaria2>(); // TRIB2 NÃO EXISTEM NA TABELA DE PRODUTOS
+        List<AnaliseTributaria3> prodComCorrespondencia = new List<AnaliseTributaria3>(); //TRIB3 sem correspondencia:ESTA NA EMPRESA E NA DE PRODUTOS
+        List<AnaliseProd> analiseProd = new List<AnaliseProd>();
         // GET: Cliente/TributacaoMTXEmpresa
         public ActionResult Index()
         {
+            return View();
+        }
+
+
+        /*Produtos*/
+        [HttpGet]
+        public ActionResult AnaliseProd()
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+
+            string user = Session["usuario"].ToString();
+
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //Pegar o CRT e o Regime tributario e gravar numa temp data
+            TempData["crtEmpresa"] = this.empresa.crt.ToString();
+            TempData.Keep("crtEmpresa");
+            TempData["regimeTribEmpresa"] = this.empresa.regime_trib.ToString();
+            TempData.Keep("regimeTribEmpresa");
+
+            ViewBag.CrtEmpresa = TempData["crtEmpresa"].ToString();
+            ViewBag.RegiTribEmpresa = TempData["regimeTribEmpresa"].ToString();
+
+
+            VerificaProdutos();
+
+
+
+                ViewBag.ProdDescIguais = this.prodComCorrespondencia.Count(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO);
+                ViewBag.ProdDescNull = this.prodComCorrespondencia.Count(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null);
+                ViewBag.ProdDescDif = this.prodComCorrespondencia.Count(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO);
+
+
+
+                /*Cest: IGUAIS, DIFERENTES, NULOS*/
+                ViewBag.ProdCESTNulo = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST == null); // não possuem cest
+                ViewBag.ProdCESTDif = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null);
+                ViewBag.ProdCESTIgual = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null);
+
+
+
+
+
+                /*Versao 2*/
+                ViewBag.ProdNuloAmbos = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null); // não possuem cest
+                ViewBag.ProdNuloMTX = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null); // não possuem cest
+                ViewBag.ProdNuloCliente = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null); // não possuem cest
+                ViewBag.ProdCESTDif = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null);
+                ViewBag.ProdCESTIgual = this.prodComCorrespondencia.Count(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null);
+
+
+              
+
+                /*Versão 2 NCM*/
+                ViewBag.ProdNCMNuloAmbos = this.prodComCorrespondencia.Count(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null);
+                ViewBag.ProdNCMNuloMTX = this.prodComCorrespondencia.Count(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null);
+                ViewBag.ProdNCMNuloCliente = this.prodComCorrespondencia.Count(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null); // não possuem cest
+                ViewBag.ProdNCMDiferente = this.prodComCorrespondencia.Count(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null);
+                ViewBag.ProdNCMIgual = this.prodComCorrespondencia.Count(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null);
+
+               
+                ViewBag.SemCorrespondencia = this.prodSemCorrespondecia.Count();
+                ViewBag.ComCorrespondencia = this.prodComCorrespondencia.Count();
+
+
             return View();
         }
 
@@ -13841,7 +13917,1259 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
         }
 
+        //NALISE DE PRODUTOS
+    
+        //Alteração em massa produto: - Descrição
+        [HttpGet]
+        public ActionResult EditClienteProdMassa(string ufOrigem, string ufDestino, string opcao, string param, string qtdNSalvos, string qtdSalvos, string ordenacao, string procuraPor, string procuraNCM, string procuraCEST, string filtroCorrente, string filtroCorrenteNCM, string filtroCorrenteCest, string filtroNulo, int? page, int? numeroLinhas)
+        {
+            /*Verificando a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
 
+            /*Mensagem do head do card*/
+            ViewBag.Mensagem = "Descrição do produto no Cliente X Descrição do Produto no MTX";
+
+            /*Variavel auxiliar para retornar o resulado da alteração*/
+            string resultado = param;
+
+
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //Pegar o CRT e o Regime tributario e gravar numa temp data
+            TempData["crtEmpresa"] = this.empresa.crt.ToString();
+            TempData.Keep("crtEmpresa");
+            TempData["regimeTribEmpresa"] = this.empresa.regime_trib.ToString();
+            TempData.Keep("regimeTribEmpresa");
+
+            ViewBag.CrtEmpresa = TempData["crtEmpresa"].ToString();
+            ViewBag.RegiTribEmpresa = TempData["regimeTribEmpresa"].ToString();
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
+            //se o filtro corrente estiver nulo ele busca pelo parametro procurar por
+            string codBarras = (filtroCorrente != null) ? filtroCorrente : procuraPor;
+
+            //converte em long caso seja possivel e atribui à variavel tipada: isso é necessário caso o usuário digitou codigo de barras ao inves de descrição do produto
+            long codBarrasL = 0; //variavel tipada
+            bool canConvert = long.TryParse(codBarras, out codBarrasL);
+
+            //verifica se veio parametros
+            procuraCEST = (procuraCEST != null) ? procuraCEST : null;
+            procuraNCM = (procuraNCM != null) ? procuraNCM : null;
+
+            //numero de linhas: Se o parametro numerolinhas vier preenchido ele atribui, caso contrario ele atribui o valor padrao: 10
+            ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 10;
+            ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //filtro parametro 3 para mostrar ambos
+
+            //parametro de ordenacao da tabela
+            ViewBag.Ordenacao = ordenacao == null ? "Produto_desc" : ordenacao;
+
+            //Se a ordenação nao estiver nula ele aplica a ordenação produto decresente
+            ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
+
+            /*Variavel temporaria para guardar a opção: tempData para que o ciclo de vida seja maior*/
+            TempData["opcao"] = opcao ?? TempData["opcao"];//se a opção for diferente de nula a tempdata recebe o seu valor
+            opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+
+            //persiste tempdata entre as requisicoes ate que a opcao seja mudada na chamada pelo grafico
+            TempData.Keep("opcao");
+
+            page = (procuraPor != null) || (procuraCEST != null) || (procuraNCM != null) ? 1 : page;//atribui 1 a pagina caso os parametreos nao sejam nulos
+
+            //atribui fitro corrente caso alguma procura esteja nulla(seja nullo)
+            procuraPor = (procuraPor == null) ? filtroCorrente : procuraPor;
+            procuraNCM = (procuraNCM == null) ? filtroCorrenteNCM : procuraNCM;
+            procuraCEST = (procuraCEST == null) ? filtroCorrenteCest : procuraCEST;
+
+            /*Ponto de ajuste: fazer com que as buscas persistam entre as requisições usando temp data*/
+            //viewbag
+            ViewBag.FiltroCorrente = procuraPor;
+            ViewBag.FiltroCorrenteCest = procuraCEST;
+            ViewBag.FiltroCorrenteNCM = procuraNCM;
+
+            //VerificaTempDataSN();
+            VerificaProdutos();
+
+            //origem e destino
+
+            //montar select estado origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+            //ViewBag para guardar a opção
+            ViewBag.Opcao = opcao;
+            switch (opcao)
+            {
+                case "Descrição igual":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "1"; //1=IGUAIS
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "2":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "3":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null && a.Descricao_INTERNO != "" || a.Descricao_INTERNO != null && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "Descrição diferente":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "2"; //2=DIFERENTES
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "2":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "3":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null && a.Descricao_INTERNO != "" || a.Descricao_INTERNO != null && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "Descrição nula":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //3=NULOS
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "2":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                        case "3":
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null && a.Descricao_INTERNO != "" || a.Descricao_INTERNO != null && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino)).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+
+
+            }//fim switch
+             //Action para procurar
+            this.prodComCorrespondencia = ProcuraPorCorrespondentes(codBarrasL, procuraPor, procuraCEST, procuraNCM, prodComCorrespondencia);
+
+            switch (ViewBag.Ordenacao)
+            {
+                case "Produto_desc":
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.PRODUTO_DESCRICAO).ToList();
+                    break;
+                default:
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.Id_Produto_INTERNO).ToList();
+                    break;
+            }
+
+
+            //montar a pagina
+            int tamaanhoPagina = 0;
+
+            //ternario para tamanho da pagina
+            tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 10) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+            ViewBag.MensagemGravar = (resultado != null) ? resultado : "";
+            ViewBag.RegSalvos = (qtdSalvos != null) ? qtdSalvos : "";
+            ViewBag.RegNsalvos = (qtdNSalvos != null) ? qtdNSalvos : "0";
+
+
+            //mandar a opção para que o javascript veja
+            ViewBag.Opcao = opcao;
+
+            int numeroPagina = (page ?? 1);
+
+
+            return View(this.prodComCorrespondencia.ToPagedList(numeroPagina, tamaanhoPagina));//retorna a view tipada
+
+
+        }
+
+
+
+ 
+        [HttpGet]
+        public ActionResult EditClienteProdMassaMODAL(string strDados)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
+
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa
+
+            //Objeto do tipo tributação empresa
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+            string resultado = ""; //variavel auxiliar;
+
+            //separar a String em um array
+            string[] idTrib = strDados.Split(',');
+
+            //retira o elemento vazio do array deixando somente os id dos registros
+            idTrib = idTrib.Where(item => item != "").ToArray();
+
+            //registros salvos
+            int regSalv = 0;
+            int regNsalv = 0;
+
+            string descCliente = "";
+            string descMtx = "";
+
+            try
+            {
+                for (int i = 0; i < idTrib.Length; i++)
+                {
+                    //converter em inteiro
+                    int idTrb = int.Parse(idTrib[i]);
+
+                    //faz a busca no objeto criado instanciando um so objeto
+                    trib = db.TributacaoEmpresas.Find(idTrb);
+
+                    //faz a busca pelo CODIGO DE BARRAS DO PRODUTO e instancia um outro objeto da analise tributária
+                    //AnaliseTributaria analise = (from a in db.Analise_Tributaria where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1) select a).FirstOrDefault();
+                    AnaliseTributaria3 analise = (from a in db.Analise_Tributaria_3 where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1) select a).FirstOrDefault();
+
+                    descCliente = (analise.PRODUTO_DESCRICAO == null) ? descCliente : analise.PRODUTO_DESCRICAO.ToString();
+                    descMtx = (analise.Descricao_INTERNO == null) ? descMtx : analise.Descricao_INTERNO.ToString();
+                    
+                    if (descCliente == descMtx)
+                    {
+                        regNsalv++;
+                    }
+                    else
+                    {
+                        //atribui o valor procurado na analise ao objeto instanciado
+                        trib.PRODUTO_DESCRICAO = analise.Descricao_INTERNO;
+                        trib.DT_ALTERACAO = DateTime.Now;
+                        db.SaveChanges();
+
+                        regSalv++;
+                    }
+                }
+                TempData["analise"] = null;
+                TempData["analise2"] = null;
+                resultado = "Registro Salvo com Sucesso!!";
+            }
+            catch (Exception e)
+            {
+                resultado = "Problemas ao salvar o registro : " + e.ToString();
+            }
+
+
+            //Redirecionar para a tela de graficos
+            return RedirectToAction("EditClienteProdMassa", new { param = resultado, qtdSalvos = regSalv, qtdNSalvos = regNsalv });
+        }
+
+
+        
+
+
+        //alteração de todos os itens
+        [HttpGet]
+        public ActionResult EditClienteProdMassaTODOS(string opcao)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+            string ufOrigem = TempData["UfOrigem"].ToString();
+            string ufDestino = TempData["UfDestino"].ToString();
+
+            VerificaProdutos();
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+
+            if (opcao == "Descrição diferente")
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO != a.Descricao_INTERNO && a.UF_ORIGEM.Equals(ufOrigem) && a.UF_DESTINO.Equals(ufDestino)).ToList();
+
+            }
+            if (opcao == "Descrição nula")
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_DESCRICAO == "" || a.PRODUTO_DESCRICAO == null && a.Descricao_INTERNO != "" || a.Descricao_INTERNO != null && a.UF_ORIGEM.Equals(ufOrigem) && a.UF_DESTINO.Equals(ufDestino)).ToList();
+
+            }
+
+            int teste = this.prodComCorrespondencia.Count(); //verificar a quantidade de registros
+
+            int regSalv = 0; //reg salvos
+            int regNsalv = 0; //reg não salvos
+            string resultado = ""; //variavel auxiliar;
+            //pega todos os ID para serem alterados
+            //this.analiseSn.Count()
+            for (int i = 0; i < this.prodComCorrespondencia.Count(); i++)
+            {
+
+                //converter em inteiro
+                int? idTrb = (this.prodComCorrespondencia[i].TE_ID);
+                trib = db.TributacaoEmpresas.Find(idTrb);//busca o registro
+                trib.PRODUTO_DESCRICAO = this.prodComCorrespondencia[i].Descricao_INTERNO.ToString();
+                trib.DT_ALTERACAO = DateTime.Now;
+                try
+                {
+
+                    db.SaveChanges();
+                    regSalv++; //contagem de registros salvos
+
+                }
+                catch (Exception e)
+                {
+                    resultado = "Problemas ao salvar o registro: " + e.ToString();
+                    regNsalv++;
+                }
+
+            }
+            resultado = "Registro Salvo com Sucesso!!";
+
+
+            TempData["analise"] = null;
+            TempData["analise2"] = null;
+            //string[] idTrib = this.alanliseSN.
+            //a analise vai me dar todos os ids
+
+
+            return RedirectToAction("EditClienteProdMassa", new { param = resultado, qtdSalvos = regSalv, opcao = opcao });
+        }
+
+
+
+
+        //Alteração em massa produto: NCM
+        [HttpGet]
+        public ActionResult EditClienteNcmMassa(string ufOrigem, string ufDestino, string opcao, string param, string qtdNSalvos, string qtdSalvos, string ordenacao, string procuraPor, string procuraNCM, string procuraCEST, string filtroCorrente, string filtroCorrenteNCM, string filtroCorrenteCest, string filtroNulo, int? page, int? numeroLinhas)
+        {
+            /*Verificando a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+
+            /*Mensagem do head do card*/
+            ViewBag.Mensagem = "NCM no Cliente X NCM no MTX";
+
+            /*Variavel auxiliar para retornar o resulado da alteração*/
+            string resultado = param;
+
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
+
+
+            //se o filtro corrente estiver nulo ele busca pelo parametro procurar por
+            string codBarras = (filtroCorrente != null) ? filtroCorrente : procuraPor;
+
+            //converte em long caso seja possivel e atribui à variavel tipada: isso é necessário caso o usuário digitou codigo de barras ao inves de descrição do produto
+            long codBarrasL = 0; //variavel tipada
+            bool canConvert = long.TryParse(codBarras, out codBarrasL);
+
+            //verifica se veio parametros
+            procuraCEST = (procuraCEST != null) ? procuraCEST : null;
+            procuraNCM = (procuraNCM != null) ? procuraNCM : null;
+
+            //numero de linhas: Se o parametro numerolinhas vier preenchido ele atribui, caso contrario ele atribui o valor padrao: 10
+            // ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 10;
+
+            if (numeroLinhas != null)
+            {
+                TempData["linhas"] = numeroLinhas;
+                TempData.Keep("linhas");
+                ViewBag.NumeroLinhas = numeroLinhas;
+            }
+            else
+            {
+                if (TempData["linhas"] == null)
+                {
+                    TempData["linhas"] = 10;
+                    TempData.Keep("linhas");
+                    ViewBag.NumeroLinhas = 10;
+                }
+                else
+                {
+                    ViewBag.NumeroLinhas = TempData["linhas"];
+                }
+            }
+
+
+
+            //parametro de ordenacao da tabela
+            ViewBag.Ordenacao = ordenacao == null ? "Produto_desc" : ordenacao;
+
+            //Se a ordenação nao estiver nula ele aplica a ordenação produto decresente
+            ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
+
+            /*Variavel temporaria para guardar a opção: tempData para que o ciclo de vida seja maior*/
+
+            if (filtroNulo != null)
+            {
+                switch (filtroNulo)
+                {
+                    case "1":
+                        TempData["opcao"] = "NCM Iguais";
+                        opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                        TempData.Keep("opcao");
+                        break;
+                    case "2":
+                        TempData["opcao"] = "NCM Diferentes";
+                        opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                        TempData.Keep("opcao");
+                        break;
+                    case "3":
+                        TempData["opcao"] = "NCM Nulo Ambos";
+                        opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                        TempData.Keep("opcao");
+                        break;
+                    case "4":
+                        TempData["opcao"] = "NCM Nulo MTX";
+                        opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                        TempData.Keep("opcao");
+                        break;
+                    case "5":
+                        TempData["opcao"] = "NCM Nulo Cliente";
+                        opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                        TempData.Keep("opcao");
+                        break;
+
+                }
+            }
+            else
+            {
+
+                TempData["opcao"] = opcao ?? TempData["opcao"];//se a opção for diferente de nula a tempdata recebe o seu valor
+                opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+                                                                               //persiste tempdata entre as requisicoes ate que a opcao seja mudada na chamada pelo grafico
+                TempData.Keep("opcao");
+            }
+
+
+
+
+            page = (procuraPor != null) || (procuraCEST != null) || (procuraNCM != null) ? 1 : page;//atribui 1 a pagina caso os parametreos nao sejam nulos
+
+            //atribui fitro corrente caso alguma procura esteja nulla(seja nullo)
+            procuraPor = (procuraPor == null) ? filtroCorrente : procuraPor;
+            procuraNCM = (procuraNCM == null) ? filtroCorrenteNCM : procuraNCM;
+            procuraCEST = (procuraCEST == null) ? filtroCorrenteCest : procuraCEST;
+
+            /*Ponto de ajuste: fazer com que as buscas persistam entre as requisições usando temp data*/
+            //viewbag
+            ViewBag.FiltroCorrente = procuraPor;
+            ViewBag.FiltroCorrenteCest = procuraCEST;
+            ViewBag.FiltroCorrenteNCM = procuraNCM;
+
+            //VerificaTempData();
+            VerificaProdutos();
+
+            //origem e destino
+
+            //montar select estado origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+            //ViewBag para guardar a opção
+            ViewBag.Opcao = opcao;
+
+
+            switch (opcao)
+            {
+                case "NCM Iguais":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "1"; //1=IGUAIS
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //IGUAIS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "2": //DIFERENTES
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "3": //NULO EM AMBOS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "4": //NULO NO MTX
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "5": //NULO NO CLIENTE
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "NCM Diferentes":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "2"; //2=DIFERENTES
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //IGUAIS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "2": //DIFERENTES
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "3": //NULO EM AMBOS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "4": //NULO NO MTX
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "5": //NULO NO CLIENTE
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "NCM Nulo Ambos":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //3=NULO EM AMBOS
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //IGUAIS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "2": //DIFERENTES
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "3": //NULO EM AMBOS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "4": //NULO NO MTX
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "5": //NULO NO CLIENTE
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "NCM Nulo MTX":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "4"; //4=NULO NO MTX
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //IGUAIS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "2": //DIFERENTES
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "3": //NULO EM AMBOS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "4": //NULO NO MTX
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "5": //NULO NO CLIENTE
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "NCM Nulo Cliente":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "5"; //5=NULO NO cliente
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //IGUAIS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "2": //DIFERENTES
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                        case "3": //NULO EM AMBOS
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "4": //NULO NO MTX
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != null && a.NCM_INTERNO == null).ToList();
+
+                            break;
+                        case "5": //NULO NO CLIENTE
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+                            break;
+                    }//fim swithce filtro
+                    break;
+
+
+            }//fim switch
+
+
+            //Action para procurar
+            //analise = ProcuraPor(codBarrasL, procuraPor, procuraCEST, procuraNCM, analise);
+            this.prodComCorrespondencia = ProcuraPorCorrespondentes(codBarrasL, procuraPor, procuraCEST, procuraNCM, prodComCorrespondencia);
+
+            switch (ViewBag.Ordenacao)
+            {
+                case "Produto_desc":
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.PRODUTO_DESCRICAO).ToList();
+                    break;
+                default:
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.Id_Produto_INTERNO).ToList();
+                    break;
+            }
+
+
+            //montar a pagina
+            int tamaanhoPagina = 0;
+
+            //ternario para tamanho da pagina
+            tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 10) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+            ViewBag.MensagemGravar = (resultado != null) ? resultado : "";
+            ViewBag.RegSalvos = (qtdSalvos != null) ? qtdSalvos : "";
+            ViewBag.RegNsalvos = (qtdNSalvos != null) ? qtdNSalvos : "0";
+
+
+            //mandar a opção para que o javascript veja
+            ViewBag.Opcao = opcao;
+
+            int numeroPagina = (page ?? 1);
+
+
+            return View(this.prodComCorrespondencia.ToPagedList(numeroPagina, tamaanhoPagina));//retorna a view tipada
+
+
+
+        }
+
+
+        
+               [HttpGet]
+        public ActionResult EditClienteNcmMassaMODAL(string strDados)
+        {
+
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa
+
+            //Objeto do tipo tributação empresa
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+            string resultado = ""; //variavel auxiliar;
+
+            //separar a String em um array
+            string[] idTrib = strDados.Split(',');
+
+            //retira o elemento vazio do array deixando somente os id dos registros
+            idTrib = idTrib.Where(item => item != "").ToArray();
+
+            //registros salvos
+            int regSalv = 0;
+            int regNsalv = 0;
+            string ncmCliente = "";
+            string ncmMtx = "";
+
+
+            try
+            {
+                for (int i = 0; i < idTrib.Length; i++)
+                {
+                    //converter em inteiro
+                    int idTrb = int.Parse(idTrib[i]);
+
+                    //faz a busca no objeto criado instanciando um so objeto
+                    trib = db.TributacaoEmpresas.Find(idTrb);
+
+                    //faz a busca pelo CODIGO DE BARRAS DO PRODUTO e instancia um outro objeto da analise tributária
+                    //AnaliseTributaria analise = (from a in db.Analise_Tributaria where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1)  select a).FirstOrDefault();
+                    AnaliseTributaria3 analise = (from a in db.Analise_Tributaria_3 where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1) select a).FirstOrDefault();
+
+                    ncmCliente = (analise.PRODUTO_NCM == null) ? ncmCliente : analise.PRODUTO_NCM.ToString();
+
+                    ncmMtx = (analise.NCM_INTERNO == null) ? ncmMtx : analise.NCM_INTERNO.ToString();
+
+
+                    if (ncmCliente == ncmMtx)
+                    {
+                        regNsalv++;
+                    }
+                    else
+                    {
+                        //atribui o valor procurado na analise ao objeto instanciado
+                        trib.PRODUTO_NCM = analise.NCM_INTERNO;
+                        trib.DT_ALTERACAO = DateTime.Now;
+                        db.SaveChanges();
+                        regSalv++;
+                    }
+                }
+                TempData["analise"] = null;
+                TempData["analise2"] = null;
+             
+                resultado = "Registro Salvo com Sucesso!!";
+            }
+            catch (Exception e)
+            {
+                resultado = "Problemas ao salvar o registro : " + e.ToString();
+            }
+
+
+            //Redirecionar para a tela de graficos
+            return RedirectToAction("EditClienteNcmMassa", new { param = resultado, qtdSalvos = regSalv, qtdNSalvos = regNsalv });
+        }
+
+        //alteração de todos os itens
+        [HttpGet]
+        public ActionResult EditClienteNcmMassaTODOS(string opcao)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+            string ufOrigem = TempData["UfOrigem"].ToString();
+            string ufDestino = TempData["UfDestino"].ToString();
+
+            VerificaProdutos();
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+
+            if (opcao == "NCM Diferentes")
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM != a.NCM_INTERNO && a.PRODUTO_NCM != null && a.NCM_INTERNO != null).ToList();
+
+            }
+            if (opcao == "NCM Nulo Cliente")
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_NCM == null && a.NCM_INTERNO != null).ToList();
+
+
+            }
+
+            int teste = this.prodComCorrespondencia.Count(); //verificar a quantidade de registros
+
+            int regSalv = 0; //reg salvos
+            int regNsalv = 0; //reg não salvos
+            string resultado = ""; //variavel auxiliar;
+            //pega todos os ID para serem alterados
+            //this.analiseSn.Count()
+            for (int i = 0; i < this.prodComCorrespondencia.Count(); i++)
+            {
+
+                //converter em inteiro
+                int? idTrb = (this.prodComCorrespondencia[i].TE_ID);
+                trib = db.TributacaoEmpresas.Find(idTrb);//busca o registro
+
+
+                trib.PRODUTO_NCM = this.prodComCorrespondencia[i].NCM_INTERNO.ToString();
+                trib.DT_ALTERACAO = DateTime.Now; //data da alteração
+
+                try
+                {
+
+                    db.SaveChanges();
+                    regSalv++; //contagem de registros salvos
+
+                }
+                catch (Exception e)
+                {
+                    resultado = "Problemas ao salvar o registro: " + e.ToString();
+                    regNsalv++;
+                }
+
+            }
+            resultado = "Registro Salvo com Sucesso!!";
+
+
+            TempData["analise"] = null;
+            TempData["analise2"] = null;
+            //string[] idTrib = this.alanliseSN.
+            //a analise vai me dar todos os ids
+
+
+            return RedirectToAction("EditClienteNcmMassa", new { param = resultado, qtdSalvos = regSalv, opcao = opcao });
+        }
+
+
+
+
+        //EditClienteCestMassa
+        //Alterações em massa produto: CEST
+        [HttpGet]
+        public ActionResult EditClienteCestMassa(string ufOrigem, string ufDestino, string opcao, string param, string qtdNSalvos, string qtdSalvos, string ordenacao, string procuraPor,
+            string procuraNCM, string procuraCEST, string filtroCorrente, string filtroCorrenteNCM,
+            string filtroCorrenteCest, string filtroNulo, int? page, int? numeroLinhas)
+        {
+            /*Verificando a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+            ViewBag.Mensagem = "CEST no Cliente X CEST no MTX";
+
+            string resultado = param;
+
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //Pegar o CRT e o Regime tributario e gravar numa temp data
+            TempData["crtEmpresa"] = this.empresa.crt.ToString();
+            TempData.Keep("crtEmpresa");
+            TempData["regimeTribEmpresa"] = this.empresa.regime_trib.ToString();
+            TempData.Keep("regimeTribEmpresa");
+
+            ViewBag.CrtEmpresa = TempData["crtEmpresa"].ToString();
+            ViewBag.RegiTribEmpresa = TempData["regimeTribEmpresa"].ToString();
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
+            //se o filtro corrente estiver nulo ele busca pelo parametro procurar por
+            string codBarras = (filtroCorrente != null) ? filtroCorrente : procuraPor;
+
+            //converte em long caso seja possivel e atribui à variavel tipada: isso é necessário caso o usuário digitou codigo de barras ao inves de descrição do produto
+            long codBarrasL = 0; //variavel tipada
+            bool canConvert = long.TryParse(codBarras, out codBarrasL);
+
+            //verifica se veio parametros
+            procuraCEST = (procuraCEST != null) ? procuraCEST : null;
+            procuraNCM = (procuraNCM != null) ? procuraNCM : null;
+
+            //numero de linhas: Se o parametro numerolinhas vier preenchido ele atribui, caso contrario ele atribui o valor padrao: 10
+            ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 10;
+            ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //filtro parametro 3 para mostrar ambos
+            //parametro de ordenacao da tabela
+            ViewBag.Ordenacao = ordenacao == null ? "Produto_desc" : ordenacao;
+
+            //Se a ordenação nao estiver nula ele aplica a ordenação produto decresente
+            ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
+
+            /*Variavel temporaria para guardar a opção: tempData para que o ciclo de vida seja maior*/
+            TempData["opcao"] = opcao ?? TempData["opcao"];//se a opção for diferente de nula a tempdata recebe o seu valor
+            opcao = (opcao == null) ? TempData["opcao"].ToString() : opcao;//caso venha nula a opcao recebe o valor de tempdata
+
+            //persiste tempdata entre as requisicoes ate que a opcao seja mudada na chamada pelo grafico
+            TempData.Keep("opcao");
+
+            page = (procuraPor != null) || (procuraCEST != null) || (procuraNCM != null) ? 1 : page;//atribui 1 a pagina caso os parametreos nao sejam nulos
+
+            //atribui fitro corrente caso alguma procura esteja nulla(seja nullo)
+            procuraPor = (procuraPor == null) ? filtroCorrente : procuraPor;
+            procuraNCM = (procuraNCM == null) ? filtroCorrenteNCM : procuraNCM;
+            procuraCEST = (procuraCEST == null) ? filtroCorrenteCest : procuraCEST;
+
+            /*Ponto de ajuste: fazer com que as buscas persistam entre as requisições usando temp data*/
+            //viewbag
+            ViewBag.FiltroCorrente = procuraPor;
+            ViewBag.FiltroCorrenteCest = procuraCEST;
+            ViewBag.FiltroCorrenteNCM = procuraNCM;
+
+            //VerificaTempData();
+            VerificaProdutos();
+
+            //origem e destino
+
+            //montar select estado origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+            //this.analise = (from a in db.Analise_Tributaria where a.CNPJ_EMPRESA == this.empresa.cnpj select a).
+            //this.analise = context.Funcionarios.AsNoTracking().ToList();
+
+            /*Alteração feita para teste - 08122021*/
+            //this.analise = db.Analise_Tributaria.AsNoTracking().ToList();
+            //this.analise = this.analise.Where(a => a.CNPJ_EMPRESA == this.empresa.cnpj).ToList();
+
+            //this.analise = db.Analise_Tributaria.AsNoTracking().ToList();
+
+            ViewBag.Opcao = opcao;
+
+
+            switch (opcao)
+            {
+                case "CEST Iguais":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "1";
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //iguais fora os nulos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "2": //diferentes
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "3": //nulos no cliente
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "4": //nulo mtx
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                        case "5":// nulo em ambos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                    }//fim swithce filtro
+                    break;
+                case "CEST Diferentes":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "2";
+                    //analise = this.analise.Where(s => s.PRODUTO_CEST == null || s.PRODUTO_CEST == "0").ToList();
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //iguais fora os nulos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "2": //diferentes
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "3": //nulos no cliente
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "4": //nulo mtx
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                        case "5":// nulo em ambos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "CEST Nulo Cliente":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3";
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //iguais fora os nulos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "2": //diferentes
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "3": //nulos no cliente
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "4": //nulo mtx
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                        case "5":// nulo em ambos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+                case "CEST Nulo MTX":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "4";
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //iguais fora os nulos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "2": //diferentes
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "3": //nulos no cliente
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "4": //nulo mtx
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                        case "5":// nulo em ambos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+
+                case "CEST Nulo Ambos":
+                    //O parametro filtro nulo mostra o filtro que foi informado, caso não informa nenhum ele será de acordo com a opção
+                    ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "5";
+                    switch (ViewBag.Filtro)
+                    {
+                        case "1": //iguais fora os nulos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "2": //diferentes
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "3": //nulos no cliente
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+                            break;
+
+                        case "4": //nulo mtx
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != null && a.Cest_INTERNO == null).ToList();
+                            break;
+
+                        case "5":// nulo em ambos
+                            this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO == null).ToList();
+                            break;
+                    }//fim swithce filtro
+                    break;
+
+            }//fim switch
+
+
+            //Action para procurar
+            // analise = ProcuraPor(codBarrasL, procuraPor, procuraCEST, procuraNCM, analise);
+            this.prodComCorrespondencia = ProcuraPorCorrespondentes(codBarrasL, procuraPor, procuraCEST, procuraNCM, prodComCorrespondencia);
+
+
+            switch (ViewBag.Ordenacao)
+            {
+                case "Produto_desc":
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.PRODUTO_DESCRICAO).ToList();
+                    break;
+                default:
+                    this.prodComCorrespondencia = this.prodComCorrespondencia.OrderBy(s => s.Id_Produto_INTERNO).ToList();
+                    break;
+
+            }
+
+
+            //montar a pagina
+            int tamaanhoPagina = 0;
+
+            //ternario para tamanho da pagina
+            tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 10) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+            //Mensagem de retorno quando há alterações
+            ViewBag.MensagemGravar = (resultado != null) ? resultado : "";
+            ViewBag.RegSalvos = (qtdSalvos != null) ? qtdSalvos : "";
+            ViewBag.RegNsalvos = (qtdNSalvos != null) ? qtdNSalvos : "0";
+
+
+            //mandar a opção para que o javascript veja
+            ViewBag.Opcao = opcao;
+
+
+            //número de páginas
+            int numeroPagina = (page ?? 1);
+
+            return View(this.prodComCorrespondencia.ToPagedList(numeroPagina, tamaanhoPagina));//retorna a view tipada
+
+        }
+
+        // EditClienteCestMassaMODAL
+        [HttpGet]
+        public ActionResult EditClienteCestMassaModal(string strDados)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa
+            //Objeto do tipo tributação empresa
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+            string resultado = ""; //variavel auxiliar;
+
+            //separar a String em um array
+            string[] idTrib = strDados.Split(',');
+
+            //retira o elemento vazio do array deixando somente os id dos registros
+            idTrib = idTrib.Where(item => item != "").ToArray();
+
+            //registros salvos
+            int regSalv = 0;
+            int regNsalv = 0;
+            string cestCliente = "";
+            string cestMTX = "";
+
+            try
+            {
+                for (int i = 0; i < idTrib.Length; i++)
+                {
+                    //converter em inteiro
+                    int idTrb = int.Parse(idTrib[i]);
+
+                    //faz a busca no objeto criado instanciando um so objeto
+                    trib = db.TributacaoEmpresas.Find(idTrb);
+
+                    //faz a busca pelo CODIGO DE BARRAS DO PRODUTO e instancia um outro objeto da analise tributária
+                    //AnaliseTributaria analise = (from a in db.Analise_Tributaria where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1) select a).FirstOrDefault();
+                    AnaliseTributaria3 analise = (from a in db.Analise_Tributaria_3 where a.PRODUTO_COD_BARRAS == trib.PRODUTO_COD_BARRAS && a.CNPJ_EMPRESA.Equals(this.empresa.cnpj) && a.ATIVO.Equals(1) select a).FirstOrDefault();
+
+                    //se for nullo ele nao aceita atribuir e da erro
+                    //string ncmCliente = analise.PRODUTO_CEST.ToString();
+                    cestCliente = (analise.PRODUTO_CEST == null) ? cestCliente : analise.PRODUTO_CEST.ToString();
+                    cestMTX = (analise.Cest_INTERNO == null) ? cestMTX : analise.Cest_INTERNO.ToString();
+                    //string ncmMtx = analise.Cest_INTERNO.ToString();
+                    if (cestCliente == cestMTX)
+                    {
+                        regNsalv++;
+                    }
+                    else
+                    {
+                        //atribui o valor procurado na analise ao objeto instanciado
+                        //cestClienteManual = cestClienteManual.Replace(".", ",");
+                        trib.PRODUTO_CEST = analise.Cest_INTERNO;
+                        trib.DT_ALTERACAO = DateTime.Now;
+                        db.SaveChanges();
+                        regSalv++;
+                    }
+                }
+                TempData["analise2"] = null;
+                TempData.Keep("analise2");
+                resultado = "Registro Salvo com Sucesso!!";
+            }
+            catch (Exception e)
+            {
+                resultado = "Problemas ao salvar o registro : " + e.ToString();
+            }
+
+
+            //Redirecionar para a tela de graficos
+            return RedirectToAction("EditClienteCestMassa", new { param = resultado, qtdSalvos = regSalv, qtdNSalvos = regNsalv });
+
+
+        }
+        //EditClienteCestMassaTODOS
+        [HttpGet]
+        public ActionResult EditClienteCestMassaTODOS(string opcao)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+            string ufOrigem = TempData["UfOrigem"].ToString();
+            string ufDestino = TempData["UfDestino"].ToString();
+
+            VerificaProdutos();
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+
+            if (opcao == "CEST Diferentes")
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST != a.Cest_INTERNO && a.PRODUTO_CEST != null && a.Cest_INTERNO != null).ToList();
+            }
+            if (opcao == "CEST Nulo Cliente")
+            {
+
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(a => a.PRODUTO_CEST == null && a.Cest_INTERNO != null).ToList();
+
+            }
+
+            int teste = this.prodComCorrespondencia.Count(); //verificar a quantidade de registros
+
+            int regSalv = 0; //reg salvos
+            int regNsalv = 0; //reg não salvos
+            string resultado = ""; //variavel auxiliar;
+            //pega todos os ID para serem alterados
+            //this.analiseSn.Count()
+            for (int i = 0; i < this.prodComCorrespondencia.Count(); i++)
+            {
+
+                //converter em inteiro
+                int? idTrb = (this.prodComCorrespondencia[i].TE_ID);
+                trib = db.TributacaoEmpresas.Find(idTrb);//busca o registro
+
+
+                trib.PRODUTO_CEST = this.prodComCorrespondencia[i].Cest_INTERNO.ToString();
+                trib.DT_ALTERACAO = DateTime.Now; //data da alteração
+                try
+                {
+
+                    db.SaveChanges();
+                    regSalv++; //contagem de registros salvos
+
+                }
+                catch (Exception e)
+                {
+                    resultado = "Problemas ao salvar o registro: " + e.ToString();
+                    regNsalv++;
+                }
+
+            }
+            resultado = "Registro Salvo com Sucesso!!";
+
+
+            TempData["analise"] = null;
+            TempData["analise2"] = null;
+            //string[] idTrib = this.alanliseSN.
+            //a analise vai me dar todos os ids
+
+
+            return RedirectToAction("EditClienteCestMassa", new { param = resultado, qtdSalvos = regSalv, opcao = opcao });
+
+        }
 
         /*ACTIONS AUXILIARES*/
         public EmptyResult VerificaTribNMCEmpresa(string crt, string regime)
@@ -13951,9 +15279,9 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             {
                 if (TempData["linhas"] == null)
                 {
-                    TempData["linhas"] = 30;
+                    TempData["linhas"] = 10;
                     TempData.Keep("linhas");
-                    ViewBag.NumeroLinhas = 30;
+                    ViewBag.NumeroLinhas = 10;
                 }
                 else
                 {
@@ -14153,5 +15481,75 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             }
             return new EmptyResult();
         }
+
+
+
+        public EmptyResult VerificaProdutos()
+        {
+            //Para os itens sem correspondencia
+            if (TempData["analise2"] == null)
+            {
+                //this.tribEmpProd = (from a in db.TributacaoEmpresas where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList();
+                this.prodComCorrespondencia = (from a in db.Analise_Tributaria_3 where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList(); //lista com os itens divegentes
+                this.prodSemCorrespondecia = (from a in db.Analise_Tributaria_2 where a.CNPJ_EMPRESA == empresa.cnpj && a.ATIVO.Equals(1) select a).ToList(); //lista com os itens divegentes
+                TempData["prdInexistente"] = this.prodSemCorrespondecia;
+                //TempData["analise2"] = this.tribEmpProd;
+                TempData["analise2"] = this.prodComCorrespondencia;
+                TempData.Keep("analise2");
+                TempData.Keep("prdInexistente");
+            }
+            else
+            {
+                //this.tribEmpProd = (List<TributacaoEmpresa>)TempData["analise2"];
+                this.prodComCorrespondencia = (List<AnaliseTributaria3>)TempData["analise2"];
+
+                this.prodSemCorrespondecia = (List<AnaliseTributaria2>)TempData["prdInexistente"];
+                TempData.Keep("analise2");
+                TempData.Keep("prdInexistente");
+            }
+
+            return new EmptyResult();
+        }
+
+        [HttpGet]
+        public List<AnaliseTributaria3> ProcuraPorCorrespondentes(long? codBarrasL, string procuraPor, string procuraCEST, string procuraNCM, List<AnaliseTributaria3> analise)
+        {
+            if (procuraCEST == null)
+            {
+                procuraCEST = "";
+            }
+            else
+            {
+                procuraCEST = procuraCEST.Replace(".", ""); //retira os pontos
+            }
+            if (procuraNCM == null)
+            {
+                procuraNCM = "";
+            }
+            else
+            {
+                procuraNCM = procuraNCM.Replace(".", ""); //retira os pontos
+            }
+
+            if (!String.IsNullOrEmpty(procuraPor))
+            {
+                this.prodComCorrespondencia = (codBarrasL != 0) ? (this.prodComCorrespondencia.Where(s => s.PRODUTO_COD_BARRAS.ToString().StartsWith(codBarrasL.ToString()))).ToList() : this.prodComCorrespondencia = (this.prodComCorrespondencia.Where(s => s.PRODUTO_DESCRICAO.ToString().ToUpper().StartsWith(procuraPor.ToUpper()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraCEST))
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(s => s.PRODUTO_CEST == procuraCEST).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraNCM))
+            {
+                this.prodComCorrespondencia = this.prodComCorrespondencia.Where(s => s.PRODUTO_NCM == procuraNCM).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+
+            return this.prodComCorrespondencia;
+
+        }
+
+
     }
 }
