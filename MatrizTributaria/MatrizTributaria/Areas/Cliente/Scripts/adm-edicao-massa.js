@@ -6567,10 +6567,69 @@ function onlynumber(evt) {
 }
 
      // Script para impressão-- >
- 
+
+function createPDFProd() {
+    var select = document.getElementById("filtroSelect");
+    var opcaoSelect = select.options[select.selectedIndex].text;
+    var sTable2 = document.getElementById('tablepr-2').innerHTML;
+    var titulo = document.getElementById('tituloTabela').innerHTML;
+    var nomeEmp = document.getElementById('nomeEmpresa').innerHTML;
+    var cnpjEmp = document.getElementById('cnpjEmpresa').innerHTML;
+    //var img = document.getElementById('img_empresa').src('/Content/img/logo_nova_3006_4_emp.png" width = "150" height = "25" class= "d-inline-block align-top"');
+    titulo = titulo.replace('<strong>', '');
+    titulo = titulo.replace('</strong>', '');
+
+    var style = "<style>";
+    style = style + "table {width: 100%;font: 17px Calibri;}";
+    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse; text-align:left;";
+    style = style + "padding: 2px 3px;text-align: center;}";
+    style = style + "tr {height:12.0px;}";
+    style = style + ".prn-imp{text-align:left; font-size: 10px !important; padding: 2px; font-weight: 500;}";
+    styel = style + ".prn-borderEspecial7{border-bottom: 2.5px solid #072f5c !important;}";
+    style = style + ".pr-td {font-size: 10px !important; padding: 2px; font-weight: 500; }";
+    style = style + "p {font-size: 10px !important; padding: 2px; font-weight: 500; }";
+    style = style + ".pr-thead { background - color: #021E36!important; color: #ffffff; font - weight: 200;}";
+
+
+
+    style = style + "</style>";
+
+    // CREATE A WINDOW OBJECT.
+    var win = window.open('', '', 'height=700,width=700');
+
+
+
+    win.document.write('<html><head>');
+
+    win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25' margin-botton='10px'>");
+    win.document.write('<title style="text-align:center;">');
+    win.document.write(titulo + ' - ' + opcaoSelect);
+
+    win.document.write('</title>');   // <title> FOR PDF HEADER.
+    win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+    win.document.write('</head>');
+    win.document.write('<body>');
+
+    win.document.write('<table>');
+    win.document.write(sTable2);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+    win.document.write('</table>');
+    win.document.write('<p>');
+    win.document.write('Empresa : ' + nomeEmp);
+    win.document.write('</p>');
+    win.document.write('<p>');
+    win.document.write('CNPJ: ' + cnpjEmp);
+    win.document.write('</p>');
+    win.document.write('</body><script>window.print(); window.close();</script ></html>');
+
+    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+    win.print();    // PRINT THE CONTENTS.
+}
+
 function createPDF() {
             var select = document.getElementById("filtroNulo");
-            var opcaoSelect = select.options[select.selectedIndex].text;
+             var opcaoSelect = select.options[select.selectedIndex].text;
+             
             var sTable = document.getElementById('table-mtx').innerHTML;
             var titulo = document.getElementById('tituloTabela').innerHTML;
             var nomeEmp = document.getElementById('nomeEmpresa').innerHTML;
@@ -6596,33 +6655,37 @@ function createPDF() {
         // CREATE A WINDOW OBJECT.
         var win = window.open('', '', 'height=700,width=700');
 
-    win.document.write('<html><head>');
 
-            win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25' margin-botton='10px'>");
-            win.document.write('<title style="text-align:center;">');
-    win.document.write(titulo + ' - ' + opcaoSelect);
    
-            win.document.write('</title>');   // <title> FOR PDF HEADER.
- 
-           
-                win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
-                win.document.write('</head>');
-            win.document.write('<body>');
-  
-            win.document.write('<table>');
-            win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
-            win.document.write('</table>');
-            win.document.write('<p>');
-            win.document.write('Empresa : '+nomeEmp);
-            win.document.write('</p>');
-            win.document.write('<p>');
-            win.document.write('CNPJ: '+cnpjEmp);
-            win.document.write('</p>');
-            win.document.write('</body><script>window.print(); window.close();</script ></html>');
+        win.document.write('<html><head>');
 
-            win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+        win.document.write("<img src='/Content/img/logo_nova_3006_4_emp.png' width='150' height='25' margin-botton='10px'>");
+        win.document.write('<title style="text-align:center;">');
+        win.document.write(titulo + ' - ' + opcaoSelect);
 
-            win.print();    // PRINT THE CONTENTS.
+        win.document.write('</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+
+        win.document.write('<table>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</table>');
+        win.document.write('<p>');
+        win.document.write('Empresa : ' + nomeEmp);
+        win.document.write('</p>');
+        win.document.write('<p>');
+        win.document.write('CNPJ: ' + cnpjEmp);
+        win.document.write('</p>');
+        win.document.write('</body><script>window.print(); window.close();</script ></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    
+    
+
+            
             } //fim da funcao
        
 
