@@ -8633,6 +8633,14 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
+            //Criar uma tempdata para esse recurso: VERIFICAÇÃO DE DADOS INICIAIS DA EMPRESA CLIENTE
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
+
+
+
             //Mensagem do card
             ViewBag.Mensagem = "Alíquota ICMS Venda no Varejo para consumidor final no Cliente X  no MTX";
 
@@ -9415,6 +9423,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
             ViewBag.EstadosDestinos = db.Estados.ToList();
@@ -9960,6 +9973,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -10741,6 +10758,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //Mota as view bag de origem e destino
@@ -11272,6 +11293,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             string resultado = param;
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //Mota as view bag de origem e destino
@@ -15171,6 +15197,159 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
         }
 
+
+
+
+
+
+        /*PRODUTOS*/
+        [HttpGet]
+        public ActionResult TabelaProduto(string ordenacao, int? filtroSelect, int? page, int? numeroLinhas, int? parFiltro = 3, string filtroDados = "")
+        {
+            /*Verificando a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+
+            /*mensgem topo card*/
+            ViewBag.Mensagem = "Produto Geral Cliente x MTX";
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+          
+            //numero de linhas? se o parametro numerolinhas vier preenchido ele atualiza a variavel, caso contrario continua em 10 (padrao)
+            ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 5;
+            //ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //filtro para mostrar todos os dados
+            ViewBag.ParFiltro = (filtroDados != "") ? parFiltro : 3; //filtro para mostrar todos os dados
+            ViewBag.DadoFiltrar = (filtroDados != null) ? filtroDados : null;
+            ViewBag.FiltroSelect = (filtroSelect != null) ? filtroSelect : 1;
+
+            //ordenacao da tabela
+            ViewBag.Ordenacao = ordenacao;
+
+            //Se a ordenação nao estiver nula ele aplica a ordenação produto decrescente
+            ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
+
+            page = (filtroDados == null) ? 1 : page; //atribui 1 a pagina caso os parametros nao sejam nulos
+
+            //origem e destino
+
+
+            if (ViewBag.FiltroSelect == 1)
+            {
+
+
+                // VerificaTempDataSN();
+                VerificaProdutos();
+
+
+
+                //MANADA PARA BUSCAR NA VIEW CORRESPONDENTE
+                this.prodComCorrespondencia = ProcuraPorTabelaProdutoCorrespondente(filtroDados, parFiltro, this.prodComCorrespondencia);
+
+
+                int tamaanhoPagina = 0;
+
+                //ternario para tamanho da pagina
+                tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 5) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+                //ViewBag.MenssagemGravar = (resultado != null) ? resultado : "";
+
+                int numeroPagina = (page ?? 1);
+
+
+                return View(this.prodComCorrespondencia.ToPagedList(numeroPagina, tamaanhoPagina)); //retorna a view com o numero de paginas e tamanho
+
+            }
+            else
+            {
+
+                ////<!--Escrever codigo para produtos não encontrados na tabela -->
+                return RedirectToAction("TabelaProduto2", new { filtroSelect = 2 });
+            }
+
+
+        }
+        /*Action responsavel por mostrar os produtos importados mas que não há correspondecia com produtos
+      dentro da matriz MTX*/
+        [HttpGet]
+        public ActionResult TabelaProduto2(string opcao, string ordenacao, int? filtroSelect, int? page, int? numeroLinhas, int? parFiltro = 3, string filtroDados = "")
+        {
+            /*Verificando a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+
+            /*mensgem topo card*/
+            ViewBag.Mensagem = "Produto Geral Cliente x MTX";
+
+            //será usada para carregar a lista pelo cnpj
+            this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+
+
+            //numero de linhas? se o parametro numerolinhas vier preenchido ele atualiza a variavel, caso contrario continua em 10 (padrao)
+            ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 5;
+            //ViewBag.Filtro = (filtroNulo != null) ? filtroNulo : "3"; //filtro para mostrar todos os dados
+            ViewBag.ParFiltro = (filtroDados != "") ? parFiltro : 3; //filtro para mostrar todos os dados
+            ViewBag.DadoFiltrar = (filtroDados != null) ? filtroDados : null;
+
+
+            if (opcao == "Não Correspondente")
+            {
+                ViewBag.FiltroSelect = 2;
+            }
+            else
+            {
+                ViewBag.FiltroSelect = (filtroSelect != null) ? filtroSelect : 1;
+            }
+
+            //ordenacao da tabela
+            ViewBag.Ordenacao = ordenacao;
+
+            //Se a ordenação nao estiver nula ele aplica a ordenação produto decrescente
+            ViewBag.ParametroProduto = (String.IsNullOrEmpty(ordenacao) ? "Produto_desc" : "");
+
+            page = (filtroDados == null) ? 1 : page; //atribui 1 a pagina caso os parametros nao sejam nulos
+
+
+            if (ViewBag.FiltroSelect == 2)
+            {
+                this.prodSemCorrespondecia = (from a in db.Analise_Tributaria_2 where a.CNPJ_EMPRESA == this.empresa.cnpj && a.ATIVO.Equals(1) select a).ToList();
+
+                //procura diferenciado para tabela de  produto
+                prodSemCorrespondecia = ProcuraPorTabelaProduto2(filtroDados, parFiltro, prodSemCorrespondecia);
+
+
+                int tamaanhoPagina = 0;
+
+                //ternario para tamanho da pagina
+                tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 5) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+                //ViewBag.MenssagemGravar = (resultado != null) ? resultado : "";
+
+                int numeroPagina = (page ?? 1);
+
+
+                return View(prodSemCorrespondecia.ToPagedList(numeroPagina, tamaanhoPagina)); //retorna a view com o numero de paginas e tamanho
+
+            }
+            else
+            {
+
+
+                return RedirectToAction("TabelaProduto");
+            }
+
+        }
+
+
+
+
+
+
+
         /*ACTIONS AUXILIARES*/
         public EmptyResult VerificaTribNMCEmpresa(string crt, string regime)
         {
@@ -15511,6 +15690,50 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             return new EmptyResult();
         }
 
+
+        //PROCURAR
+        public List<AnaliseTributaria3> ProcuraPorTabelaProdutoCorrespondente(string filtroDados, int? parFiltro, List<AnaliseTributaria3> analise)
+        {
+            string procuraPor = null;
+            string procuraCEST = null;
+            string procuraNCM = null;
+            long codBarrasla = 0;
+
+            switch (parFiltro)
+            {
+                case 1:
+                    procuraCEST = filtroDados;
+                    break;
+                case 2:
+                    procuraNCM = filtroDados;
+                    break;
+                case 3:
+                    procuraPor = filtroDados;
+
+                    bool canConvert = long.TryParse(procuraPor, out codBarrasla);
+                    break;
+
+            }
+            if (!String.IsNullOrEmpty(procuraPor))
+            {
+                analise = (codBarrasla != 0) ? (analise.Where(s => s.PRODUTO_COD_BARRAS.ToString().StartsWith(codBarrasla.ToString()))).ToList() : analise = (analise.Where(s => s.PRODUTO_DESCRICAO.ToString().ToUpper().StartsWith(procuraPor.ToUpper()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraCEST))
+            {
+                analise = analise.Where(s => s.PRODUTO_CEST == procuraCEST).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraNCM))
+            {
+                analise = analise.Where(s => s.PRODUTO_NCM == procuraNCM).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+
+            return analise;
+
+        }
+
+
         [HttpGet]
         public List<AnaliseTributaria3> ProcuraPorCorrespondentes(long? codBarrasL, string procuraPor, string procuraCEST, string procuraNCM, List<AnaliseTributaria3> analise)
         {
@@ -15548,6 +15771,49 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             return this.prodComCorrespondencia;
 
+        }
+
+
+        //procura por diferenciado para tabela de produto. view diferente
+        [HttpGet]
+        public List<AnaliseTributaria2> ProcuraPorTabelaProduto2(string filtroDados, int? parFiltro, List<AnaliseTributaria2> analise)
+        {
+            string procuraPor = null;
+            string procuraCEST = null;
+            string procuraNCM = null;
+            long codBarrasla = 0;
+
+            switch (parFiltro)
+            {
+                case 1:
+                    procuraCEST = filtroDados;
+                    break;
+                case 2:
+                    procuraNCM = filtroDados;
+                    break;
+                case 3:
+                    procuraPor = filtroDados;
+
+                    bool canConvert = long.TryParse(procuraPor, out codBarrasla);
+                    break;
+
+            }
+            if (!String.IsNullOrEmpty(procuraPor))
+            {
+                analise = (codBarrasla != 0) ? (analise.Where(s => s.PRODUTO_COD_BARRAS.ToString().StartsWith(codBarrasla.ToString()))).ToList() : analise = (analise.Where(s => s.PRODUTO_DESCRICAO.ToString().ToUpper().StartsWith(procuraPor.ToUpper()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraCEST))
+            {
+                analise = analise.Where(s => s.PRODUTO_CEST == procuraCEST).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraNCM))
+            {
+                analise = analise.Where(s => s.PRODUTO_NCM == procuraNCM).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+
+            return analise;
         }
 
 
