@@ -144,7 +144,7 @@
 
                                                 <li class="nav-item">
                                                     @*<a class="nav-link" href="@Url.Action("AnaliseProd","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a>*@
-                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" name="getTelaTrib" onclick="chamarTela('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
+                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" name="getTelaTrib" onclick="chamarTelaMTX('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
 
 
                                                 </li>
@@ -206,7 +206,7 @@
 
                                                 <li class="nav-item">
                                                     @*<a class="nav-link" href="@Url.Action("AnaliseProd","TributacaoEmpresa")"><i class="fas fa-clipboard"></i> Produtos</a>*@
-                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" onclick="chamarTela('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
+                                                    <button style="width: 100%; text-align: left;" data-toggle="tooltip" data-placement="right" title="Gráficos de Produtos" type="button" onclick="chamarTelaMTX('AnaliseProd')" class="float-lg-left dis-block btn btn-secondary pr-botoes-fundo-menu border-0"><i class="fas fa-clipboard ml-1"></i> Produtos</button>
 
                                                 </li>
 
@@ -2208,7 +2208,7 @@
                                                                      types: "GET",
                                                                      processData: true,
                                                                      success: function () {
-                                                                window.location.href = '/Cliente/TributacaoEmpresa/TabelaProduto2?opcao=' + topping;
+                                                                window.location.href = '/Cliente/TributacaoMTXEmpresa/TabelaProduto2?opcao=' + topping;
                                                             }
 
                                                         }); //fim ajax

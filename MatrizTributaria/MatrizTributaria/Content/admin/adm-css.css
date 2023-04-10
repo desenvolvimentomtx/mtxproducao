@@ -1015,6 +1015,11 @@ li.page-item.active > a {
     border-right: 0.75px solid #ccd3db !important;
 }
 
+.prn-borderEspecial7 {
+    border-bottom: 2.5px solid #072f5c !important;
+}
+
+
 .prn-select{
     max-width: 1000px !important;
 }
