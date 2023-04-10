@@ -39,7 +39,7 @@
                                 <table id="table-mtx" class="table table table-light table-hover thead-dark table-striped pr-table">
                                     <thead class="pr-thead">
                                         <tr>
-                                            <th style="text-align:center; border:none;" colspan="8" class="pr-fonte2" scope="col">Analise Alíquota</th>
+                                            <th style="text-align:center; border:none;" colspan="9" class="pr-fonte2" scope="col">Analise Alíquota</th>
 
                                         </tr>
                                         <tr class="pr-td">
@@ -80,7 +80,7 @@
                                         @foreach (var item in Model)
                                         {
                                         <tr style="height:12.0px;" class="pr-td prn-borderEspecial5">
-                                            <td style="width:4%;">
+                                            <td style="width:4%;" class="prn-borderEspecial6">
                                                 @Html.DisplayFor(modelItem => item.TE_ID)
                                             </td>
                                             <td style="width:5%;" class="prn-borderEspecial6">
@@ -103,7 +103,7 @@
                                                 }
 
                                             </td>
-                                            <td style="width:40%;" class="prn-borderEspecial6">
+                                            <td style="width:40%;" class="prn-borderEspecial6 prn-imp">
                                                 @Html.DisplayFor(modelItem => item.PRODUTO_DESCRICAO)
                                             </td>
 
