@@ -454,6 +454,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -1022,6 +1026,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -1119,6 +1127,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -1705,6 +1718,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             string resultado = param;
 
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //Monta as view bag de origem e destino
@@ -2299,6 +2316,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -2869,6 +2890,12 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
+
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
             ViewBag.EstadosDestinos = db.Estados.ToList();
@@ -3429,6 +3456,12 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
+
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -4004,6 +4037,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
             //variavel auxiliar
             string resultado = param;
 
@@ -4565,6 +4603,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -5126,7 +5168,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
 
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //Mota as view bag de origem e destino
@@ -5671,7 +5716,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
 
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
 
             //Mota as view bag de origem e destino
@@ -6217,7 +6265,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
 
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //FAZER A VIEWBAG PARA COMPARAR O QUE JA TINHA NO CLIENTE O QUE VAI TER AGORA
 
@@ -12069,6 +12120,11 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
 
+            //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
+
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
             ViewBag.EstadosDestinos = db.Estados.ToList();
@@ -12684,7 +12740,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
 
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
@@ -13218,6 +13277,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //será usada para carregar a lista pelo cnpj
             this.empresa = (Empresa)Session["empresas"]; //se nao for nula basta carregar a empresa em outra variavel de sessão
+                                                         //Criar uma tempdata para esse recurso
+            VerificaTempDataEmpresa(this.empresa.cnpj);
+
+            ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Mota as view bag de origem e destino
             ViewBag.EstadosOrigem = db.Estados.ToList();
