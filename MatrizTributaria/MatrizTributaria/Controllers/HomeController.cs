@@ -171,7 +171,15 @@ namespace MatrizTributaria.Controllers
                     Session["crt"] = user.empresa.crt.ToString();
                     TempData["UfOrigem"] = user.empresa.estado.ToString();
                     TempData["UfDestino"] = user.empresa.estado.ToString();
+
+                    //PEGAR O IP
+                    string nome = Dns.GetHostName(); //PEGA O NOME DA MAQUINA
+
+                    IPAddress[] ip = Dns.GetHostAddresses(nome); //PEGA O IP PASSANDO O NOME
                     
+
+                    Session["ip"] = ip[ip.Length - 1].ToString();
+                    Session["maquina"] = nome;
 
                     if (user.acesso_empresas == 1)
                     {
@@ -506,6 +514,8 @@ namespace MatrizTributaria.Controllers
                 Session["usuario"] = null;
                 Session["empresa"] = null;
                 Session["email"] = null;
+                Session["ip"] = null;
+                Session["maquina"] = null;
                 TempData["analise"] = null;
                 TempData["tributacaoMTX"] = null;
                 TempData["tributacaoProdMTX"] = null;
