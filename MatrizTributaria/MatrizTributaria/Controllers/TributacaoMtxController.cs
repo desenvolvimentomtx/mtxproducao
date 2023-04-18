@@ -684,6 +684,15 @@ namespace MatrizTributaria.Controllers
             //ALTERA O NCM NA TABELA DE PRODUTO PARA QUE ELE POSSA COMPARAR E AJUSTAR NO CLIENTE
             List<Produto> prod; //lista de produtos
 
+            //guardar o NCM incorreto (ou antigo) para alteração na tabela de produtos
+            string[] idTribNCMAntigo = strDados.Split(',');
+            idTribNCMAntigo = idTribNCMAntigo.Where(item => item != "").ToArray();
+            TributacaoNCM tNCM_Antigo = new TributacaoNCM();
+            int idTNCM_Ant = Int32.Parse(idTribNCMAntigo[0]);
+            tNCM_Antigo = db.TributacoesNcm.Find(idTNCM_Ant);
+            string ncmAntigo = tNCM_Antigo.ncm;
+
+
             if (ncm != "")
             {
                 string ncmReplace = ncm.Replace(".", "");
@@ -692,8 +701,6 @@ namespace MatrizTributaria.Controllers
                 //verifica se ja existe um ncm desse na tabela
                 tribNCM = db.TributacoesNcm.Where(a => a.UF_Origem == uf_origem && a.UF_Destino == uf_Destino && a.crt == crtTrib && a.regime_trib == regimetrib && a.ncm.Equals(ncmReplace)).ToList();
                               
-
-
 
                 //FAZER COM QUE O SISTEMA PROCURE NCM NO CLIENTE E ALTERE TAMBEM, BEM COMO NOS PRODUTOS
                 if (tribNCM.Count > 1)
@@ -711,12 +718,59 @@ namespace MatrizTributaria.Controllers
                         db.SaveChanges();
                     }
 
+                    //verifica novamente apos a exclusão de itens duplicados acima
+                    tribNCM = db.TributacoesNcm.Where(a => a.UF_Origem == uf_origem && a.UF_Destino == uf_Destino && a.crt == crtTrib && a.regime_trib == regimetrib && a.ncm.Equals(ncmReplace)).ToList();
+
 
                 }
-                //buscando novamente apos a exclusão
-                tribNCM = db.TributacoesNcm.Where(a => a.UF_Origem == uf_origem && a.UF_Destino == uf_Destino && a.crt == crtTrib && a.regime_trib == regimetrib && a.ncm.Equals(ncmReplace)).ToList();
 
-                strDados = tribNCM[0].id.ToString();
+
+                //se for igual a 1 entao ele encontrou um registro
+                if (tribNCM.Count == 1)
+                {
+                    if (tribNCM[0].auditadoPorNCM != 1) //verifica se o registro foi auditado
+                    {
+                        //se o id que ele encontrou for igual ao id que esta sendo alterado entao nao deve excluir, mesmo não tendo sido auditado, pois so existe um registro
+                        string[] idTribNCMExc = strDados.Split(',');
+                        //retira o elemento vazio do array
+                        idTribNCMExc = idTribNCMExc.Where(item => item != "").ToArray();
+
+                        //verificar se o id buscado é diferente do id que foi enviado para anteração: se forem diferentes excluir um deles, no caso o id que foi enviado para alteração, permanecendo apenas um
+                        if (tribNCM[0].id != Int32.Parse(idTribNCMExc[0]))
+                        {
+                            TributacaoNCM tribDel = db.TributacoesNcm.Find(tribNCM[0].id); //caso nao tenha sido, tem que ser excluido 
+                            db.TributacoesNcm.Remove(tribDel);
+                            db.SaveChanges();
+
+                        }
+                           
+                    }
+                    else
+                    {
+
+                        //se ele ja foi auditado, o registro que esta sendo alterado é que deverá ser excluido
+                        //separar a String em um array
+                        string[] idTribNCMExc = strDados.Split(',');
+                        //retira o elemento vazio do array
+                        idTribNCMExc = idTribNCMExc.Where(item => item != "").ToArray();
+
+                        //verificar se o id buscado é diferente do id que foi enviado para anteração: se forem diferentes excluir um deles, no caso o id que foi enviado para alteração, permanecendo apenas um
+                        if(tribNCM[0].id != Int32.Parse(idTribNCMExc[0]))
+                        {
+                            TributacaoNCM tribDel = db.TributacoesNcm.Find(Int32.Parse(idTribNCMExc[0]));
+                            db.TributacoesNcm.Remove(tribDel);
+                           db.SaveChanges();
+
+                            //atribui o id o objeto que não foi excluido
+                            tribDel = db.TributacoesNcm.Find(tribNCM[0].id); //caso nao tenha sido, tem que ser excluido 
+                            strDados = tribDel.id.ToString();
+                        }
+
+                       
+                    }
+
+                }
+
 
             }
 
@@ -770,7 +824,7 @@ namespace MatrizTributaria.Controllers
 
                         //tabela de produto
                         //busca o produto com o ncm antigo, que ainda nao foi alterado
-                        prod = db.Produtos.Where(a => a.ncm.Equals(tNCM.ncm)).ToList();
+                        prod = db.Produtos.Where(a => a.ncm.Equals(ncmAntigo)).ToList();
 
                         //agora ele varre essa lista buscando o ncm que dever ser mudado
                         //TO-DO 
@@ -801,7 +855,7 @@ namespace MatrizTributaria.Controllers
                         }
 
                         tNCM.cest = cestMudar;
-                        tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
+                       // tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
                         tNCM.dataAlt = DateTime.Now; //data da alteração
                     }
 
@@ -813,7 +867,7 @@ namespace MatrizTributaria.Controllers
                     {
                         //tabela de produto
                         //busca o produto com o ncm antigo, que ainda nao foi alterado
-                        prod = db.Produtos.Where(a => a.ncm.Equals(tNCM.ncm)).ToList();
+                        prod = db.Produtos.Where(a => a.ncm.Equals(ncmAntigo)).ToList();
 
                         //agora ele varre essa lista buscando o ncm que dever ser mudado
                         //TO-DO 
@@ -845,21 +899,23 @@ namespace MatrizTributaria.Controllers
 
 
                         tNCM.cest = cestMudar;
-                        tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
+                      //  tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
                         tNCM.dataAlt = DateTime.Now; //data da alteração
                     }
                 }
+
+
                 //verificar se veio nulo
                 if (ncmMudar != null)
                 {
                     if (ncmMudar != "") //VERIFICAR SE VEIO VAZIO
                     {
-                        
-                        if (tNCM.ncm != ncmMudar)
+                        //mudar no produto
+                        if(ncmAntigo != ncmMudar)
                         {
                             //tabela de produto
                             //busca o produto com o ncm antigo, que ainda nao foi alterado
-                            prod = db.Produtos.Where(a => a.ncm.Equals(tNCM.ncm)).ToList();
+                            prod = db.Produtos.Where(a => a.ncm.Equals(ncmAntigo)).ToList();
 
                             //agora ele varre essa lista buscando o ncm que dever ser mudado
                             //TO-DO 
@@ -889,8 +945,14 @@ namespace MatrizTributaria.Controllers
                                 }
                             }
 
+                        }
+                        
+                        if (tNCM.ncm != ncmMudar)
+                        {
+                           
+
                             tNCM.ncm = ncmMudar;
-                            tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
+                           // tNCM.auditadoPorNCM = 1; //flag que foi auditado pelo ncm
                             tNCM.dataAlt = DateTime.Now; //data da alteração
                         }
                     }
