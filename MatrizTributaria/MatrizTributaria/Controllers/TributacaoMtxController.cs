@@ -20,12 +20,235 @@ namespace MatrizTributaria.Controllers
         //origem e destino
         string ufOrigem = "";
         string ufDestino = "";
-
+        //Empresa da sessão
+        Empresa empresa;
         // GET: TributacaoMtx
         public ActionResult Index()
         {
             return View();
         }
+
+
+        //Fráficos, usando NMC: Abril/2023
+        [HttpGet]
+        public ActionResult GraficoIcmsSaida(string ufOrigem, string ufDestino, string crt, string regime) //se for simples nacional vem descrito nessa variavel
+        {
+            /*Verificar a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+
+            }
+            ViewBag.TituloView = "GraficoIcmsSaida"; //titulo da página
+
+           
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //verificar se a tributação escolhida está ativa
+            VerificaTributacao(crt, regime);
+
+            //ViewBags para o regime e o crt
+            ViewBag.Crt = TempData["crt"].ToString();
+            ViewBag.Regime = TempData["regime"].ToString();
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+
+            //criar o temp data da lista ou recupera-lo
+            VerificaTempDataNCM(ViewBag.Regime, ViewBag.Crt);
+
+                       
+
+            //Aplica a origem e destino selecionada
+            this.tributacaoMTX_NCMView = this.tributacaoMTX_NCMView.Where(s => s.UF_ORIGEM == this.ufOrigem && s.UF_DESTINO == this.ufDestino);
+
+            //TOTAL DE REGISTROG
+            ViewBag.TotalRegistros = this.tributacaoMTX_NCMView.Count(a => a.ID > 0 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Aliquota ICMS Venda Varejo Consumidor Final - atualizado 17/01/2022 - estados origem e destino*/
+            ViewBag.AliqICMSVendaVarCF = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_VAREJO_CONS_FINAL != null && a.CST_VENDA_VAREJO_CONS_FINAL != 60 && a.CST_VENDA_VAREJO_CONS_FINAL != 40 && a.CST_VENDA_VAREJO_CONS_FINAL != 41 && a.ID_CATEGORIA != 21); //tirar o cst = 60
+
+            ViewBag.AliqICMSVendaVarCFNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_VAREJO_CONS_FINAL == null && a.CST_VENDA_VAREJO_CONS_FINAL != 60 && a.CST_VENDA_VAREJO_CONS_FINAL != 40 && a.CST_VENDA_VAREJO_CONS_FINAL != 41 && a.ID_CATEGORIA != 21); //tirar o cst = 60
+            ViewBag.AliqICMSVendaVarCFIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_VENDA_VAREJO_CONS_FINAL == 40 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSVendaVarCFUsoConsumo = this.tributacaoMTX_NCMView.Count(a => a.ID_CATEGORIA == 21);
+            ViewBag.AliqICMSVendaVarCFNaoTributada = this.tributacaoMTX_NCMView.Count(a => a.CST_VENDA_VAREJO_CONS_FINAL == 41 && a.ID_CATEGORIA != 21);
+
+
+
+
+            /*Aliquota ICMS ST Venda Varejo Consumidor Final*/ /*Alteração feita para filtrar por CST = 60*/
+            //ViewBag.AliqICMSSTVendaVarCF      = this.lstCli.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL != null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            //ViewBag.AliqICMSSTVendaVarCFNulla = this.lstCli.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL == null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+            ViewBag.AliqICMSSTVendaVarCF = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL != null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSSTVendaVarCFNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONS_FINAL == null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.ID_CATEGORIA != 21);
+
+
+
+
+            /*Aliquota ICMS Venda Varejo Para Contribuinte atualizado 18/01/2022 - estados origem e destino**/
+            ViewBag.AliqICMSVendaVarCont = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_VAREJO_CONT != null && a.CST_VENDA_VAREJO_CONT != 60 && a.CST_VENDA_VAREJO_CONT != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaVarContNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_VAREJO_CONT == null && a.CST_VENDA_VAREJO_CONT != 60 && a.CST_VENDA_VAREJO_CONT != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaVarContIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_VENDA_VAREJO_CONT == 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+
+            /*Aliquota ICMS ST Venda Varejo Para Contribuinte*/
+            ViewBag.AliqICMSSTVendaVarCont = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONT != null && a.CST_VENDA_VAREJO_CONT == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSSTVendaVarContNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_VAREJO_CONT == null && a.CST_VENDA_VAREJO_CONT == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+
+
+            /*Aliquota ICMS Venda Ata Para Contribuinte atualizado 18/01/2022 - estados origem e destino**/
+            ViewBag.AliqICMSVendaAtaCont = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_ATA_CONT != null && a.CST_VENDA_ATA_CONT != 60 && a.CST_VENDA_ATA_CONT != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaAtaContNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_ATA_CONT == null && a.CST_VENDA_ATA_CONT != 60 && a.CST_VENDA_ATA_CONT != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaAtaContIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_VENDA_ATA_CONT == 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+
+
+            /*Aliquota ICMS ST Venda Ata Para Contribuinte  atualizado 18/01/2022 - estados origem e destino**/
+            ViewBag.AliqICMSSTVendaAtaCont = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_ATA_CONT != null && a.CST_VENDA_ATA_CONT == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSSTVendaAtaContNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_ATA_CONT == null && a.CST_VENDA_ATA_CONT == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+
+
+            /*Aliquota ICMS Venda Ata Para Simples Nacional atualizado 18/01/2022 - estados origem e destino**/
+            ViewBag.AliqICMSVendaAtaSN = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_ATA_SIMP_NACIONAL != null && a.CST_VENDA_ATA_SIMP_NACIONAL != 60 && a.CST_VENDA_ATA_SIMP_NACIONAL != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaAtaNSNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_VENDA_ATA_SIMP_NACIONAL == null && a.CST_VENDA_ATA_SIMP_NACIONAL != 60 && a.CST_VENDA_ATA_SIMP_NACIONAL != 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSVendaAtaSNIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_VENDA_ATA_SIMP_NACIONAL == 40 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+            /*Aliquota ICMS ST Venda Ata Para Simples Nacional atualizado 18/01/2022 - estados origem e destino**/
+            ViewBag.AliqICMSSTVendaAtaSN = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_ATA_SIMP_NACIONAL != null && a.CST_VENDA_ATA_SIMP_NACIONAL == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+            ViewBag.AliqICMSSTVendaAtaNSNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_VENDA_ATA_SIMP_NACIONAL == null && a.CST_VENDA_ATA_SIMP_NACIONAL == 60 && a.ID_CATEGORIA != 21 && a.UF_ORIGEM == this.ufOrigem && a.UF_DESTINO == this.ufDestino);
+
+
+            return View();
+
+        }
+
+
+        //Fráficos, usando NMC: Abril/2023
+        [HttpGet]
+        public ActionResult GraficoIcmsEntrada(string ufOrigem, string ufDestino, string crt, string regime) //se for simples nacional vem descrito nessa variavel
+        {
+            /*Verificar a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+
+            }
+            ViewBag.TituloView = "GraficoIcmsEntrada"; //titulo da página
+
+
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //verificar se a tributação escolhida está ativa
+            VerificaTributacao(crt, regime);
+
+            //ViewBags para o regime e o crt
+            ViewBag.Crt = TempData["crt"].ToString();
+            ViewBag.Regime = TempData["regime"].ToString();
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+
+            //criar o temp data da lista ou recupera-lo
+            VerificaTempDataNCM(ViewBag.Regime, ViewBag.Crt);
+
+
+
+            //Aplica a origem e destino selecionada
+            this.tributacaoMTX_NCMView = this.tributacaoMTX_NCMView.Where(s => s.UF_ORIGEM == this.ufOrigem && s.UF_DESTINO == this.ufDestino);
+
+            //TOTAL DE REGISTROG
+            ViewBag.TotalRegistros = this.tributacaoMTX_NCMView.Count(a => a.ID > 0 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            ViewBag.AliqICMSEntradaInd = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMP_DE_IND != null && a.CST_COMPRA_DE_IND != 60 && a.CST_COMPRA_DE_IND != 40 && a.CST_COMPRA_DE_IND != 41 && a.ID_CATEGORIA != 21); //tirar o cst = 60 o cst 40 O CST 41 e a categoria 21);
+            ViewBag.AliqICMSEntradaNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMP_DE_IND == null && a.CST_COMPRA_DE_IND != 60 && a.CST_COMPRA_DE_IND != 40 && a.CST_COMPRA_DE_IND != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSEntradaIndIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_COMPRA_DE_IND == 40 && a.ID_CATEGORIA != 21);
+
+
+
+            /*Aliquota ICMS st Compra industria*/
+            ViewBag.AliqICMSSTEntradaInd = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMP_DE_IND != null && a.CST_COMPRA_DE_IND == 60 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSSTEntradaNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMP_DE_IND == null && a.CST_COMPRA_DE_IND == 60 && a.ID_CATEGORIA != 21);
+
+
+
+
+            /*Aliquota ICMS compra de atacado*/
+            ViewBag.AliqICMSCompraAta = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMPRA_DE_ATA != null && a.CST_COMPRA_DE_ATA != 60 && a.CST_COMPRA_DE_ATA != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSCompraAtaNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMPRA_DE_ATA == null && a.CST_COMPRA_DE_ATA != 60 && a.CST_COMPRA_DE_ATA != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSCompraAtaIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_COMPRA_DE_ATA == 40 && a.ID_CATEGORIA != 21);
+
+
+            /*Aliquota ICMS ST compra de atacado*/
+            ViewBag.AliqICMSSTCompraAta = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMPRA_DE_ATA != null && a.CST_COMPRA_DE_ATA == 60 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSSTCompraAtaNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMPRA_DE_ATA == null && a.CST_COMPRA_DE_ATA == 60 && a.ID_CATEGORIA != 21);
+
+
+
+            /*Aliquota ICMS compra de Simples nacional*/
+            ViewBag.AliqICMSCompraSN = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMPRA_DE_SIMP_NACIONAL != null && a.CST_COMPRA_DE_SIMP_NACIONAL != 60 && a.CST_COMPRA_DE_SIMP_NACIONAL != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSCompraSNNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_COMPRA_DE_SIMP_NACIONAL == null && a.CST_COMPRA_DE_SIMP_NACIONAL != 60 && a.CST_COMPRA_DE_SIMP_NACIONAL != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSCompraSNIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_COMPRA_DE_SIMP_NACIONAL == 40 && a.ID_CATEGORIA != 21);
+
+            /*Aliquota ICMS ST compra de Simples nacional*/
+            ViewBag.AliqICMSSTCompraSN = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMPRA_DE_SIMP_NACIONAL != null && a.CST_COMPRA_DE_SIMP_NACIONAL == 60 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSSTCompraSNNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_ST_COMPRA_DE_SIMP_NACIONAL == null && a.CST_COMPRA_DE_SIMP_NACIONAL == 60 && a.ID_CATEGORIA != 21);
+
+
+            /*Aliquota ICMS NFE Compra Industria*/
+            ViewBag.AliqICMSNFEInd = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE != null && a.CST_DA_NFE_DA_IND_FORN != 60 && a.CST_DA_NFE_DA_IND_FORN != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNfeIndNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE == null && a.CST_DA_NFE_DA_IND_FORN != 60 && a.CST_DA_NFE_DA_IND_FORN != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNfeIndIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_DA_NFE_DA_IND_FORN == 40 && a.ID_CATEGORIA != 21);
+
+
+
+
+            /*Aliquota ICMS NFE Compra Ata*/
+            ViewBag.AliqICMSNFEAta = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE_FOR_ATA != null && a.CST_DA_NFE_DE_ATA_FORN != 60 && a.CST_DA_NFE_DE_ATA_FORN != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNFEAtaNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE_FOR_ATA == null && a.CST_DA_NFE_DE_ATA_FORN != 60 && a.CST_DA_NFE_DE_ATA_FORN != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNFEAtaIsenta = this.tributacaoMTX_NCMView.Count(a => a.CST_DA_NFE_DE_ATA_FORN == 40 && a.ID_CATEGORIA != 21);
+
+
+            /*Aliquota ICMS NFE Compra SN*/
+            ViewBag.AliqICMSNFESN = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE_FOR_SN != null && a.CSOSNTDANFEDOSNFOR != 60 && a.CSOSNTDANFEDOSNFOR != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNFESNNulla = this.tributacaoMTX_NCMView.Count(a => a.ALIQ_ICMS_NFE_FOR_SN == null && a.CSOSNTDANFEDOSNFOR != 60 && a.CSOSNTDANFEDOSNFOR != 40 && a.CST_COMPRA_DE_ATA != 41 && a.ID_CATEGORIA != 21);
+            ViewBag.AliqICMSNFESNIsenta = this.tributacaoMTX_NCMView.Count(a => a.CSOSNTDANFEDOSNFOR == 40 && a.ID_CATEGORIA != 21);
+
+
+            return View();
+
+           
+
+        }
+
+        
+
+
 
         //Analise usando o NCM: Março/2023
         public ActionResult TributacaoComNCM(string origem, string destino, string opcao, string param, string ordenacao, string qtdSalvos, string qtdNSalvos, string procuraNCM, string procuraCEST,

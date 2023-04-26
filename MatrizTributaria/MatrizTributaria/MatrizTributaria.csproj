@@ -2153,6 +2153,7 @@
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_both.png" />
     <Content Include="Images\sort_desc.png" />
+    <Content Include="Scripts\admin\adm-direcionar-menu-mtx.js" />
     <Content Include="Scripts\admin\adm-script-graficos.js" />
     <Content Include="Scripts\admin\adm-script-produto.js" />
     <Content Include="Scripts\admin\adm-script.js" />
@@ -3039,6 +3040,9 @@
     <Content Include="Views\Acoes\botoesEmpUsu.cshtml" />
     <Content Include="Views\Acoes\botoesTribNCM_MTX.cshtml" />
     <Content Include="Views\TributacaoMtx\Detalhes.cshtml" />
+    <Content Include="Views\TributacaoMtx\GraficoIcmsSaida.cshtml" />
+    <Content Include="Views\Acoes\CamposSelecionaUF_MTX.cshtml" />
+    <Content Include="Views\TributacaoMtx\GraficoIcmsEntrada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

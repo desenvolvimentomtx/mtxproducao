@@ -1,0 +1,187 @@
+﻿<div class="container-fluid">
+    <div class="row pl-1">
+
+
+        <div class="form-group col-lg-2">
+            <label class="pr-fontalternativa">UF Origem</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="ufOrigem" name="ufOrigem">
+                    <option value="null">UF de Origem</option>
+                    @foreach (var item in ViewBag.EstadosOrigem)
+                    {
+                        if (item.uf == ViewBag.UfOrigem)
+                        {
+        <option selected value="@item.uf">@item.uf</option>
+ }
+    else
+    {
+    <option value="@item.uf">@item.uf</option>
+}
+
+}
+                </select>
+
+
+            </div><!--fim div input-->
+
+        </div><!--fim coluna 2-->
+
+        <div class="form-group col-lg-2">
+            <label class="pr-fontalternativa">UF Destino</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="ufDestino" name="ufDestino">
+                    <option value="null">UF de Destino</option>
+                    @foreach (var item in ViewBag.EstadosDestinos)
+                    {
+                        if (item.uf == ViewBag.UfDestino)
+                        {
+        <option selected value="@item.uf">@item.uf</option>
+ }
+    else
+    {
+    <option value="@item.uf">@item.uf</option>
+}
+
+}
+                </select>
+
+
+                <div class="input-group-append">
+                    <button data-toggle="tooltip" data-placement="right" title="Aplicar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                        <i style="font-size:1.3em;" class="fas fa-search"></i>
+                    </button>
+                </div><!--fim do appende-->
+            </div><!--fim div input-->
+        </div><!--fim coluna 2-->
+        <!--TIPO DE TRIBUTAÇÃO-->
+
+
+        <div class="form-group col-lg-2 pr-1">
+            <label class="pr-fontalternativa">CRT</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="crt" name="crt">
+
+                    @{ string crt = ViewBag.Crt; }
+
+                    @switch (crt)
+                    {
+                        case "1":
+        <option selected value="1">SIMPLES NACIONAL</option>
+                            <option value="2">SIMPLES NACIONAL EXCESSO DE SUBLIMITE DE RECEITA BRUTA</option>
+                                                <option value="3">REGIME NORMAL</option>
+                                                                    <option value="4">SIMPLES NACIONAL - MEI</option>
+ break;
+                                                                case "2":
+                                                <option value="1">SIMPLES NACIONAL</option>
+                                                                    <option selected value="2">SIMPLES NACIONAL EXCESSO DE SUBLIMITE DE RECEITA BRUTA</option>
+                                                                                        <option value="3">REGIME NORMAL</option>
+                                                                                                            <option value="4">SIMPLES NACIONAL - MEI</option>
+ break;
+                                                                                                        case "3":
+                                                                                        <option value="1">SIMPLES NACIONAL</option>
+                                                                                                            <option value="2">SIMPLES NACIONAL EXCESSO DE SUBLIMITE DE RECEITA BRUTA</option>
+                                                                                                                                <option selected value="3">REGIME NORMAL</option>
+                                                                                                                                                    <option value="4">SIMPLES NACIONAL - MEI</option>
+ break;
+                                                                                                                                                case "4":
+                                                                                                                                <option value="1">SIMPLES NACIONAL</option>
+                                                                                                                                                    <option value="2">SIMPLES NACIONAL EXCESSO DE SUBLIMITE DE RECEITA BRUTA</option>
+                                                                                                                                                                        <option value="3">REGIME NORMAL</option>
+                                                                                                                                                                                            <option selected value="4">SIMPLES NACIONAL - MEI</option>
+break;
+
+
+
+
+                                                                                                                                                                                    }
+
+
+
+                </select>
+
+
+                <div class="input-group-append">
+                    <button data-toggle="tooltip" data-placement="right" title="Aplicar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                        <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                    </button>
+                </div><!--fim do appende-->
+            </div><!--fim div input-->
+
+
+
+        </div><!--fim coluna 2-->
+        <div class="form-group col-lg-2 pr-1">
+            <label class="pr-fontalternativa">Regime Tributário</label>
+
+            <div class="input-group input-group-sm">
+
+                <select class="form-control form-control-sm dropdown prn-select" id="regime" name="regime">
+
+                    @{ string regime = ViewBag.Regime; }
+
+                    @switch (regime)
+                    {
+                        case "1":
+        <option selected value="1">SIMPLES</option>
+                            <option value="2">LUCRO REAL</option>
+                                                <option value="3">LUCRO PRESUMIDO</option>
+                                                                    <option value="4">REGIME ESPECIAL</option> break;
+                                                                                    case "2":
+                                                                    <option value="1">SIMPLES</option>
+                                                                                        <option selected value="2">LUCRO REAL</option>
+                                                                                                            <option value="3">LUCRO PRESUMIDO</option>
+                                                                                                                                <option value="4">REGIME ESPECIAL</option> break;
+                                                                                                                                                case "3":
+                                                                                                                                <option value="1">SIMPLES</option>
+                                                                                                                                                    <option value="2">LUCRO REAL</option>
+                                                                                                                                                                        <option selected value="3">LUCRO PRESUMIDO</option>
+                                                                                                                                                                                            <option value="4">REGIME ESPECIAL</option> break;
+                                                                                                                                                                                                            case "4":
+                                                                                                                                                                                            <option value="1">SIMPLES</option>
+                                                                                                                                                                                                                <option value="2">LUCRO REAL</option>
+                                                                                                                                                                                                                                    <option value="3">LUCRO PRESUMIDO</option>
+                                                                                                                                                                                                                                                        <option selected value="4">REGIME ESPECIAL</option>break;
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                    }
+
+
+
+                </select>
+
+
+                <div class="input-group-append">
+                    <button data-toggle="tooltip" data-placement="right" title="Aplicar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addonCest">
+                        <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                    </button>
+                </div><!--fim do appende-->
+            </div><!--fim div input-->
+
+
+
+        </div><!--fim coluna 2-->
+        <div class="form-group col-lg-1 ml-2">
+            <label class="pr-fontalternativa">Total de Registros</label>
+            <label style="border: none !important;" class="form-control form-control-sm">
+                <span style="font-weight: bold;">@ViewBag.TotalRegistros</span>
+
+            </label>
+
+        </div>
+
+
+
+    </div><!--linha do container do body-->
+</div> <!--container do body-->
