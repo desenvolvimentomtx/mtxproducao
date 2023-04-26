@@ -1,18 +1,15 @@
 ﻿using MatrizTributaria.Areas.Cliente.Models;
 using MatrizTributaria.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Web.Mvc;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Net.Mime;
+using System.Web.Mvc;
 //SALVO alteração ALTERAÇÃO DO SEGUNDO USUARIO
 namespace MatrizTributaria.Controllers
 {

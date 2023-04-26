@@ -1,9 +1,8 @@
-﻿
-@using MatrizTributaria.Models
+﻿@using MatrizTributaria.Models
 
 
 @{ ViewBag.Title = "GraficoIcmsSaida"; }
-
+<!--Nova Action-->
 
 <div class="container-fluid pr-container  pr-card-cad row">
 
@@ -16,10 +15,10 @@
             <div class="card-body">
 
 
-                @using (Html.BeginForm("GraficoIcmsSaida", "Tributacao", FormMethod.Get))
+                @using (Html.BeginForm("GraficoIcmsSaida", "TributacaoMTX", FormMethod.Get))
                 {
 
-    @RenderPage("~/Views/Acoes/CamposSelecionaUF.cshtml")}
+    @RenderPage("~/Views/Acoes/CamposSelecionaUF_MTX.cshtml")}
 
             </div><!--body-->
         </div><!--card-->
@@ -212,10 +211,8 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
+    <script type="text/javascript">$(document).ready(function () {
             $('li').removeClass("prn-active");
             $('#liGraficoSaida').addClass("prn-active");
-        });
-    </script>
+        });</script>
 }
