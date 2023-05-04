@@ -3043,6 +3043,8 @@
     <Content Include="Views\TributacaoMtx\GraficoIcmsSaida.cshtml" />
     <Content Include="Views\Acoes\CamposSelecionaUF_MTX.cshtml" />
     <Content Include="Views\TributacaoMtx\GraficoIcmsEntrada.cshtml" />
+    <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsSaida.cshtml" />
+    <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsEntrada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
