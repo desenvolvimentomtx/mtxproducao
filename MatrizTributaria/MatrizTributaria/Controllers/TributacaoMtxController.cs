@@ -481,8 +481,8 @@ namespace MatrizTributaria.Controllers
 
 
             ViewBag.CategoriaProdutos = db.CategoriaProdutos.AsNoTracking().OrderBy(s => s.descricao).ToList();
-            ViewBag.CstPisCofins = db.CstPisCofinsSaidas.AsNoTracking().OrderBy(s => s.descricao); ; //para montar a descrição da cst na view
-            ViewBag.CstGeral = db.CstIcmsGerais.AsNoTracking().OrderBy(s => s.descricao); ; //para montar a descrição da cst na view
+            ViewBag.CstPisCofins = db.CstPisCofinsSaidas.AsNoTracking().OrderBy(s => s.descricao);//para montar a descrição da cst na view
+            ViewBag.CstGeral = db.CstIcmsGerais.AsNoTracking().OrderBy(s => s.descricao); //para montar a descrição da cst na view
 
             return View(this.tributacaoMTX_NCMView.ToPagedList(numeroPagina, tamanhoPagina));//retorna o pagedlist
 
