@@ -195,16 +195,19 @@ namespace MatrizTributaria.Models
         public double? VALORMVAIND { get; set; }
 
 
-        [Column("INICIO_VIGENCIA_MVA")]
-        [DisplayFormat(DataFormatString = "{MM/dd/yyyy}")]
-        public Nullable<System.DateTime> INICIO_VIGENCIA_MVA { get; set; }
+        //[Column("INICIO_VIGENCIA_MVA")]
+        //[DisplayFormat(DataFormatString = "{MM/dd/yyyy}")]
+        //public DateTime? INICIO_VIGENCIA_MVA { get; set; }
+
+        //[Column("FIM_VIGENCIA_MVA")]
+        //[DisplayFormat(DataFormatString = "{MM/dd/yyyy}")]
+        //public DateTime? FIM_VIGENCIA_MVA { get; set; }
+
+
         [Column("VALOR_MVA_ATACADO")]
         public double? VALOR_MVA_ATACADO { get; set; }
 
-        [Column("FIM_VIGENCIA_MVA")]
-        [DisplayFormat(DataFormatString = "{MM/dd/yyyy}")]
-        public Nullable<System.DateTime> FIM_VIGENCIA_MVA { get; set; }
-
+       
         [Column("REGIME_2560")]
         public int? REGIME_2560 { get; set; }
 
