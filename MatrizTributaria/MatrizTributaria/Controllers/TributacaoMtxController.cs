@@ -248,6 +248,177 @@ namespace MatrizTributaria.Controllers
 
         
 
+        //Fráficos, usando NMC: Abril/2023
+        [HttpGet]
+        public ActionResult GfRedBCalcIcmsSaida(string ufOrigem, string ufDestino, string crt, string regime) //se for simples nacional vem descrito nessa variavel
+        {
+            /*Verificar a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+
+            }
+            ViewBag.TituloView = "GfRedBCalcIcmsSaida"; //titulo da página
+
+
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //verificar se a tributação escolhida está ativa
+            VerificaTributacao(crt, regime);
+
+            //ViewBags para o regime e o crt
+            ViewBag.Crt = TempData["crt"].ToString();
+            ViewBag.Regime = TempData["regime"].ToString();
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+
+            //criar o temp data da lista ou recupera-lo
+            VerificaTempDataNCM(ViewBag.Regime, ViewBag.Crt);
+
+
+
+            //Aplica a origem e destino selecionada
+            this.tributacaoMTX_NCMView = this.tributacaoMTX_NCMView.Where(s => s.UF_ORIGEM == this.ufOrigem && s.UF_DESTINO == this.ufDestino);
+
+            //TOTAL DE REGISTROG
+            ViewBag.TotalRegistros = this.tributacaoMTX_NCMView.Count(a => a.ID > 0 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms venda varejo cf*/
+            ViewBag.RedBasCalIcmsVendaVarCF = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_VAREJO_CONS_FINAL != null && a.CST_VENDA_VAREJO_CONS_FINAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsVendaVarCFNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_VAREJO_CONS_FINAL == null && a.CST_VENDA_VAREJO_CONS_FINAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            /*Redução base calc icms ST venda varejo cf*/
+            ViewBag.RedBasCalIcmsSTVendaVarCF = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_VAREJO_CONS_FINAL != null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTVendaVarCFNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_VAREJO_CONS_FINAL == null && a.CST_VENDA_VAREJO_CONS_FINAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            /*Redução base de calculo ICMS venda varejo para Contribuinte*/
+            ViewBag.RedBasCalIcmsVendaVarCont = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_VENDA_VAREJO_CONT != null && a.CST_VENDA_VAREJO_CONT == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsVendaVarContNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_VENDA_VAREJO_CONT == null && a.CST_VENDA_VAREJO_CONT == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            /*Redução base de calculo ICMS ST venda varejo para Contribuinte*/
+            ViewBag.RedBasCalIcmsSTVendaVarCont = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ST_VENDA_VAREJO_CONT != null && a.CST_VENDA_VAREJO_CONT == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTVendaVarContNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ST_VENDA_VAREJO_CONT == null && a.CST_VENDA_VAREJO_CONT == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            /*Red Base Calc ICMS Venda Atacado para Contribuinte*/
+            ViewBag.RedBasCalIcmsVendaAtaCont = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_ATA_CONT != null && a.CST_VENDA_ATA_CONT == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsVendaAtaContNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_ATA_CONT == null && a.CST_VENDA_ATA_CONT == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Red Base Calc ICMS ST Venda Atacado para Contribuinte*/
+            ViewBag.RedBasCalIcmsSTVendaAtaCont = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT != null && a.CST_VENDA_ATA_CONT == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTVendaAtaContNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_ATA_CONT == null && a.CST_VENDA_ATA_CONT == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            /*Red Base Calc ICMS Venda Atacado para Simples Nacional*/
+            ViewBag.RedBasCalIcmsVendaAtaSN = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_ATA_SIMP_NACIONAL != null && a.CST_VENDA_ATA_SIMP_NACIONAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsVendaAtaSNNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_VENDA_ATA_SIMP_NACIONAL == null && a.CST_VENDA_ATA_SIMP_NACIONAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Red Base Calc ICMS ST Venda Atacado para Simples Nacional*/
+            ViewBag.RedBasCalIcmsSTVendaAtaSN = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_ATA_SIMP_NACIONAL != null && a.CST_VENDA_ATA_SIMP_NACIONAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTVendaAtaSNNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_VENDA_ATA_SIMP_NACIONAL == null && a.CST_VENDA_ATA_SIMP_NACIONAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+            return View();
+
+
+
+        }
+
+        
+        //Fráficos, usando NMC: Abril/2023
+        [HttpGet]
+        public ActionResult GfRedBCalcIcmsEntrada(string ufOrigem, string ufDestino, string crt, string regime) //se for simples nacional vem descrito nessa variavel
+        {
+            /*Verificar a sessão*/
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+
+            }
+            ViewBag.TituloView = "GfRedBCalcIcmsSaida"; //titulo da página
+
+
+            //Mota as view bag de origem e destino
+            ViewBag.EstadosOrigem = db.Estados.ToList();
+            ViewBag.EstadosDestinos = db.Estados.ToList();
+
+            //Monta as viewbags do CRT e situação tributaria
+            ViewBag.CRT = db.Crts.ToList();
+            ViewBag.RegTrib = db.RegimesTribarios.ToList();
+
+            //verificar se a tributação escolhida está ativa
+            VerificaTributacao(crt, regime);
+
+            //ViewBags para o regime e o crt
+            ViewBag.Crt = TempData["crt"].ToString();
+            ViewBag.Regime = TempData["regime"].ToString();
+
+            //verifica estados origem e destino
+            VerificaOriDest(ufOrigem, ufDestino); //verifica a UF de origem e o destino 
+
+            //aplica estado origem e destino
+            ViewBag.UfOrigem = this.ufOrigem;
+            ViewBag.UfDestino = this.ufDestino;
+
+
+            //criar o temp data da lista ou recupera-lo
+            VerificaTempDataNCM(ViewBag.Regime, ViewBag.Crt);
+
+
+
+            //Aplica a origem e destino selecionada
+            this.tributacaoMTX_NCMView = this.tributacaoMTX_NCMView.Where(s => s.UF_ORIGEM == this.ufOrigem && s.UF_DESTINO == this.ufDestino);
+
+            //TOTAL DE REGISTROG
+            ViewBag.TotalRegistros = this.tributacaoMTX_NCMView.Count(a => a.ID > 0 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms compra de industria*/
+            ViewBag.RedBasCalIcmsCompInd = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_IND != null && a.CST_COMPRA_DE_IND == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsCompIndNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_IND == null && a.CST_COMPRA_DE_IND == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms ST compra de industria*/
+            ViewBag.RedBasCalIcmsSTCompInd = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND != null && a.CST_COMPRA_DE_IND == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTCompIndNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_IND == null && a.CST_COMPRA_DE_IND == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms compra de atacado*/
+            ViewBag.RedBasCalIcmsCompAta = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_ATA != null && a.CST_COMPRA_DE_ATA == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsCompAtaNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_ATA == null && a.CST_COMPRA_DE_ATA == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms st compra de atacado*/
+            ViewBag.RedBasCalIcmsSTCompAta = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA != null && a.CST_COMPRA_DE_ATA == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTCompAtaNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_ATA == null && a.CST_COMPRA_DE_ATA == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+
+
+            /*Redução base calc icms compra de  SIMPLES NACIONAL*/
+            ViewBag.RedBasCalIcmsCompSN = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_SIMP_NACIONAL != null && a.CST_COMPRA_DE_SIMP_NACIONAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsCompSNNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_COMPRA_DE_SIMP_NACIONAL == null && a.CST_COMPRA_DE_SIMP_NACIONAL == 20 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            /*Redução base calc icms compra de  SIMPLES NACIONAL*/
+            ViewBag.RedBasCalIcmsSTCompSN = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL != null && a.CST_COMPRA_DE_SIMP_NACIONAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+            ViewBag.RedBasCalIcmsSTCompSNNull = this.tributacaoMTX_NCMView.Count(a => a.RED_BASE_CALC_ICMS_ST_COMPRA_DE_SIMP_NACIONAL == null && a.CST_COMPRA_DE_SIMP_NACIONAL == 60 && a.UF_ORIGEM.Equals(this.ufOrigem) && a.UF_DESTINO.Equals(this.ufDestino));
+
+            return View();
+
+
+
+        }
+
 
 
         //Analise usando o NCM: Março/2023

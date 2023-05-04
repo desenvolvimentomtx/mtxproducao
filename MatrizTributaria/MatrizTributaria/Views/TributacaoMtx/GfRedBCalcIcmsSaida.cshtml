@@ -1,10 +1,9 @@
 ﻿
+
 @using MatrizTributaria.Models
 
-
-@{ ViewBag.Title = "GraficoIcmsSaida"; }
-
-
+@{ ViewBag.Title = "GfRedBCalcIcmsSaida"; }
+<!--Nova Action-->
 <div class="container-fluid pr-container  pr-card-cad row">
 
     <div class="col-lg-12 col-sm-12 pr-1">
@@ -16,10 +15,10 @@
             <div class="card-body">
 
 
-                @using (Html.BeginForm("GraficoIcmsSaida", "Tributacao", FormMethod.Get))
+                @using (Html.BeginForm("GfRedBCalcIcmsSaida", "TributacaoMTX", FormMethod.Get))
                 {
 
-    @RenderPage("~/Views/Acoes/CamposSelecionaUF.cshtml")}
+                    @RenderPage("~/Views/Acoes/CamposSelecionaUF_MTX.cshtml")}
 
             </div><!--body-->
         </div><!--card-->
@@ -38,14 +37,14 @@
 
         <div class="card">
             <div class="card-header">
-                Aliquota de ICMS venda no varejo para Consumidor Final
+                Redução base de calc. ICMS  venda no varejo para Consumidor Final
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsVendVarCF" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsVenVarCF" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -58,14 +57,14 @@
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliquota de ICMS ST venda no varejo para Consumidor Final
+                Redução base de calc. ICMS ST venda no varejo para Consumidor Final
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsSTVendVarCF" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsSTVenVarCF" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -83,14 +82,14 @@
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliquota de ICMS venda varejo para Contribuinte
+                Redução base de calc. ICMS  venda no varejo para Contribuinte
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsVendVarCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsVenVarCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -103,14 +102,14 @@
 
         <div class="card">
             <div class="card-header">
-                Aliquota de ICMS ST venda varejo para Contribuinte
+                Redução base de calc. ICMS ST venda no varejo para Contribuinte
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsSTVendVarCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsSTVenVarCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -119,21 +118,30 @@
         </div><!--card-->
     </div>
 
+
+
+
+
 </div> <!--container maior-->
+
+
+
+
+
 
 <div class="container-fluid pr-container-2  pr-card-cad row">
 
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliq ICMS Venda Atacado para Contribuinte
+                Red Base Calc ICMS Venda Atacado para Contribuinte
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsVendAtaCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsVenAtaCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -145,14 +153,14 @@
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliq ICMS ST Venda Atacado para Contribuinte
+                Red Base Calc ICMS ST Venda Atacado para Contribuinte
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsSTVendAtaCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsSTVenAtaCont" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -163,21 +171,28 @@
 
 
 
+
+
+
+
 </div> <!--container maior-->
+
+
+
 
 <div class="container-fluid pr-container-2  pr-card-cad row">
 
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliq ICMS Venda no atacado para Simples Nacional
+                Red Base Calc ICMS Venda Atacado para Simples Nacional
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsVendAtaSN" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
+                                <div id="redBCIcmsVenAtaSN" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -189,14 +204,14 @@
     <div class="col-lg-6 col-sm-12 pr-1">
         <div class="card">
             <div class="card-header">
-                Aliq ICMS ST Venda no atacado para Simples Nacional
+                Red Base Calc ICMS ST Venda Atacado para Simples Nacional
             </div> <!--CAbeçalho-->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="container-fluid">
-                                <div id="aliIcmsSTVendAtaSN" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;" "></div>
+                                <div id="redBCIcmsSTVenAtaSN" style="width: 500px; height: 300px; margin-left:auto; margin-right:auto;"></div>
                             </div><!--Container fluid da coluna-->
                         </div><!--12 colunas a linha-->
                     </div><!--linha do container do body-->
@@ -204,6 +219,9 @@
             </div><!--body-->
         </div><!--card-->
     </div>
+
+
+
 
 
 </div> <!--container maior-->
@@ -215,7 +233,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('li').removeClass("prn-active");
-            $('#liGraficoSaida').addClass("prn-active");
-        });
-    </script>
+            $('#liGraficoRedSaida').addClass("prn-active");
+        });</script>
 }

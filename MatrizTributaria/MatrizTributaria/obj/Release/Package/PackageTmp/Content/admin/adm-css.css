@@ -1023,4 +1023,18 @@ li.page-item.active > a {
 .prn-select{
     max-width: 1000px !important;
 }
+.prn-active {
 
+    background-color: #A7291D !important;
+    color: #FFE8D6 !important;
+
+}
+.nav-item.prn-active {
+    color: #FFE8D6 !important;
+}
+.nav-item.prn-active > a {
+    color: #FFE8D6 !important;
+}
+    .nav-item.prn-active > button {
+        color: #FFE8D6 !important;
+    }
