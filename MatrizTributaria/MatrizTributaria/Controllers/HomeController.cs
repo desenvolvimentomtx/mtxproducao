@@ -535,6 +535,8 @@ namespace MatrizTributaria.Controllers
                 TempData["analise_NCM"] = null;
                 TempData["tributacaoMTX_NCMView"] = null;
                 TempData["linhas"] = null;
+                TempData["regime"] = null;
+                TempData["crt"] = null;
                 return RedirectToAction("Index");
             }
             else

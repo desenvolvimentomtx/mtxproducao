@@ -39,6 +39,8 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
                 TempData["analise_NCM"] = null;
                 TempData["linhas"] = null;
                 TempData["analise_trib_Cliente_NCm"] = null;
+                TempData["regime"] = null;
+                TempData["crt"] = null;
                 TempData.Keep("analise_trib_Cliente_NCm");
                 return RedirectToAction("HomeCliente");
             }

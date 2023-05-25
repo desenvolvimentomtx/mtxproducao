@@ -761,6 +761,8 @@ namespace MatrizTributaria.Controllers
             TempData["analise"] = null;
             TempData["analise2"] = null;
             TempData["analise_NCM"] = null;
+            TempData["regime"] = null;
+            TempData["crt"] = null;
             return RedirectToAction("Index", "Home");
 
 
