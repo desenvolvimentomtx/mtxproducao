@@ -8,7 +8,7 @@ namespace MatrizTributaria.Controllers
 {
     public class ErroController : Controller
     {
-        // GET: Erro
+        // GET: Erroerr
         public ActionResult Index()
         {
             return View();
