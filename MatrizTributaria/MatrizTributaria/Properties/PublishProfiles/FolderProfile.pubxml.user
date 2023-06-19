@@ -774,10 +774,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/03/2022 15:46:17</publishTime>
     </File>
     <File Include="bin/MatrizTributaria.dll">
-      <publishTime>05/23/2023 19:37:44</publishTime>
+      <publishTime>06/12/2023 15:11:20</publishTime>
     </File>
     <File Include="bin/MatrizTributaria.pdb">
-      <publishTime>05/23/2023 19:37:44</publishTime>
+      <publishTime>06/12/2023 15:11:20</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>01/03/2022 15:46:17</publishTime>
@@ -1140,7 +1140,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/03/2022 15:46:17</publishTime>
     </File>
     <File Include="Content/admin/adm-css.css">
-      <publishTime>05/10/2023 08:39:29</publishTime>
+      <publishTime>05/25/2023 11:45:28</publishTime>
     </File>
     <File Include="Content/all-min.css">
       <publishTime>01/03/2022 15:46:17</publishTime>
@@ -7923,7 +7923,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/03/2022 15:46:17</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/10/2023 08:31:03</publishTime>
+      <publishTime>05/25/2023 11:45:28</publishTime>
     </File>
     <File Include="Views/SoftwareHouse/Create.cshtml">
       <publishTime>02/10/2022 09:13:19</publishTime>
@@ -8322,7 +8322,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/08/2023 16:58:45</publishTime>
     </File>
     <File Include="Views/Versao/Index.cshtml">
-      <publishTime>01/03/2022 15:46:17</publishTime>
+      <publishTime>05/26/2023 14:29:35</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>01/03/2022 15:46:17</publishTime>

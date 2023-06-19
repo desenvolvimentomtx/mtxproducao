@@ -315,6 +315,7 @@
     <Compile Include="Areas\Cliente\Controllers\BackupActionsController.cs" />
     <Compile Include="Areas\Cliente\Controllers\HomeClienteController.cs" />
     <Compile Include="Areas\Cliente\Controllers\ImportarExportarJsonController.cs" />
+    <Compile Include="Areas\Cliente\Controllers\SimpleHomeController.cs" />
     <Compile Include="Areas\Cliente\Controllers\TributacaoEmpresaController.cs" />
     <Compile Include="Areas\Cliente\Controllers\TributacaoMTXEmpresaController.cs" />
     <Compile Include="Areas\Cliente\Models\AnaliseProd.cs" />
@@ -2585,6 +2586,7 @@
     <Content Include="Areas\Cliente\Views\TributacaoMTXEmpresa\TabelaProduto2.cshtml" />
     <Content Include="Areas\Cliente\Views\Acoes\HeadTabela.cshtml" />
     <Content Include="Areas\Cliente\Views\Acoes\HeadTabelaPis.cshtml" />
+    <Content Include="Areas\Cliente\Views\SimpleHome\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
