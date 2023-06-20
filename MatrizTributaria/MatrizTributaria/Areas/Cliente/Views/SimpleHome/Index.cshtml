@@ -1,17 +1,50 @@
 ﻿
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Cliente/Views/Shared/_Layout_simples .cshtml";
 }
 
-<!DOCTYPE html>
+<div class="container-fluid pr-container  pr-card-cad row">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div> 
+    <div class="col-lg-12 col-sm-12 pl-2">
+
+        <div class="card">
+            <div class="card-header">
+                Estado : @ViewBag.UfOrigem
+            </div> <!--CAbeçalho-->
+            <div class="card-body">
+
+
+                @using (Html.BeginForm("Index", "SimpleHome", FormMethod.Get))
+                {
+
+                    <div class="container-fluid">
+                        <div class="row pl-1">
+
+
+                            <div class="form-group col-lg-2">
+
+
+                            </div><!--fim coluna 2-->
+
+                                                 
+
+
+
+
+
+                        </div><!--linha do container do body-->
+
+                    </div> <!--container do body-->
+
+                }
+
+            </div><!--body-->
+        </div><!--card-->
+
     </div>
-</body>
-</html>
+
+
+
+
+</div> <!--container maior-->
