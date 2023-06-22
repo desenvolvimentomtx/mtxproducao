@@ -15486,6 +15486,7 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             this.ufDestino = TempData["UfDestino"].ToString();
 
             return new EmptyResult();
+
         }
 
         public EmptyResult VerificarLinhas(int? numeroLinhas)
