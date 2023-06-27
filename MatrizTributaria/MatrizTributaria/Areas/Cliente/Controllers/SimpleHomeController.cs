@@ -1,5 +1,6 @@
 ﻿using MatrizTributaria.Areas.Cliente.Models;
 using MatrizTributaria.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,8 +44,22 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //https://localhost:44324/Cliente/SimpleHome/Index?cnpj=15202475000219
 
             //formatando o cnpj
-            string cnpjRecebido = FormatCNPJ(cnpj); 
-    
+            string cnpjRecebido = FormatCNPJ(cnpj);
+
+            if (TempData["cnpjEmpresa"] == null)
+            {
+                TempData["cnpjEmpresa"] = cnpjRecebido;
+                TempData.Keep("dadosOutroBanco");
+
+            }
+            else
+            {
+                cnpjRecebido = TempData["cnpjEmpresa"].ToString();
+                TempData.Keep("cnpjEmpresa");
+            }
+
+
+
             //pegando a empresa
             this.empresa = (from a in db.Empresas where a.cnpj == cnpjRecebido select a).FirstOrDefault(); 
 
@@ -56,8 +71,8 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             ViewBag.UfOrigem = this.empresa.estado;
             ViewBag.UfDestino = this.empresa.estado;
 
+            //dados do outro banco de dados
             VerificaTempDataEmpresa(this.empresa.cnpj);
-
             ViewBag.DadosClientes = this.dadosClienteBkp;
 
             //Pegar o CRT e o Regime tributario e gravar numa temp data
@@ -120,13 +135,42 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             ViewBag.UfDestino = this.empresa.estado;
 
 
+           
+
             VerificaTribNMCEmpresa(TempData["crtEmpresa"].ToString(), TempData["regimeTribEmpresa"].ToString()); ; //manda verificar passando a tributacao
 
 
             //colocar as pesquisas a partir desse ponto
-            // veriricar estrategia de como serao colocadas
+            //veriricar estrategia de como serao colocadas
+            /*Mostrar apenas o que era o que está hoje */
+            //busca
+            this.analise_NCM = ProcuraPor(codBarrasL, procuraPor, procuraCEST, procuraNCM, this.analise_NCM);
 
-            return View();
+
+            //OrdenaçãoPRODUTO_DESCRICAO
+            switch (ordenacao)
+            {
+                case "Produto_desc":
+                    this.analise_NCM = this.analise_NCM.OrderByDescending(s => s.PRODUTO_NCM).ToList();
+                    break;
+                default:
+                    this.analise_NCM = this.analise_NCM.OrderBy(s => s.PRODUTO_DESCRICAO).ToList();
+                    break;
+            }
+
+
+            //montar a pagina
+            int tamaanhoPagina = 0;
+
+            //ternario para tamanho da pagina
+            tamaanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamaanhoPagina = (numeroLinhas != 10) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+
+            //Mensagens de retorno
+                       
+
+            int numeroPagina = (page ?? 1);
+
+            return View(this.analise_NCM.ToPagedList(numeroPagina, tamaanhoPagina));//retorna a view tipada
 
 
         }
@@ -228,5 +272,50 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             }
             return new EmptyResult();
         }
+
+        [HttpGet]
+        public List<AnaliseTributariaNCM> ProcuraPor(long? codBarrasL, string procuraPor, string procuraCEST, string procuraNCM, List<AnaliseTributariaNCM> analiseSnNCM)
+        {
+            if (procuraCEST == null)
+            {
+                procuraCEST = "";
+            }
+            else
+            {
+                procuraCEST = procuraCEST.Replace(".", ""); //retira os pontos
+            }
+            if (procuraNCM == null)
+            {
+                procuraNCM = "";
+            }
+            else
+            {
+                procuraNCM = procuraNCM.Replace(".", ""); //retira os pontos
+            }
+
+
+            if (!String.IsNullOrEmpty(procuraPor))
+            {
+                this.analise_NCM = (codBarrasL != 0) ? (this.analise_NCM.Where(s => s.PRODUTO_COD_BARRAS.ToString().StartsWith(codBarrasL.ToString()))).ToList() : this.analise_NCM = (this.analise_NCM.Where(s => s.PRODUTO_DESCRICAO.ToString().ToUpper().StartsWith(procuraPor.ToUpper()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraCEST))
+            {
+                this.analise_NCM = this.analise_NCM.Where(s => s.PRODUTO_CEST == procuraCEST).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+            if (!String.IsNullOrEmpty(procuraNCM))
+            {
+                this.analise_NCM = this.analise_NCM.Where(s => s.PRODUTO_NCM == procuraNCM).ToList();
+                //analise = analise.Where(s => s.PRODUTO_CEST.ToString().Contains(procuraCEST.ToString())).ToList();
+            }
+
+            return this.analise_NCM;
+
+        }
+
+
+
+
+
     }
 }

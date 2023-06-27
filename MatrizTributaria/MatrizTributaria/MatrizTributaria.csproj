@@ -2589,6 +2589,7 @@
     <Content Include="Areas\Cliente\Views\Shared\_Layout_simples .cshtml" />
     <Content Include="Areas\Cliente\Views\SimpleHome\Index.cshtml" />
     <Content Include="Areas\Cliente\Views\Acoes\CamposSelecionaUFSimples.cshtml" />
+    <Content Include="Areas\Cliente\Views\Acoes\CardInicialSimplesMTX.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
