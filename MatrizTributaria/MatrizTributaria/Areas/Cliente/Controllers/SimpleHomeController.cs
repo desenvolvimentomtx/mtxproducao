@@ -43,6 +43,9 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
             //usar esse link
             //https://localhost:44324/Cliente/SimpleHome/Index?cnpj=15202475000219
 
+
+
+
             //formatando o cnpj
             string cnpjRecebido = FormatCNPJ(cnpj);
 
@@ -62,6 +65,10 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //pegando a empresa
             this.empresa = (from a in db.Empresas where a.cnpj == cnpjRecebido select a).FirstOrDefault(); 
+
+            /*
+             DO-TO: fazer erro para nao existencia da empresa
+             */
 
 
             //passando o nome fantasia para a view
@@ -97,7 +104,7 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
 
             //verifica se veio parametros na busca
             procuraCEST = (procuraCEST != null) ? procuraCEST : null;
-            procuraNCM = (procuraNCM != null) ? procuraNCM : null;
+            procuraNCM  = (procuraNCM != null) ? procuraNCM : null;
 
             //numero de linhas: Se o parametro numerolinhas vier preenchido ele atribui, caso contrario ele atribui o valor padrao: 50
             VerificarLinhas(numeroLinhas);
@@ -271,6 +278,8 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
                 }
             }
             return new EmptyResult();
+
+           
         }
 
         [HttpGet]

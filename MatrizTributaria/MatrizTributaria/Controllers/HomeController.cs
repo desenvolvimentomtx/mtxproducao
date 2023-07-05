@@ -17,9 +17,9 @@ namespace MatrizTributaria.Controllers
     {
         readonly MatrizDbContext db;
         /*so um teste*/
-        List<AnaliseTributaria> analise = new List<AnaliseTributaria>();
-        List<AnaliseTributaria> trib = new List<AnaliseTributaria>();
-        List<AnaliseTributaria2> trib2 = new List<AnaliseTributaria2>();
+        List<AnaliseTributaria>   analise = new List<AnaliseTributaria>();
+        List<AnaliseTributaria>   trib    = new List<AnaliseTributaria>();
+        List<AnaliseTributaria2>  trib2   = new List<AnaliseTributaria2>();
         List<TributacaoGeralView> tribMTX = new List<TributacaoGeralView>();
         List<Produto> prodMTX = new List<Produto>();
         Usuario user;
