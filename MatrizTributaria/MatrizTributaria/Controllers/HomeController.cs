@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+
 //SALVO alteração ALTERAÇÃO DO SEGUNDO USUARIO
 namespace MatrizTributaria.Controllers
 {
@@ -166,6 +167,7 @@ namespace MatrizTributaria.Controllers
                     //03/08/2022 - verificar se é simples nacional
                     Session["simplesNacional"] = user.empresa.simples_nacional.ToString();
                     Session["crt"] = user.empresa.crt.ToString();
+                    Session["regime"] = user.empresa.regime_trib.ToString();
                     TempData["UfOrigem"] = user.empresa.estado.ToString();
                     TempData["UfDestino"] = user.empresa.estado.ToString();
 

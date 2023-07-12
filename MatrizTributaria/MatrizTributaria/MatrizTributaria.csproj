@@ -342,9 +342,11 @@
     <Compile Include="Controllers\SetorProdutosController.cs" />
     <Compile Include="Controllers\SoftwareHouseController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
+    <Compile Include="Controllers\TribProdController.cs" />
     <Compile Include="Controllers\TributacaoController.cs" />
     <Compile Include="Controllers\TributacaoMtxController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\UtilController.cs" />
     <Compile Include="Controllers\VersaoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -373,6 +375,7 @@
     <Compile Include="Models\SoftwareHouse.cs" />
     <Compile Include="Models\TipoMVAEnum.cs" />
     <Compile Include="Models\Token.cs" />
+    <Compile Include="Models\TribProd.cs" />
     <Compile Include="Models\Tributacao.cs" />
     <Compile Include="Models\TributacaoEmpresa.cs" />
     <Compile Include="Models\TributacaoGeralView.cs" />
@@ -395,6 +398,7 @@
     <Compile Include="Models\ViewModels\SetorProdutosViewModel.cs" />
     <Compile Include="Models\ViewModels\SoftwareHouseViewModel.cs" />
     <Compile Include="Models\ViewModels\TokenViewModel.cs" />
+    <Compile Include="Models\TribProdView.cs" />
     <Compile Include="Models\ViewModels\TributacaoViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModelCliente.cs" />
@@ -3050,6 +3054,9 @@
     <Content Include="Views\TributacaoMtx\GraficoIcmsEntrada.cshtml" />
     <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsSaida.cshtml" />
     <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsEntrada.cshtml" />
+    <Content Include="Views\TribProd\TribProd.cshtml" />
+    <Content Include="Views\Acoes\botoesTribProd.cshtml" />
+    <Content Include="Views\Acoes\CamposComunsTribProd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3058,6 +3065,7 @@
     <Folder Include="Jsons\" />
     <Folder Include="Views\Criptografia\" />
     <Folder Include="Views\Teste\" />
+    <Folder Include="Views\Util\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

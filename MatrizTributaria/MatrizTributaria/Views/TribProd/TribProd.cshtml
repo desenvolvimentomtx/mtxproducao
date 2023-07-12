@@ -1,0 +1,138 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MatrizTributaria.Models.TribProdView>
+@{
+    ViewBag.Title = "TribProd";
+}
+
+<!--NOVA TRIBUTACAÇOA NCM VIEW-->
+<div class="container-fluid pr-container pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            Manuntenção de Tributação por PRODUTO: LISTAGEM
+            @RenderPage("~/Views/Acoes/botoesTribProd.cshtml")
+            <button data-toggle="tooltip" data-placement="right" title="Alterar Selecionado(s)" type="button" id="editarSelecionadosTrib_Prod" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-edit"></i></button>
+            <button data-toggle="tooltip" data-placement="right" title="Alterar por NCM" type="button" id="editarPorNcmTribProd" class="float-lg-right dis-block btn btn-secondary pr-botoes-fundo border-0"> <i style="font-size:1.5em;" class="fas fa-box"></i></button>
+
+        </div><!--fim do cabeçalho-->
+
+        <div  class="card-body">
+               <div class="container-fluid">
+                   <!--LINHA-->
+                   <div class="row">
+
+                       <!--coluna-->
+                       <div class="col-lg-12">
+                           <!--conteiner da coluna-->
+                           <div class="container-fluid p-1">
+                               @using (Html.BeginForm("TribProd", "TribProd", FormMethod.Get))
+                               {
+                                       @RenderPage("~/Views/Acoes/CamposComunsTribProd.cshtml") <!--Renderiza os botões de ação-->
+                                        <div style="overflow-x:auto !important;">
+                                            <table style="border-bottom: 1px solid #111; display: block; overflow-x: auto; border-collapse: collapse; white-space: nowrap;" class="table table-striped table-hover" id="tablepr-2">
+                                                <thead style="font-size: 12px; color: #ffffff; font-weight: 100 !important" class="pr-thead">
+                                                    <tr>
+                                                        <th style="text-align:center; border:none;" colspan="7" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">PRODUTO</th>
+
+                                                        <th style="text-align:center; border:none;" colspan="2" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">PIS de Saída</th>
+                                                        <th style="text-align:center; border:none;" colspan="2" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">Cofins de Saída</th>
+
+                                                        <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no varejo para Consumidor Final</th>
+                                                        <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no varejo para Contribuinte</th>
+                                                        <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no atacado para Contribuinte</th>
+                                                        <th style="text-align:center; border:none;" colspan="5" class="pr-fonte2 pr-thtd prn-borderEspecial" scope="col">ICMS Venda no atacado para Simples Nacional</th>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col">Registro</th>
+                                                        <th scope="col">Código de Barras</th>
+                                                        <th scope="col">Descrição</th>
+                                                        <th scope="col">Categoria</th>
+
+                                                        <th scope="col">Cest</th>
+                                                        <th scope="col">NCM</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Auditado</th>
+
+
+
+                                                        <th scope="col" class="text-center">CST</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Aliq(%)</th>
+
+                                                        <th scope="col" class="text-center">CST</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Aliq(%)</th>
+
+
+                                                        <th scope="col" class="text-center">CST</th>
+
+                                                        <th scope="col" class="text-center">Aliq(%)</th>
+                                                        <th scope="col" class="text-center">Aliq ST(%)</th>
+                                                        <th scope="col" class="text-center">Red.(%)</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+
+                                                        <th scope="col" class="text-center">CST</th>
+
+                                                        <th scope="col" class="text-center">Aliq(%)</th>
+                                                        <th scope="col" class="text-center">Aliq ST(%)</th>
+                                                        <th scope="col" class="text-center">Red.(%)</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+
+
+                                                        <th scope="col" class="text-center">CST</th>
+
+                                                        <th scope="col" class="text-center">Aliq(%)</th>
+                                                        <th scope="col" class="text-center">Aliq ST(%)</th>
+                                                        <th scope="col" class="text-center">Red.(%)</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+
+
+                                                        <th scope="col" class="text-center">CST</th>
+
+                                                        <th scope="col" class="text-center">Aliq(%)</th>
+                                                        <th scope="col" class="text-center">Aliq ST(%)</th>
+                                                        <th scope="col" class="text-center">Red.(%)</th>
+                                                        <th scope="col" class="text-center prn-borderEspecial3">Red. ST(%)</th>
+
+                                                    </tr>
+
+
+                                                </thead>
+                                                <!--FIM DO CABEÇALHO DA TABELA-->
+
+
+
+
+                                            </table>
+                                            <!--FIM DA TABLE-->
+
+                                        </div>
+                                        <!--DIV DA TABLE-->
+
+                                }
+                               <!--fim do form-->
+
+                           </div>
+                           <!--fim conteiner da coluna-->
+
+                       </div>
+
+
+
+                   </div><!--fim da linha-->
+
+               </div>
+                <!--FIM CONTEINER DENTRO DO BODY-->
+
+        </div>
+        <!-- FIM DO BODY-->
+
+        <!--INICIO DO FOOT-->
+        <div class="card-footer">
+            Linha(s) selecionada(s) <span style="font-weight:600; font-size:1.3em;">+</span> &nbsp; <i style="font-size:1.3em;" class="fas fa-user-edit"></i>  <span style="font-weight:600; font-size:1.3em;">=</span> Edição em massa informando Dados MANUALMENTE <br />
+            Uma linha selecionada <span style="font-weight:600; font-size:1.3em;">+</span> &nbsp; <i style="font-size:1.5em;" class="fas fa-box"></i>  <span style="font-weight:600; font-size:1.3em;">=</span> Edição em massa alterando todos com o MESMO NCM <br />
+
+        </div>
+        <!--FIM DO FOOT-->
+
+
+    </div>
+
+</div> <!--FIM DA DIV PRINCIPAL-->

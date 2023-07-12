@@ -55,6 +55,11 @@ namespace MatrizTributaria.Models
 
         public virtual DbSet<MatrizTributaria.Areas.Cliente.Models.AnaliseProd> Analise_Prod { get; set; } //Paulo
 
+        //Nova tabela de tributacao de produtos: 11/07/2023
+        public virtual DbSet<TribProd> TribProds { get; set; }
+
+        public virtual DbSet<TribProdView> TribProdViews { get; set; }
+
 
     }
 }
