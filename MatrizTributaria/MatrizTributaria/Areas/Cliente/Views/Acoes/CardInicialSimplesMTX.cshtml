@@ -1,0 +1,129 @@
+﻿<div class="container-fluid pr-card-cad">
+    <div class="card mt-2">
+        <div class="card-header">
+            BUSCA
+          
+        </div><!--fim do cabeçalho-->
+           <!--Card inicial simples-->
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="container-fluid">
+                        
+                                                            
+
+                            @using (Html.BeginForm((string)@ViewBag.Title, "SimpleHome", FormMethod.Get, new { @class = "form-row" }))
+                            {
+                                <div class="form-group col-lg-8">
+                                    <label class="pr-fontalternativa">Produto</label>
+                                    <div class="input-group input-group-sm">
+                                        @if (ViewBag.FiltroCorrente == null)
+                                        {
+                                            @Html.TextBox("ProcuraPor", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras" })
+                                            @*<input class="form-control form-control-sm" id="ProcuraPor" name="ProcuraPor" onkeyup="maiuscula(this);" placeholder="Digite o nome do produto ou cód de barras" type="text" value="">*@
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("ProcuraPor", (string)ViewBag.FiltroCorrente, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do produto ou cód de barras", value = @ViewBag.FiltroCorrente })
+                                            @*<input class="form-control form-control-sm" id="ProcuraPor" name="ProcuraPor" onkeyup="maiuscula(this);" placeholder="Digite o nome do produto ou cód de barras" type="text" value="@ViewBag.FiltroCorrente">*@
+                                        }
+
+                                        <div class="input-group-append">
+                                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <label class="pr-fontalternativa">NCM</label>
+                                    <div class="input-group input-group-sm">
+                                        @if (ViewBag.filtroCorrenteNCM == null)
+                                        {
+                                            @Html.TextBox("ProcuraNCM", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM", id = "ncm" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("ProcuraNCM", (string)ViewBag.FiltroCorrenteNCM, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o NCM", id = "ncm" })
+
+                                        }
+
+                                        <div class="input-group-append">
+                                            <button data-toggle="tooltip" data-placement="right" title="Localizar" class="btn btn-secondary pr-botoes-fundo" type="submit" id="button-addon2"> <i style="font-size:1.3em;" class="fas  fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            
+
+
+                                <div class="form-group col-lg-1">
+                                    <label class="pr-fontalternativa">Linhas</label>
+                                    <div class="input-group input-group-sm">
+                                        <select class="pr-fontalternativa form-control form-control-sm" id="numeroLinhas" name="numeroLinhas">
+                                            @if (ViewBag.NumeroLinhas == 10)
+                                            {
+
+                                                <option selected>10</option>
+                                                <option>20</option>
+                                                <option>30</option>
+                                                <option>50</option>
+                                            }
+                                            else
+                                            {
+                                                if (ViewBag.NumeroLinhas == 20)
+                                                {
+
+                                                    <option>10</option>
+                                                    <option selected>20</option>
+                                                    <option>30</option>
+                                                    <option>50</option>
+                                                }
+                                                else
+                                                {
+                                                    if (ViewBag.NumeroLinhas == 30)
+                                                    {
+                                                      <option>10</option>
+                                                      <option>20</option>
+                                                      <option selected>30</option>
+                                                      <option>50</option>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <option>10</option>
+                                                       <option>20</option>
+                                                       <option>30</option>
+                                                       <option selected>50</option>
+                                                    }
+
+                                                }
+                                            }
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-secondary pr-botoes-fundo">
+                                                <i style="font-size:1.3em;" class="fas fa-check-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                        </div><!--Fim do container da coluna-->
+                    </div><!--Fim da primeira coluna 12-->
+
+                </div><!--fim da linha-->
+
+            </div><!--fim do container do body do card-->
+
+        </div><!--Fim do corpo do card-->
+
+    </div><!--fim do card-->
+
+
+</div><!--fim do container-->

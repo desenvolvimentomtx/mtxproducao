@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+
 //SALVO alteração ALTERAÇÃO DO SEGUNDO USUARIO
 namespace MatrizTributaria.Controllers
 {
@@ -17,9 +18,9 @@ namespace MatrizTributaria.Controllers
     {
         readonly MatrizDbContext db;
         /*so um teste*/
-        List<AnaliseTributaria> analise = new List<AnaliseTributaria>();
-        List<AnaliseTributaria> trib = new List<AnaliseTributaria>();
-        List<AnaliseTributaria2> trib2 = new List<AnaliseTributaria2>();
+        List<AnaliseTributaria>   analise = new List<AnaliseTributaria>();
+        List<AnaliseTributaria>   trib    = new List<AnaliseTributaria>();
+        List<AnaliseTributaria2>  trib2   = new List<AnaliseTributaria2>();
         List<TributacaoGeralView> tribMTX = new List<TributacaoGeralView>();
         List<Produto> prodMTX = new List<Produto>();
         Usuario user;
@@ -166,6 +167,7 @@ namespace MatrizTributaria.Controllers
                     //03/08/2022 - verificar se é simples nacional
                     Session["simplesNacional"] = user.empresa.simples_nacional.ToString();
                     Session["crt"] = user.empresa.crt.ToString();
+                    Session["regime"] = user.empresa.regime_trib.ToString();
                     TempData["UfOrigem"] = user.empresa.estado.ToString();
                     TempData["UfDestino"] = user.empresa.estado.ToString();
 
@@ -420,7 +422,15 @@ namespace MatrizTributaria.Controllers
             }
             //verificar se existe realmente
             Usuario user = db.Usuarios.FirstOrDefault(x => x.email.ToLower().Equals(emailUsu));
-            if(user == null)
+           
+            //Verificar se há o dado informado no banco para o email e a senha
+            var valid = db.Validacoes.ToList();
+                      
+            var email = valid[valid.Count - 1];
+            ViewBag.email = email.Email;
+            ViewBag.senha = email.Senha;
+
+            if (user == null)
             {
                 ViewBag.Message = "E-mail não encontrado na base de dados.";
                 return View("Login");
@@ -446,8 +456,9 @@ namespace MatrizTributaria.Controllers
 
                 smtp.UseDefaultCredentials = false;
 
-                smtp.Credentials = new System.Net.NetworkCredential("suporte@precisomtx.com.br", "MTX@12345");
+                // smtp.Credentials = new System.Net.NetworkCredential("suporte@precisomtx.com.br", "MTX@12345");
                 //smtp.Credentials = new System.Net.NetworkCredential("desenvolvimentomtx@gmail.com", "kzplodtqicuytgpa");
+                smtp.Credentials = new System.Net.NetworkCredential(ViewBag.email, ViewBag.senha);
 
 
 

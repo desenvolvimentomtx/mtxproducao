@@ -315,6 +315,7 @@
     <Compile Include="Areas\Cliente\Controllers\BackupActionsController.cs" />
     <Compile Include="Areas\Cliente\Controllers\HomeClienteController.cs" />
     <Compile Include="Areas\Cliente\Controllers\ImportarExportarJsonController.cs" />
+    <Compile Include="Areas\Cliente\Controllers\SimpleHomeController.cs" />
     <Compile Include="Areas\Cliente\Controllers\TributacaoEmpresaController.cs" />
     <Compile Include="Areas\Cliente\Controllers\TributacaoMTXEmpresaController.cs" />
     <Compile Include="Areas\Cliente\Models\AnaliseProd.cs" />
@@ -341,9 +342,11 @@
     <Compile Include="Controllers\SetorProdutosController.cs" />
     <Compile Include="Controllers\SoftwareHouseController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
+    <Compile Include="Controllers\TribProdController.cs" />
     <Compile Include="Controllers\TributacaoController.cs" />
     <Compile Include="Controllers\TributacaoMtxController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\UtilController.cs" />
     <Compile Include="Controllers\VersaoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -372,6 +375,7 @@
     <Compile Include="Models\SoftwareHouse.cs" />
     <Compile Include="Models\TipoMVAEnum.cs" />
     <Compile Include="Models\Token.cs" />
+    <Compile Include="Models\TribProd.cs" />
     <Compile Include="Models\Tributacao.cs" />
     <Compile Include="Models\TributacaoEmpresa.cs" />
     <Compile Include="Models\TributacaoGeralView.cs" />
@@ -380,6 +384,7 @@
     <Compile Include="Models\TributacaoSN.cs" />
     <Compile Include="Models\TtributacaoGeralViewSN.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Validacao.cs" />
     <Compile Include="Models\Versao.cs" />
     <Compile Include="Models\ViewModels\CategoriaProdutoViewModel.cs" />
     <Compile Include="Models\ViewModels\ClassificacaoNatReceitaViewModel.cs" />
@@ -394,6 +399,7 @@
     <Compile Include="Models\ViewModels\SetorProdutosViewModel.cs" />
     <Compile Include="Models\ViewModels\SoftwareHouseViewModel.cs" />
     <Compile Include="Models\ViewModels\TokenViewModel.cs" />
+    <Compile Include="Models\TribProdView.cs" />
     <Compile Include="Models\ViewModels\TributacaoViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModelCliente.cs" />
@@ -2585,6 +2591,10 @@
     <Content Include="Areas\Cliente\Views\TributacaoMTXEmpresa\TabelaProduto2.cshtml" />
     <Content Include="Areas\Cliente\Views\Acoes\HeadTabela.cshtml" />
     <Content Include="Areas\Cliente\Views\Acoes\HeadTabelaPis.cshtml" />
+    <Content Include="Areas\Cliente\Views\Shared\_Layout_simples .cshtml" />
+    <Content Include="Areas\Cliente\Views\SimpleHome\Index.cshtml" />
+    <Content Include="Areas\Cliente\Views\Acoes\CamposSelecionaUFSimples.cshtml" />
+    <Content Include="Areas\Cliente\Views\Acoes\CardInicialSimplesMTX.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
@@ -3045,6 +3055,9 @@
     <Content Include="Views\TributacaoMtx\GraficoIcmsEntrada.cshtml" />
     <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsSaida.cshtml" />
     <Content Include="Views\TributacaoMtx\GfRedBCalcIcmsEntrada.cshtml" />
+    <Content Include="Views\TribProd\TribProd.cshtml" />
+    <Content Include="Views\Acoes\botoesTribProd.cshtml" />
+    <Content Include="Views\Acoes\CamposComunsTribProd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3053,6 +3066,7 @@
     <Folder Include="Jsons\" />
     <Folder Include="Views\Criptografia\" />
     <Folder Include="Views\Teste\" />
+    <Folder Include="Views\Util\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

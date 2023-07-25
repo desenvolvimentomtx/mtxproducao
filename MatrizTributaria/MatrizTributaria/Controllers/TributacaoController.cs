@@ -19609,7 +19609,9 @@ namespace MatrizTributaria.Controllers
             }
             if (!String.IsNullOrEmpty(procuraNCM))
             {
-                lstCli = lstCli.Where(s => s.NCM_PRODUTO.ToString().StartsWith(procuraNCM.ToString()));
+                string buscaNCM = procuraNCM.Replace(".", "");
+
+                lstCli = lstCli.Where(s => s.NCM_PRODUTO.ToString().StartsWith(buscaNCM.ToString()));
 
             }
 

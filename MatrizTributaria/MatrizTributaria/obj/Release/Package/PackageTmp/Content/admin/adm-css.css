@@ -191,16 +191,25 @@ table.dataTable thead th, table.dataTable thead td {
         margin-left: 195px;
     }
 
-    .pr-sidebar.is-toggle{
-        margin-left:-211px;
+     .pr-sidebar.is-toggle {
+            margin-left: -211px;
+        }
+
+        .pr-sidebar-2.is-toggle {
+            margin-left: -211px;
+        }
+
+        .pr-content.is-toggle {
+            margin-left: 5px;
+        }
     }
-    .pr-sidebar-2.is-toggle {
-        margin-left: -211px;
+@media(min-width:960px) {
+
+    
+        .pr-content-s {
+            margin-left: 0px;
+        }
     }
-    .pr-content.is-toggle{
-        margin-left:5px;
-    }
-}
 
 #mn {
     float: right;

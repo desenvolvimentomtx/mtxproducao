@@ -1028,8 +1028,9 @@ namespace MatrizTributaria.Controllers
                 int aux = Int32.Parse(dadosDoCadastro[i]);
                 tribNCM.Add(db.TributacoesNcm.Find(aux));
 
-
             }
+
+
             ViewBag.TribNCM = tribNCM;
 
             /*ViewBagDiferente para pins cofins*/
