@@ -384,6 +384,7 @@
     <Compile Include="Models\TributacaoSN.cs" />
     <Compile Include="Models\TtributacaoGeralViewSN.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Validacao.cs" />
     <Compile Include="Models\Versao.cs" />
     <Compile Include="Models\ViewModels\CategoriaProdutoViewModel.cs" />
     <Compile Include="Models\ViewModels\ClassificacaoNatReceitaViewModel.cs" />

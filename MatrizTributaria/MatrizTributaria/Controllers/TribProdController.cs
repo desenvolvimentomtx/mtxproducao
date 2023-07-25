@@ -103,6 +103,7 @@ namespace MatrizTributaria.Controllers
                 ViewBag.FiltroCorrenteCate = TempData["procuraCAT"].ToString();
             }
 
+
             //numero de linhas
             ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 30;
 
@@ -233,21 +234,21 @@ namespace MatrizTributaria.Controllers
             /*PAra tipar */
             /*A lista é salva em uma tempdata para ficar persistida enquanto o usuario está nessa action
              na action de salvar devemos anular essa tempdata para que a lista seja carregada novamente*/
-            if (TempData["trib_prod_view"] == null)
+            if (TempData["tributacao_TRIB_PROD_VIEW"] == null)
             {
                 //this.tributacaoMTX_NCMView = (IQueryable<TributacaoNCMView>)db.TributacoesNcmView.Where(a => a.CRT == crtTrib && a.REGIME_TRIBUTARIO == regimeTrib).ToList();
                 this.TribProd_View = from a in db.TribProdViews where a.CRT == crtTrib && a.REGIME_TRIB == regimeTrib select a; //FILTRA O QUE FOR SIMPLES NACIONAL
 
 
-                TempData["trib_prod_view"] = this.TribProd_View; //cria a temp data e popula
-                TempData.Keep("trib_prod_view"); //persiste
+                TempData["tributacao_TRIB_PROD_VIEW"] = this.TribProd_View; //cria a temp data e popula
+                TempData.Keep("tributacao_TRIB_PROD_VIEW"); //persiste
 
             }
             else
             {
 
-                this.TribProd_View = (IQueryable<TribProdView>)TempData["trib_prod_view"];
-                TempData.Keep("trib_prod_view"); //persiste
+                this.TribProd_View = (IQueryable<TribProdView>)TempData["tributacao_TRIB_PROD_VIEW"];
+                TempData.Keep("tributacao_TRIB_PROD_VIEW"); //persiste
             }
 
 

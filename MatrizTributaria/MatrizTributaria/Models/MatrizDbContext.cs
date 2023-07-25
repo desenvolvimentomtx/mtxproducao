@@ -60,6 +60,7 @@ namespace MatrizTributaria.Models
 
         public virtual DbSet<TribProdView> TribProdViews { get; set; }
 
+        public virtual DbSet<Validacao> Validacoes { get; set; }
 
     }
 }

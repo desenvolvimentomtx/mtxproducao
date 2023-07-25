@@ -9781,7 +9781,85 @@ namespace MatrizTributaria.Areas.Cliente.Controllers
         }
 
 
-       
+        
+               [HttpGet]
+        public ActionResult EdtCliAliqSaiCofinsMassaTODOS(string opcao)
+        {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Login", "../Home");
+            }
+            string ufOrigem = TempData["UfOrigem"].ToString();
+            string ufDestino = TempData["UfDestino"].ToString();
+
+            ViewBag.CrtEmpresa = TempData["crtEmpresa"].ToString();
+            ViewBag.RegiTribEmpresa = TempData["regimeTribEmpresa"].ToString();
+
+            VerificaTribNMCEmpresa(TempData["crtEmpresa"].ToString(), TempData["regimeTribEmpresa"].ToString()); ; //manda verificar passando a tributacao
+
+
+            TributacaoEmpresa trib = new TributacaoEmpresa();
+
+
+            if (opcao == "Alíquotas Maiores")
+            {
+                this.analise_NCM = this.analise_NCM.Where(a => a.ALIQ_SAIDA_COFINS > a.ALIQ_SAIDA_COFINS_BASE && a.UF_ORIGEM.Equals(ufOrigem) && a.UF_DESTINO.Equals(ufDestino)).ToList();
+
+            }
+            if (opcao == "Alíquotas Menores")
+            {
+                this.analise_NCM = this.analise_NCM.Where(a => a.ALIQ_SAIDA_COFINS < a.ALIQ_SAIDA_COFINS_BASE && a.UF_ORIGEM.Equals(ufOrigem) && a.UF_DESTINO.Equals(ufDestino)).ToList();
+
+            }
+            if (opcao == "Alíquotas Nulas no Cliente")
+            {
+                this.analise_NCM = this.analise_NCM.Where(a => a.ALIQ_SAIDA_COFINS == null && a.ALIQ_SAIDA_COFINS_BASE != null && a.UF_ORIGEM.Equals(ufOrigem) && a.UF_DESTINO.Equals(ufDestino)).ToList();
+
+            }
+
+            int regSalv = 0; //reg salvos
+            int regNsalv = 0; //reg não salvos
+            string resultado = ""; //variavel auxiliar;
+
+            for (int i = 0; i < this.analise_NCM.Count(); i++)
+            {
+
+                //converter em inteiro
+                int? idTrb = (this.analise_NCM[i].TE_ID);
+                trib = db.TributacaoEmpresas.Find(idTrb);//busca o registro
+                trib.ALIQ_SAIDA_COFINS = this.analise_NCM[i].ALIQ_SAIDA_COFINS_BASE.ToString().Replace(",", ".");
+                trib.DT_ALTERACAO = DateTime.Now;
+                try
+                {
+
+                    db.SaveChanges();
+                    regSalv++; //contagem de registros salvos
+
+                }
+                catch (Exception e)
+                {
+                    resultado = "Problemas ao salvar o registro: " + e.ToString();
+                    regNsalv++;
+                }
+
+            }
+            resultado = "Registro Salvo com Sucesso!!";
+
+
+            //TempData["analiseSN"] = null;
+            TempData["analise_NCM"] = null;
+            TempData.Keep("analise_NCM");
+
+            TempData["analise_trib_Cliente_NCm"] = null;
+            TempData.Keep("analise_trib_Cliente_NCm");
+            //string[] idTrib = this.alanliseSN.
+            //a analise vai me dar todos os ids
+
+
+            return RedirectToAction("EdtCliAliqSaiCofinsMassa", new { param = resultado, qtdSalvos = regSalv });
+
+
+        }
 
         [HttpGet]
         public ActionResult EditClienteAliqIcmsVendaVarSTCFMassaTODOS(string opcao)

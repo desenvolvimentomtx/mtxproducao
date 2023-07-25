@@ -422,7 +422,15 @@ namespace MatrizTributaria.Controllers
             }
             //verificar se existe realmente
             Usuario user = db.Usuarios.FirstOrDefault(x => x.email.ToLower().Equals(emailUsu));
-            if(user == null)
+           
+            //Verificar se há o dado informado no banco para o email e a senha
+            var valid = db.Validacoes.ToList();
+                      
+            var email = valid[valid.Count - 1];
+            ViewBag.email = email.Email;
+            ViewBag.senha = email.Senha;
+
+            if (user == null)
             {
                 ViewBag.Message = "E-mail não encontrado na base de dados.";
                 return View("Login");
@@ -448,8 +456,9 @@ namespace MatrizTributaria.Controllers
 
                 smtp.UseDefaultCredentials = false;
 
-                smtp.Credentials = new System.Net.NetworkCredential("suporte@precisomtx.com.br", "MTX@12345");
+                // smtp.Credentials = new System.Net.NetworkCredential("suporte@precisomtx.com.br", "MTX@12345");
                 //smtp.Credentials = new System.Net.NetworkCredential("desenvolvimentomtx@gmail.com", "kzplodtqicuytgpa");
+                smtp.Credentials = new System.Net.NetworkCredential(ViewBag.email, ViewBag.senha);
 
 
 

@@ -4634,13 +4634,14 @@ $(document).ready(function () {
     var btnVisualizar = document.getElementById("visualizarDados"); //variavel que representa o botão
     var btnApagar = document.getElementById("apagarDados"); //variavel que representa o botao de apagar
 
-    var a = document.querySelector(".pr-titulo"); //pegar o nome do controler
+    var a = document.querySelector(".pr-titulo"); //pegar o nome do controler pelo titulo da página
     var controller = a.innerText;
 
 
     for (var i = 0; i < linhas.length; i++) {
         var linha = linhas[i];
         linha.addEventListener("click", function () {
+
             //Adicionar ao atual
             selLinha(this, false); //Selecione apenas um (parametro true seleciona mais de uma linha)
 
@@ -4815,6 +4816,42 @@ $(document).ready(function () {
 
 
 });
+
+
+/**
+ * Double clique na td
+ * @param {any} z
+ */
+
+//$(function () {
+//    $("td").dblclick(function () {
+//        var conteudoOriginal = $(this).text();
+
+//        $(this).addClass("celulaEmEdicao");
+//        $(this).html("<input type='text' value='" + conteudoOriginal + "' />");
+//        $(this).children().first().focus();
+
+//        $(this).children().first().keypress(function (e) {
+//            if (e.which == 13) {
+//                var novoConteudo = $(this).val();
+//                $(this).parent().text(novoConteudo);
+//                $(this).parent().removeClass("celulaEmEdicao");
+//            }
+//        });
+
+//        $(this).children().first().blur(function () {
+//            $(this).parent().text(conteudoOriginal);
+//            $(this).parent().removeClass("celulaEmEdicao");
+//        });
+
+
+
+
+//    });
+//});
+
+
+
 
 
 
