@@ -27,6 +27,9 @@ namespace MatrizTributaria.Controllers
         public ActionResult Index(string param, string ordenacao, string qtdSalvos, string procurarPor, string procuraEmpresa,
             string filtroCorrente, string filtroEmpresa, int? page, int? numeroLinhas)
         {
+
+
+
             if (Session["usuario"] == null)
             {
                 return RedirectToAction("../Home/Login");
@@ -41,6 +44,8 @@ namespace MatrizTributaria.Controllers
 
             //numero de linhas
             ViewBag.NumeroLinhas = (numeroLinhas != null) ? numeroLinhas : 10;
+
+            
 
             ViewBag.Ordenacao = ordenacao;
             ViewBag.ParametroNome = String.IsNullOrEmpty(ordenacao) ? "Nome_desc" : ""; //Se nao vier nula a ordenacao aplicar por nome decrescente
@@ -66,12 +71,16 @@ namespace MatrizTributaria.Controllers
             {
                 listUser = listUser.Where(s => s.empresa.id.ToString() == procuraEmpresa).ToList();
             }
+
+           
             //montar a pagina
             int tamanhoPagina = 0;
 
             //Ternario para tamanho da pagina
             tamanhoPagina = (ViewBag.NumeroLinha != null) ? ViewBag.NumeroLinhas : (tamanhoPagina = (numeroLinhas != 10) ? ViewBag.numeroLinhas : (int)numeroLinhas);
+          
             int numeroPagina = (page ?? 1);
+            
             //Mensagens de retorno
             ViewBag.MensagemGravar = (resultado != null) ? resultado : "";
             ViewBag.RegSalvos = (qtdSalvos != null) ? qtdSalvos : "";
@@ -108,6 +117,8 @@ namespace MatrizTributaria.Controllers
             return RedirectToAction("Index");
 
         }
+
+
 
         //Chamando a view para criar o usuario
         public ActionResult Create()
@@ -370,6 +381,9 @@ namespace MatrizTributaria.Controllers
 
             return View(usuario);
         }
+
+
+
         // GET: Produtos/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -385,12 +399,15 @@ namespace MatrizTributaria.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Usuario usuario = db.Usuarios.Find(id);
+
             if (usuario == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.DataCad = db.Usuarios.Find( id).dataCad;
             ViewBag.DataAlt = db.Usuarios.Find( id).dataAlt;
+
             return View(usuario);
 
         }

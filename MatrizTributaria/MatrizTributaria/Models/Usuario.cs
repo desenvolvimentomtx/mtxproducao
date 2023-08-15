@@ -22,7 +22,7 @@ namespace MatrizTributaria.Models
         [Column("email")]
         public string email { get; set; }
 
-        //[Required(ErrorMessage = "O campo Sexo é obrigatório", AllowEmptyStrings = false)]
+        
         [Required(ErrorMessage = "O campo Sexo é obrigatório", AllowEmptyStrings = false)]
         [Column("sexo")]
         public string sexo { get; set; }

@@ -26,10 +26,33 @@ namespace MatrizTributaria.Controllers
         IQueryable<TribProdView> TribProd_View;
 
         // GET: TribProd
-        public ActionResult TribProd(string origem, string destino, string opcao, string param, string ordenacao, string qtdSalvos, string qtdNSalvos, string procuraNCM, string procuraCEST,
-            string procurarPor, string filtroCorrente, string procuraSetor, string filtroSetor, string procuraCate, string filtroCate, string filtroCorrenteNCM,
-            string filtroCorrenteCEST, int? page, int? numeroLinhas, string filtroNulo, string auditadosNCM, string filtraPor, string filtroFiltraPor,
-            string filtroCorrenteAudNCM, string crt, string regime)
+        public ActionResult TribProd(
+            string origem, 
+            string destino, 
+            string opcao, 
+            string param, 
+            string ordenacao, 
+            string qtdSalvos, 
+            string qtdNSalvos, 
+            string procuraNCM, 
+            string procuraCEST,
+            string procurarPor, 
+            string filtroCorrente, 
+            string procuraSetor, 
+            string filtroSetor, 
+            string procuraCate, 
+            string filtroCate, 
+            string filtroCorrenteNCM,
+            string filtroCorrenteCEST, 
+            int? page, 
+            int? numeroLinhas, 
+            string filtroNulo, 
+            string auditadosNCM, 
+            string filtraPor, 
+            string filtroFiltraPor,
+            string filtroCorrenteAudNCM, 
+            string crt, 
+            string regime)
         {
             /*Verificar a sessão*/
             if (Session["usuario"] == null)
@@ -61,6 +84,19 @@ namespace MatrizTributaria.Controllers
                 }
             }
 
+
+            //se os dois estao nulos e o tempdata tem alguma coisa entao o friltro corrente deve receber tempdat
+            if (procurarPor == null && filtroCorrente == null)
+            {
+                if (TempData["procuraPor"] != null)
+                {
+                    filtroCorrente = TempData["procuraPor"].ToString();
+                }
+
+            }
+
+
+
             //se nao vier nulo é pq houve pesquisa
             if (procuraNCM != null)
             {
@@ -85,9 +121,25 @@ namespace MatrizTributaria.Controllers
 
             }
             TempData.Keep("procuraPorNCM");
+         
+
 
             //variavel auxiliar
             string resultado = param;
+
+
+            //Auxilia na conversão para fazer a busca pelo codigo de barras
+            /*A variavel codBarras vai receber o parametro de acordo com a ocorrencia, se o filtrocorrente estiver valorado
+             ele será atribuido, caso contrario será o valor da variavel procurar por*/
+            string codBarras = (filtroCorrente != null) ? filtroCorrente : procurarPor;
+
+            //converte em long caso seja possivel
+            long codBarrasL = 0;
+            bool canConvert = long.TryParse(codBarras, out codBarrasL);
+
+            TempData.Keep("procuraPor");
+
+
 
             //filtro por categoria
             filtraPor = (filtraPor != null) ? filtraPor : "Categoria"; //padrão é por categoria
@@ -112,8 +164,9 @@ namespace MatrizTributaria.Controllers
             ViewBag.ParametroProduto = ordenacao;
 
             //atribui 1 a pagina caso os parametros nao sejam nulos
-            page = (procuraCEST != null) || (procuraNCM != null) || (procuraCate != null) ? 1 : page; //atribui 1 à pagina caso procurapor seja diferente de nullo
+            page = (procurarPor != null) || (procuraCEST != null) || (procuraNCM != null) || (procuraCate != null) ? 1 : page; //atribui 1 à pagina caso procurapor seja diferente de nullo
 
+            procurarPor = (procurarPor == null) ? filtroCorrente : procurarPor; //atribui o filtro corrente se procuraPor estiver nulo
             procuraNCM = (procuraNCM == null) ? filtroCorrenteNCM : procuraNCM;
             procuraCEST = (procuraCEST == null) ? filtroCorrenteCEST : procuraCEST;
 
@@ -123,7 +176,7 @@ namespace MatrizTributaria.Controllers
             procuraCate = (procuraCate == null) ? filtroCate : procuraCate;
 
             //View pag para filtros
-
+            ViewBag.FiltroCorrente = procurarPor;
             ViewBag.FiltroCorrenteNCM = procuraNCM;
             ViewBag.FiltroCorrenteCEST = procuraCEST;
             ViewBag.FiltroCorrenteAuditado = (auditadosNCM != null) ? auditadosNCM : "0";
@@ -166,7 +219,8 @@ namespace MatrizTributaria.Controllers
                     break;
             }
 
-            this.TribProd_View = ProcurarPorNCM_CEST_PARA_TRIB_PROD(procuraCEST, procuraNCM, TribProd_View);
+            //Procura, caso venha dados nos filtros
+            this.TribProd_View = ProcurarPorNCM_CEST_PARA_TRIB_PROD(codBarrasL, procurarPor, procuraCEST, procuraNCM, TribProd_View);
 
             //Busca por categoria
             if (!String.IsNullOrEmpty(procuraCate))
@@ -256,8 +310,16 @@ namespace MatrizTributaria.Controllers
             return new EmptyResult();
         }
 
-        private IQueryable<TribProdView> ProcurarPorNCM_CEST_PARA_TRIB_PROD(string procuraCEST, string procuraNCM, IQueryable<TribProdView> TribProd_View)
+        private IQueryable<TribProdView> ProcurarPorNCM_CEST_PARA_TRIB_PROD(long? codBarrasL, string procurarPor, string procuraCEST, string procuraNCM, IQueryable<TribProdView> TribProd_View)
         {
+
+            if (!String.IsNullOrEmpty(procurarPor))
+            {
+                TribProd_View = (codBarrasL != 0) ? (TribProd_View.Where(s => s.CODIGO_BARRAS.ToString().StartsWith(codBarrasL.ToString()))) : TribProd_View = (TribProd_View.Where(s => s.DESCRICAO_PRODUTO.ToString().ToUpper().StartsWith(procurarPor.ToUpper())));
+            }
+
+
+
             if (!String.IsNullOrEmpty(procuraCEST))
             {
                 TribProd_View = TribProd_View.Where(s => s.CEST_PRODUTO.ToString().StartsWith(procuraCEST.ToString()));
