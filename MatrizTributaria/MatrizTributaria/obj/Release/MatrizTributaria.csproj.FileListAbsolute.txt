@@ -113,9 +113,7 @@ C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.Deployment.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.Razor.dll
-C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Ubiety.Dns.Core.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\WebGrease.dll
-C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Zstandard.Net.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\EntityFramework.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\EntityFramework.SqlServer.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Google.Protobuf.pdb
@@ -388,3 +386,6 @@ E:\PrecisoMTX\MatrizTributaria\MatrizTributaria\obj\Release\MatrizTributaria.csp
 E:\PrecisoMTX\MatrizTributaria\MatrizTributaria\obj\Release\MatrizTributaria.csproj.CopyComplete
 E:\PrecisoMTX\MatrizTributaria\MatrizTributaria\obj\Release\MatrizTributaria.dll
 E:\PrecisoMTX\MatrizTributaria\MatrizTributaria\obj\Release\MatrizTributaria.pdb
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.IO.Pipelines.dll
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\BouncyCastle.Crypto.xml
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.IO.Pipelines.xml

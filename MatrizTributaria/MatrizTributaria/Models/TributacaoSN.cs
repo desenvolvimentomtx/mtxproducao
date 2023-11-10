@@ -236,6 +236,8 @@ namespace MatrizTributaria.Models
         [Column("DataCad")]
         public DateTime? dataCad { get; set; }
 
+
+
         [Column("DataAlt")]
         [DisplayFormat(DataFormatString = "{MM/dd/yyyy}")]
         public DateTime? dataAlt { get; set; }
@@ -244,6 +246,9 @@ namespace MatrizTributaria.Models
         {
             get { return dataAlt?.ToShortDateString(); }
         }
+
+
+
 
         public virtual CstPisCofinsEntrada cstPisCofinsE { get; set; }
 

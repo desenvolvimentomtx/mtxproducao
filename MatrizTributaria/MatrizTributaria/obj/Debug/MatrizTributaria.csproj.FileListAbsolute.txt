@@ -687,6 +687,7 @@ C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Collections.Immutable.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.ComponentModel.Annotations.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.IO.Pipelines.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Memory.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Numerics.Vectors.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Runtime.CompilerServices.Unsafe.dll
@@ -698,9 +699,8 @@ C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.Deployment.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Web.WebPages.Razor.dll
-C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Ubiety.Dns.Core.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\WebGrease.dll
-C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Zstandard.Net.dll
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\BouncyCastle.Crypto.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\EntityFramework.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\EntityFramework.SqlServer.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\Google.Protobuf.pdb
@@ -752,6 +752,7 @@ C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Buffers.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Collections.Immutable.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Diagnostics.DiagnosticSource.xml
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.IO.Pipelines.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Memory.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Numerics.Vectors.xml
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\System.Runtime.CompilerServices.Unsafe.xml
@@ -773,8 +774,8 @@ C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\pt-br\System.Web.WebPages.resources.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\pt-br\System.Web.WebPages.Deployment.resources.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\bin\pt-br\System.Web.WebPages.Razor.resources.dll
+C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.csproj.AssemblyReference.cache
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.csproj.CoreCompileInputs.cache
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.csproj.CopyComplete
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.dll
 C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.pdb
-C:\Users\preciso\source\repos\MatrizTributaria\MatrizTributaria\MatrizTributaria\obj\Debug\MatrizTributaria.csproj.AssemblyReference.cache

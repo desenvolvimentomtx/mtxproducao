@@ -3622,14 +3622,9 @@ namespace MatrizTributaria.Controllers
          
 
 
-
-
             valorMVAAtacado_S = valorMVAAtacado_S.Replace(",", ".");
 
-
-            
-
-
+                       
             if (cstEntradaPisCofins != "")
             {
                 model.cstEntradaPisCofins = (from a in db.CstPisCofinsEntradas where a.descricao == cstEntradaPisCofins select a.codigo).FirstOrDefault();

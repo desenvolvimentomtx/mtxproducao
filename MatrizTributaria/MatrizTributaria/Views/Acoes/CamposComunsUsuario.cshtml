@@ -40,6 +40,7 @@
         <div class="form-group col-lg-6 p-1">
             <label class="pr-fontalternativa">Usuarios</label>
             <div class="input-group input-group-sm">
+			 ViewBag.FiltroCorrenteTabela
                 @if (ViewBag.FiltroCorrente == null)
                 {
                     @Html.TextBox("ProcurarPor", null, new { @class = "form-control form-control-sm", onkeyup = "maiuscula(this);", placeholder = "Digite o nome do usuario" })

@@ -78,6 +78,7 @@ namespace MatrizTributaria.Controllers
             {
                 //pegar a ultima versão
                 var versao = db.Versoes.ToList();
+
                 var item = versao[versao.Count - 1];
                 ViewBag.Versao = item.versao;
                 ViewBag.Nota = item.nota;
